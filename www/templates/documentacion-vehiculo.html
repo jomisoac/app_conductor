@@ -1,0 +1,27 @@
+<ion-view view-title="Documentos del Vehículo">
+    <ion-content>
+        <ion-list>
+            <ion-checkbox ng-model="vehiculo.soat">SOAT</ion-checkbox>
+            <div ng-show="vehiculo.soat" class="list list-inset">
+                <label class="item item-input item-stacked-label input-bottom">
+                    <span>Fecha de Vencimiento</span>
+                    <input type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_soat">
+                </label>
+            </div>
+            <ion-checkbox ng-model="vehiculo.tecnomecanica">Tecnomecánica</ion-checkbox>
+            <div ng-show="vehiculo.tecnomecanica" class="list list-inset">
+                <label class="item item-input item-stacked-label input-bottom">
+                    <span>Fecha de Vencimiento</span>
+                    <input type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_tecnomecanica">
+                </label>
+            </div>
+            <ion-checkbox ng-model="vehiculo.tarjeta_propiedad">Tergeta de propiedad</ion-checkbox>
+        </ion-list>
+        <div class="list list-inset">
+            <button class="button button-block button-positive" 
+                ng-click="registarActualizar()">Registrar
+            </button>
+        </div>
+        <div ng-controller="TimerCtrl"></div>
+    </ion-content>
+</ion-view>

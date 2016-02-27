@@ -1,0 +1,20 @@
+<ion-header-bar class="bar-positive">
+    <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
+    <h1 class="title">Encomiendas</h1>
+</ion-header-bar>
+<ion-content>
+    <div class="list">
+        <div class="item item-avatar" ng-repeat="encomienda in listaEncomiendas">
+            <img ng-src="img/ionic.png">
+            <h2>Remitente: {{encomienda.nombres}}</h2>
+            <p>Receptor: {{encomienda.nombre_receptor}}</p>
+            <p>Dirección destino: {{encomienda.direccionD}}</p>
+            <p>Telefono remitente: {{encomienda.telefono}}</p>
+            <p>Telefono receptor: {{encomienda.telefono_receptor}}</p>
+        </div>
+    </div>
+    <div ng-show="!mostrarAdvertencia" class="text-center">
+        <strong class="positive text-center">El conductor no registra encomiendas pendientes</strong>
+    </div>
+    <div ng-controller="TimerCtrl"></div>
+</ion-content>e

@@ -1,0 +1,45 @@
+<ion-view view-title="Home">
+<div class="content has-header ">
+    <div class="row ">
+        <div class="col col-50 borde-color">
+            <div class="card padding-notificacion" ng-click="opcionMenu('Pasajeros')">
+                <span class="badge badge-assertive notificacion">0</span>
+                <div class="item item-text-wrap center">
+                    <i class="icon ion-person icon-size"></i>
+                    <h2 class="padding-button">Pasajeros</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col col-50 padding-notificacion">
+            <div class="card" ng-click="opcionMenu('Encomiendas')">
+                <span class="badge badge-assertive notificacion">0</span>
+                <div class="item item-text-wrap center">
+                    <i class="icon ion-email icon-size"></i>
+                    <h2 class="padding-button">Encomiendas</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col col-50 padding-notificacion">
+            <div class="card" ng-click="opcionMenu('Giros')">
+                <span class="badge badge-assertive notificacion">0</span>
+                <div class="item item-text-wrap center">
+                    <i class="icon ion-social-usd icon-size"></i>
+                    <h2 class="padding-button">Giros</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col col-50 padding-notificacion">
+            <div class="card" ng-click="opcionMenu('Nueva Solicitud')">
+                <span class="badge badge-assertive notificacion">0</span>
+                <div class="item item-text-wrap center">
+                    <i class="icon ion-compose icon-size"></i>
+                    <h2 class="padding-button">Nueva Solicitud</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-controller="TimerCtrl"></div>
+</ion-view>
