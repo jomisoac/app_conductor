@@ -1,6 +1,74 @@
-app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicUser, $ionicPush,$ionicHistory){
+app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService){
     
+    
+    $ionicPlatform.ready(function() {
+        cordova.plugins.backgroundMode.setDefaults({ 
+            title:  'Viaja Seguro',
+            text:   'Enviando ubicación.'
+        });
+        // Enable background mode
+        cordova.plugins.backgroundMode.enable();
+        
+        if(!cordova.plugins.backgroundMode.isActive()){
+            setInterval(function () {
+                var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                    $cordovaGeolocation
+                        .getCurrentPosition(posOptions)
+                            .then(function (position) {
+                                var lat  = position.coords.latitude
+                                var long = position.coords.longitude
+                                
+                                var posicion = {
+                                    conductor_id: $window.localStorage['idConductor'],
+                                    latitud: lat,
+                                    longitud: long
+                                };
+                                if(posicion.conductor_id){
+                                    GeolocalizacionService.guardar(posicion).then(
+                                        function(respuesta){
+                                        },function(error){
+                                        }
+                                    );
+                                }
+                                
+                            }, function(err) {
+                                console.log(err);
+                        });
+                }, 3000);
+        }
+        // Called when background mode has been activated
+        cordova.plugins.backgroundMode.onactivate = function () {
+            // Set an interval of 3 seconds (3000 milliseconds)
+            setInterval(function () {
+                var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                    $cordovaGeolocation
+                        .getCurrentPosition(posOptions)
+                            .then(function (position) {
+                                var lat  = position.coords.latitude
+                                var long = position.coords.longitude
+                                
+                                var posicion = {
+                                    conductor_id: $window.localStorage['idConductor'],
+                                    latitud: lat,
+                                    longitud: long
+                                };
+                                if(posicion.conductor_id){
+                                    GeolocalizacionService.guardar(posicion).then(
+                                        function(respuesta){
+                                        },function(error){
+                                        }
+                                    );
+                                }
+                                
+                            }, function(err) {
+                                console.log(err);
+                        });
+                }, 3000);
+            }
+    });
+
     $scope.$on('$ionicView.enter',function(){
+        
         $ionicLoading.show();
         $rootScope.placa;
         $rootScope.gremio;
@@ -8,63 +76,27 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
         var conductorId = JSON.parse($window.localStorage['conductor']);
         ConductorService.getById(conductorId.usuario.nombre).then(
             function(respuesta){
+                console.log(respuesta.data);
                 $scope.conductor = respuesta.data;
                 $rootScope.gremio = $scope.conductor.empresa_id;
                 $rootScope.placa = $scope.conductor.id;
-                $ionicLoading.hide($scope.conductor.id);
-                registrarUsuario($scope.conductor);
-                resgistrarToken();
+                $window.localStorage['idConductor'] = $scope.conductor.id;
+                $ionicLoading.hide();
+                ConductorService.updateRegId($scope.conductor.id, $window.localStorage['regid']).then(succes, error);
             }
             ,function(error){
                 $ionicLoading.hide();
             }
         );
     });
-    
-
+        
     $scope.logout = function(){
         $window.localStorage.clear();
         $ionicHistory.clearCache();
         $ionicHistory.clearHistory();
         $location.path("/login");
     }
-
-    function registrarUsuario(usuario){
-        var user = $ionicUser.get();
-        if(!user.user_id) {
-          user.user_id = $ionicUser.generateGUID();
-        };
-
-        // Establecemos alguna información para nuestro usuario
-        angular.extend(user, {
-          name: usuario.nombres+" "+usuario.apellidos,
-          id: usuario.id
-        });
-
-        $ionicUser.identify(user).then(function(){
-          $scope.identified = true;
-        });
-
-    }
-
-    function resgistrarToken(){
-        $ionicPush.register({
-          canShowAlert: true, //Se pueden mostrar alertas en pantalla
-          canSetBadge: true, //Puede actualizar badgeds en la app
-          canPlaySound: true, //Puede reproducir un sonido
-          canRunActionsOnWake: true, //Puede ejecutar acciones fuera de la app
-          onNotification: function(notification) {
-            if(notification.android.tipo == "Pasajeros")
-                $location.path("/pasajeros");
-            else if (notification.android.tipo == "Paquetes")
-                $location.path("/encomienda");
-            else if (notification.android.tipo == "Giros")
-                $location.path("/giro");
-            return true;
-          }
-        });
-    }
-
+    
     function mostarAlert(titulo,contenido){
         var alertPopup = $ionicPopup.alert({
             title: titulo,
@@ -74,15 +106,4 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
             $scope.conductor = {};
         });
     }
-
-    $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
-        $scope.token = data.token;
-        ConductorService.updateRegId($scope.conductor.id, data.token).then(succes, error);
-        function succes(p){
-            console.log("Dispositivo Registrado Correctamente");
-        }
-        function error(e){
-            console.log('algun error', e)
-        }
-    });
 });

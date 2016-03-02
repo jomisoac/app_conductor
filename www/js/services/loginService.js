@@ -3,7 +3,7 @@ app.service('LoginService',function($http, $location, jwtHelper,$window){
     var uri = $window.localStorage['uri'];
     
   this.login = function (usuario){
-    return $http.post(uri+'/api/login', usuario);
+    return $http.post('http://dev.viajaseguro.co/public/api/login', usuario);
   };
 
   this.storeUser = function (jwt) {

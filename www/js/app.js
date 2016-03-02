@@ -1,9 +1,55 @@
 
-var app  = angular.module('starter', ['ionic','ionic.service.core','starter.controllers','angular-jwt','ngCordova','ionic.service.push',"uiGmapgoogle-maps"])
-    .run(function($ionicPlatform,$window,$cordovaPush,$timeout) {
+var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers','angular-jwt'])
+    .run(function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope) {
         $window.localStorage['usuario'] = null;
         $window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
         $ionicPlatform.ready(function() {
+            
+            var config = null;
+            
+            if (ionic.Platform.isAndroid()) {
+                config = {
+                    "senderID": "984044898845"
+                };
+            }else if (ionic.Platform.isIOS()) {
+                config = {
+                    "badge": "true",
+                    "sound": "true",
+                    "alert": "true"
+                };
+            }
+            
+            $cordovaPush.register(config).then(function (result) { 
+                if (ionic.Platform.isIOS()) {}
+                
+                }, function (err) {
+                    //alert("Register error " + err)
+            });
+            
+            $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {  
+                switch(notification.event) {
+                    case 'registered':
+                      if (notification.regid.length > 0 ) {
+                        //alert('registration ID = ' + notification.regid);
+                        $window.localStorage['regid'] = notification.regid;
+                      }
+                      break;
+
+                    case 'message':
+                      // this is the actual push notification. its format depends on the data model from the push server
+                      alert(notification.tipo);
+                      break;
+
+                    case 'error':
+                      alert('GCM error = ' + notification.msg);
+                      break;
+
+                    default:
+                      alert('An unknown GCM event has occurred');
+                      break;
+                }  
+            });
+            
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -14,21 +60,9 @@ var app  = angular.module('starter', ['ionic','ionic.service.core','starter.cont
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
-            
         });
     })
-    .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider,$ionicAppProvider,uiGmapGoogleMapApiProvider) {
-        uiGmapGoogleMapApiProvider.configure({
-            //    key: 'your api key',
-            v: '3.20', //defaults to latest 3.X anyhow
-            libraries: 'weather,geometry,visualization'
-        });
-        
-        $ionicAppProvider.identify({
-            app_id: '759cdf23',
-            api_key: '619c65d7cacd0b25514e73d162bed4ef0d4f46d7dac98053',
-            dev_push: true
-        });
+    .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
         
         $ionicConfigProvider.navBar.alignTitle('center')
         $stateProvider

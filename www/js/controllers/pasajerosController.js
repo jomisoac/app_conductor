@@ -1,4 +1,4 @@
-app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootScope,$ionicLoading){
+app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootScope,$ionicLoading,$rootScope){
     
     $scope.$on('$ionicView.enter',function(){
         $scope.mostrarAdvertencia = true;
@@ -8,6 +8,7 @@ app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootS
         PasajerosService.getAll($rootScope.placa).then(
             function(respuesta){
                 $scope.listaPasajeros = respuesta.data;
+                $rootScope.listaPasajeros = $scope.listaPasajeros;
                 console.log($scope.listaPasajeros);
                 if($scope.listaPasajeros.length == 0)
                     $scope.mostrarAdvertencia = false;

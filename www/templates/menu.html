@@ -14,9 +14,9 @@
         </ion-header-bar>
         <ion-content>
             <div class="home">
-                <img src="http://{{conductor.imagen}}" class="img-perfil img-rounded">
+                <img src="http://{{conductor.imagen}}" class="img-perfil img-rounded" style="width:60px;height: 60px;">
                 <p class="nombre-conductor">{{conductor.nombres }} {{conductor.apellidos}}</p>
-                <p class="nombre-conductor">{{conductor.identificacion}}</p>
+                <p class="nombre-conductor">CC: {{conductor.identificacion}}</p>
                 <p class="nombre-conductor">{{conductor.vehiculo_id}}</p>
             </div>
         </div>
@@ -41,10 +41,12 @@
                     <i class="icon ion-compose"></i>
                     Reportar Ausencia
                 </ion-item>
+                <!--
                 <ion-item menu-close ui-sref="app.configuracion">
                     <i class="icon ion-gear-a"></i>
                     Configuración
                 </ion-item>
+                -->
                 <ion-item ng-click="logout()">
                     <i class="icon ion-ios-undo"></i>
                     Salir
