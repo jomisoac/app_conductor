@@ -23,14 +23,15 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
     }
     
     function initMap(pos) {
-        //var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/user.png';
+        
+        var flightPlanCoordinates = [];
         
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: pos.lat, lng: pos.lng},
           scrollwheel: false,
           zoom: 13
         });
-        
+                
         var geocoder = new google.maps.Geocoder();
 
         var markerMiPosicion = new google.maps.Marker({
@@ -38,6 +39,8 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
             map: map,
             title: 'Mi Posición',
         });
+        
+        flightPlanCoordinates.push(markerMiPosicion.position);
         
         var infowindow = new google.maps.InfoWindow();
         
@@ -49,12 +52,14 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
         angular.forEach($rootScope.listaPasajeros, function(value, key) {
             geocoder.geocode({ 'address': value.direccion }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    var posicion = ParseLocation(results[0].geometry.location);
+                    var posicion = ParseLocation(results[0].geometry.location);                
                     var marker = new google.maps.Marker({
                         position: {lat: parseFloat(posicion.lat), lng: parseFloat(posicion.lng)},
                         map: map,
                         title: value.nombres
                     });
+                    
+                    flightPlanCoordinates.push(marker.position);
                     
                     marker.addListener('click', function() {
                         infowindow.setContent(marker.title);
@@ -65,6 +70,16 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
                     alert('error: ' + status);
             });
         });
+        
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+        
+        flightPath.setMap(map);
         
         function ParseLocation(location) {
             var position = {

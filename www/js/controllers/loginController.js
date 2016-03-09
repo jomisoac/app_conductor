@@ -22,7 +22,7 @@ app.controller('LoginCtrl',function($scope,$ionicPopup,$location,LoginService,$w
         }
         function error(error) {
             $ionicLoading.hide();
-            console.log(error);
+            mostarAlert("Error","Error al loguearse intente mas tarde");
             //$scope.mensajeError = error.status == 401 ? error.data.mensajeError : 'A ocurrido un erro inesperado';
         }
   }

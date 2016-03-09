@@ -5,7 +5,7 @@
 <ion-content>
     <div class="list">
         <div class="item item-avatar" ng-repeat="giro in listaGiros">
-            <img ng-src="img/ionic.png">
+            <img ng-src="img/logo.png">
             <h2>Remitente: {{giro.nombres}}</h2>
             <p>Receptor: {{giro.nombre_receptor}}</p>
             <p>Dirección destino: {{giro.direccionD}}</p>
@@ -16,4 +16,24 @@
         <div ng-show="!mostrarAdvertencia" class="text-center">
             <strong class="positive">El conductor no registra giros pendientes</strong>
         </div>
+    </div>
 </ion-content>
+<ion-footer-bar class="bar-assertive">
+    <div class="row" ng-controller="HomeCtrl">
+         <div class="col text-center">
+             <div class="buttons">
+                 <button class="button button-icon icon ion-person " ng-click="opcionMenu('Pasajeros')"></button>
+             </div>
+        </div>
+         <div class="col text-center">
+             <div class="buttons">
+                 <button class="button button-icon icon ion-email" ng-click="opcionMenu('Encomiendas')"></button>
+             </div>
+        </div>
+         <div class="col text-center">
+             <div class="buttons">
+                 <button class="button button-icon icon ion-social-usd" ng-click="opcionMenu('Giros')"></button>
+             </div>
+        </div>
+     </div>
+</ion-footer-bar>

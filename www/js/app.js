@@ -1,9 +1,45 @@
 
 var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers','angular-jwt'])
-    .run(function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope) {
+    .run(
+        function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
+                  $location,$cordovaGeolocation,jwtHelper,$http)     {
         $window.localStorage['usuario'] = null;
-        $window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
+        //$window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
+        $window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
         $ionicPlatform.ready(function() {
+            
+            var posOptions = {timeout: 2000, enableHighAccuracy: false};
+            $cordovaGeolocation
+                .getCurrentPosition(posOptions)
+                .then(
+                    function (position) {
+                        var lat  = position.coords.latitude
+                        var long = position.coords.longitude
+                    }, function(err) {
+                       alert("Por favor encender GPS del equipo");
+                    }
+            );
+            
+            setInterval(function(){
+                var jwt = $window.localStorage['token'];
+                if(jwt){
+                    if(jwtHelper.isTokenExpired(jwt)){
+                        $http({
+                            url : $window.localStorage['uri']+'/api/new_token',
+                            skipAuthorization : true,
+                            method: 'GET',
+                            headers : { Authorization : 'Bearer '+ jwt}
+                        }).then(
+                            function(response){
+                                $window.localStorage['token'] = response.data.token;
+                            },
+                            function(response){
+                            }
+                        );
+                    }else{
+                    }
+                }
+            },300000);
             
             var config = null;
             
@@ -26,7 +62,8 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                     //alert("Register error " + err)
             });
             
-            $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {  
+            $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                alert(JSON.stringify(objnotification));
                 switch(notification.event) {
                     case 'registered':
                       if (notification.regid.length > 0 ) {
@@ -37,7 +74,13 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
 
                     case 'message':
                       // this is the actual push notification. its format depends on the data model from the push server
-                      alert(notification.tipo);
+                      if(notification.tipo == "Pasajero"){
+                         $location.path("/pasajeros");  
+                       }else if(notification.tipo == "Paquete"){
+                         $location.path("/encomienda");  
+                       }else if(notification.tipo == "Giro"){
+                         $location.path("/giro");  
+                       }
                       break;
 
                     case 'error':
@@ -63,6 +106,11 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
         });
     })
     .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
+        // Enable cross domain calls
+        $httpProvider.defaults.useXDomain = true;
+        
+        // Remove the header used to identify ajax call  that would prevent CORS from working
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
         
         $ionicConfigProvider.navBar.alignTitle('center')
         $stateProvider
@@ -142,7 +190,7 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
             url: '/reportar-ausencia',
             views: {
                 'menuContent': {
-                    //controller: 'HomeCtrl',
+                    controller: 'IncidenciaCtrl',
                     templateUrl: 'templates/reportar-ausencia.html',
                 }
             }

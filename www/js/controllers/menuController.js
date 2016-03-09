@@ -1,6 +1,5 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService){
-    
-    
+    /*
     $ionicPlatform.ready(function() {
         cordova.plugins.backgroundMode.setDefaults({ 
             title:  'Viaja Seguro',
@@ -66,6 +65,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                 }, 3000);
             }
     });
+    */
 
     $scope.$on('$ionicView.enter',function(){
         
@@ -76,13 +76,13 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
         var conductorId = JSON.parse($window.localStorage['conductor']);
         ConductorService.getById(conductorId.usuario.nombre).then(
             function(respuesta){
-                console.log(respuesta.data);
+                //console.log(respuesta.data);
                 $scope.conductor = respuesta.data;
-                $rootScope.gremio = $scope.conductor.empresa_id;
+                $window.localStorage['idGremio'] = $scope.conductor.empresa_id;
                 $rootScope.placa = $scope.conductor.id;
                 $window.localStorage['idConductor'] = $scope.conductor.id;
                 $ionicLoading.hide();
-                ConductorService.updateRegId($scope.conductor.id, $window.localStorage['regid']).then(succes, error);
+                ConductorService.updateRegId($scope.conductor.id, $window.localStorage['regid']);
             }
             ,function(error){
                 $ionicLoading.hide();
@@ -91,10 +91,15 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
     });
         
     $scope.logout = function(){
-        $window.localStorage.clear();
-        $ionicHistory.clearCache();
-        $ionicHistory.clearHistory();
-        $location.path("/login");
+        GeolocalizacionService.dele
+            conductor_id: $window.localStorage['idConductor'],
+        GeolocalizacionService.guardar(posicion).then(
+            function(respuesta){
+                $window.localStorage.clear();
+                $location.path("/login");
+            },function(error){
+            }
+        );
     }
     
     function mostarAlert(titulo,contenido){

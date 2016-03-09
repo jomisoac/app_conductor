@@ -16,4 +16,23 @@
     <div ng-show="!mostrarAdvertencia" class="text-center">
         <strong class="positive text-center">El conductor no registra encomiendas pendientes</strong>
     </div>
-</ion-content>e
+</ion-content>
+<ion-footer-bar class="bar-assertive">
+    <div class="row" ng-controller="HomeCtrl">
+         <div class="col text-center">
+             <div class="buttons">
+                 <button class="button button-icon icon ion-person" ng-click="opcionMenu('Pasajeros')"></button>
+             </div>
+        </div>
+         <div class="col text-center">
+             <div class="buttons">
+                 <button class="button button-icon icon ion-email" ng-click="opcionMenu('Encomiendas')"></button>
+             </div>
+        </div>
+         <div class="col text-center">
+             <div class="buttons">
+                 <button class="button button-icon icon ion-social-usd" ng-click="opcionMenu('Giros')"></button>
+             </div>
+        </div>
+     </div>
+</ion-footer-bar>

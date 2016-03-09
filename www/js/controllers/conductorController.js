@@ -24,7 +24,6 @@ app.controller('ConductorCtrl', function($scope,$location,$ionicPopup,ConductorS
   $scope.registarConductor = function(){
         
     $scope.conductor.rol = "CONDUCTOR";
-    $scope.conductor.reg_id = $scope.reg_id;
     if($scope.conductor.contrasena == $scope.conductor.confirmarContrasena ){
       ConductorService.registrar($scope.conductor).then(
         function(respuesta){
@@ -33,7 +32,7 @@ app.controller('ConductorCtrl', function($scope,$location,$ionicPopup,ConductorS
             $location.path("/login");
           }
         }, function(error){
-          mostarAlert("Fallo en el Registro", "No se ha podido realizar el registro intente mas tarde");
+          mostarAlert("Fallo en el Registro",error.data);
         });
     }else{
       $scope.mostrarAdvertencia = true;

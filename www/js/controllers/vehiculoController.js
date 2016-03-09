@@ -13,38 +13,59 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
             if(respuesta.data){
                 informacionVehiculo = true;
                 $scope.vehiculo = respuesta.data;
-                $scope.vehiculo.fecha_soat = new Date(respuesta.data.fecha_soat);
-                $scope.vehiculo.fecha_tecnomecanica = new Date(respuesta.data.fecha_tecnomecanica);
+                if(respuesta.data.fecha_soat)
+                    $scope.vehiculo.fecha_soat = new Date(respuesta.data.fecha_soat);
+                if(respuesta.data.fecha_tecnomecanica)
+                    $scope.vehiculo.fecha_tecnomecanica = new Date(respuesta.data.fecha_tecnomecanica);
                 $ionicLoading.hide();
             }else{
                 informacionVehiculo = false;
             }
         } ,function(error){
             $ionicLoading.hide();
-            mostarAlert("Error", "Error al registrar intente mas tarde");
+            mostarAlert("Error", "Error al consultar intente mas tarde");
         }
     );
   });
     
   $scope.registarActualizar = function(){
+      console.log(informacionVehiculo);
       $ionicLoading.show();
-      VehiculoService.registrar($scope.vehiculo).then(
-          function(respuesta){
-              if(respuesta.statusText == "OK"){
+      if(informacionVehiculo){
+          VehiculoService.actualizar($scope.vehiculo).then(
+              function(respuesta){
+                  if(respuesta.statusText == "OK"){
+                      $ionicLoading.hide();
+                      mostarAlert("Registro del Vehiculo","Vehiculo registrado correctamente.");
+                  }
+              },function(error){
                   $ionicLoading.hide();
-                  mostarAlert("Registro del Vehiculo","Vehiculo registrado correctamente.");
+                  console.log(error.data);
+                  mostarAlert("Registro del Vehiculo",error.statusCode);
               }
-          },function(error){
-              $ionicLoading.hide();
-              mostarAlert("Registro del Vehiculo","Error al registrar la información.");
-          }
-      );
+          );
+      }else{
+          VehiculoService.registrar($scope.vehiculo).then(
+              function(respuesta){
+                  if(respuesta.statusText == "OK"){
+                      $ionicLoading.hide();
+                      mostarAlert("Registro del Vehiculo","Vehiculo registrado correctamente.");
+                  }
+              },function(error){
+                  $ionicLoading.hide();
+                  console.log(error.data);
+                  mostarAlert("Registro del Vehiculo",error.statusCode);
+              }
+          );
+      }
   }
   
   $scope.registarActualizarDocumentacion = function(){
-      var vehiculoModificado = $scope.vehiculo;
+      modificarVehiculo();
+      /*var vehiculoModificado = $scope.vehiculo;
       $ionicLoading.show();
-      vehiculoModificado.fecha_soat = new Date(vehiculoModificado.fecha_soat);
+      var dateModificada = $filter('date')(new Date(vehiculoModificado.fecha_soat), 'yyyy-MM-dd');
+      console.log(dateModificada);
       vehiculoModificado.fecha_tecnomecanica = new Date(vehiculoModificado.fecha_tecnomecanica);
       console.log(vehiculoModificado);
       VehiculoService.registrar(vehiculoModificado).then(
@@ -58,6 +79,14 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
               mostarAlert("Registro del documentación","Error al registrar la información.");
           }
       );
+      */
+  }
+  
+  
+  function modificarVehiculo(){
+      var nuevoVehiculo = $scope.vehiculo;
+      nuevoVehiculo.fecha_soat = $filter('date')(new Date(),'yyyy-MM-dd');
+      console.log(nuevoVehiculo);
   }
   
   function mostarAlert(titulo,contenido){
