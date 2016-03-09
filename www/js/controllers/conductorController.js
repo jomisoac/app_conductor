@@ -22,17 +22,19 @@ app.controller('ConductorCtrl', function($scope,$location,$ionicPopup,ConductorS
   }
 
   $scope.registarConductor = function(){
-        
+    $ionicLoading.show(); 
     $scope.conductor.rol = "CONDUCTOR";
     if($scope.conductor.contrasena == $scope.conductor.confirmarContrasena ){
       ConductorService.registrar($scope.conductor).then(
         function(respuesta){
           if(respuesta.statusText == "OK"){
+            $ionicLoading.hide();
             mostarAlert("Registro Exitoso", "El conductor se ha registrado satisfatoriamente");
             $location.path("/login");
           }
         }, function(error){
-          mostarAlert("Fallo en el Registro",error.data);
+          $ionicLoading.hide();
+          mostarAlert("Fallo en el Registro","Error al registrar el conductor intente más tarde");
         });
     }else{
       $scope.mostrarAdvertencia = true;
