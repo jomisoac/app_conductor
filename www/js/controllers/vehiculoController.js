@@ -63,11 +63,17 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
   
   $scope.registarActualizarDocumentacion = function(){
       $ionicLoading.show();
-      $scope.documentos.vehiculo_id = $scope.vehiculo.id;
-      $scope.documentos.fecha_soat = $filter('date')($scope.documentos.fecha_soat, "yyyy-MM-dd");
-      $scope.documentos.fecha_tecnomecanica = $filter('date')($scope.documentos.fecha_tecnomecanica, "yyyy-MM-dd");
-      console.log($scope.documentos.fecha_soat+"  "+$scope.documentos.fecha_tecnomecanica);
-      VehiculoService.actualizarDocumentacion($scope.documentos).then(
+      var documentacion = {};
+      documentacion.vehiculo_id = $scope.vehiculo.id;
+      documentacion.fecha_soat = $filter('date')($scope.documentos.fecha_soat, "yyyy-MM-dd");
+      documentacion.fecha_tecnomecanica = $filter('date')($scope.documentos.fecha_tecnomecanica, "yyyy-MM-dd");
+      documentacion.soat = $scope.documentos.soat;
+      documentacion.tecnomecanica = $scope.documentos.tecnomecanica;
+      documentacion.tarjeta_propiedad = $scope.documentos.tarjeta_propiedad;
+      
+      console.log(documentacion);
+      
+      VehiculoService.actualizarDocumentacion(documentacion).then(
         function(respuesta){
             $ionicLoading.hide();
             mostarAlert("Actualizar Docuementación","Documentos actualizados correctamente");

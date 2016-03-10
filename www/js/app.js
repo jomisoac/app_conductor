@@ -4,8 +4,8 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
         function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
                   $location,$cordovaGeolocation,jwtHelper,$http)     {
         $window.localStorage['usuario'] = null;
-        //$window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
-        $window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
+        $window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
+        //$window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
         $ionicPlatform.ready(function() {
             
             var posOptions = {timeout: 2000, enableHighAccuracy: false};
@@ -107,10 +107,10 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
     })
     .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
         // Enable cross domain calls
-        //$httpProvider.defaults.useXDomain = true;
+        $httpProvider.defaults.useXDomain = true;
         
         // Remove the header used to identify ajax call  that would prevent CORS from working
-        //delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
         
         $ionicConfigProvider.navBar.alignTitle('center')
         $stateProvider
