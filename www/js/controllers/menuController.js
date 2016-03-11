@@ -1,9 +1,9 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService){
-    /*
+    
     $ionicPlatform.ready(function() {
         cordova.plugins.backgroundMode.setDefaults({ 
             title:  'Viaja Seguro',
-            text:   'Enviando ubicación.'
+            text:   'Enviando su ubicación.'
         });
         // Enable background mode
         cordova.plugins.backgroundMode.enable();
@@ -26,6 +26,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                     GeolocalizacionService.guardar(posicion).then(
                                         function(respuesta){
                                         },function(error){
+                                            alert("Posición no enviada !!");
                                         }
                                     );
                                 }
@@ -33,7 +34,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                             }, function(err) {
                                 console.log(err);
                         });
-                }, 3000);
+                }, 10000);
         }
         // Called when background mode has been activated
         cordova.plugins.backgroundMode.onactivate = function () {
@@ -55,6 +56,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                     GeolocalizacionService.guardar(posicion).then(
                                         function(respuesta){
                                         },function(error){
+                                            alert("Posición no enviada !!");
                                         }
                                     );
                                 }
@@ -62,10 +64,9 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                             }, function(err) {
                                 console.log(err);
                         });
-                }, 3000);
+                }, 10000);
             }
     });
-    */
 
     $scope.$on('$ionicView.enter',function(){
         
@@ -91,13 +92,14 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
     });
         
     $scope.logout = function(){
-        GeolocalizacionService.dele
-            conductor_id: $window.localStorage['idConductor'],
-        GeolocalizacionService.guardar(posicion).then(
+        console.log($window.localStorage['idConductor']);
+        GeolocalizacionService.deletePosicion($window.localStorage['idConductor']).then(
             function(respuesta){
+                console.log("Ubicacion eliminada");
                 $window.localStorage.clear();
                 $location.path("/login");
             },function(error){
+                mostarAlert("Cerrar Sesión", "Error al intentar cerrar sesión intente nuevamente");
             }
         );
     }

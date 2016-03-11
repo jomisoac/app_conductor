@@ -29,6 +29,18 @@ app.service("ConductorService", function($http,$window){
         return $http.post(url,conductor);
     }
     
+    this.update = function(conductor){
+        var pet = {
+            method: 'PUT',
+            url: uri+'/api/conductor/'+conductor.id,
+            headers: {
+                'Authorization': 'Bearer '+$window.localStorage['token']
+            },
+            data : conductor
+        };
+        return $http(pet);
+    }
+    
     this.updateRegId = function(conductor_id, reg_id){
         var pet = {
             method: 'PUT',

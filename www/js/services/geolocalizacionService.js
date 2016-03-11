@@ -16,7 +16,7 @@ app.service('GeolocalizacionService',function($http,$window){
     this.deletePosicion = function(id){
         var pet = {
             method: 'DELETE',
-            url: uri+'/api/conductor/'+conductor_id+'/ubicacion',
+            url: uri+'/api/conductores/'+id+'/ubicacion',
             headers: {
                 'Authorization': 'Bearer '+$window.localStorage['token']
             }

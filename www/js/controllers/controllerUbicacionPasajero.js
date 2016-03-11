@@ -1,4 +1,4 @@
-app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
+app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$ionicLoading) {
     
     var pasajeros = [];
         
@@ -6,6 +6,7 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
         var posicion = {};
         
         if (navigator.geolocation) {
+            $ionicLoading.show();
             navigator.geolocation.getCurrentPosition(function(position) {
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
@@ -69,6 +70,7 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope) {
                 else
                     alert('error: ' + status);
             });
+            $ionicLoading.hide();
         });
         
         var flightPath = new google.maps.Polyline({

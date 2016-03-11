@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.appconductor614542" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>app_conductor</name>
-  <description>
-        An Ionic Framework and Cordova project.
+    <name>Viaja Seguro Conductor App</name>
+    <description>
+        Aplicación de viaja seguro para sus conductores !!!!
     </description>
   <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
@@ -17,6 +17,7 @@
   <allow-intent href="mailto:*" />
   <allow-intent href="geo:*" />
   <content src="index.html"/>
+  <preference name="orientation" value="landscape" />
   <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
   <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
   <preference name="webviewbounce" value="false"/>
