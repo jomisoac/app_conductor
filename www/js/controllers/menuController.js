@@ -1,6 +1,7 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService){
     
     $ionicPlatform.ready(function() {
+        
         cordova.plugins.backgroundMode.setDefaults({ 
             title:  'Viaja Seguro',
             text:   'Enviando su ubicación.'
@@ -66,8 +67,10 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                         });
                 }, 10000);
             }
+            
     });
-
+    
+    
     $scope.$on('$ionicView.enter',function(){
         
         $ionicLoading.show();
@@ -77,8 +80,8 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
         var conductorId = JSON.parse($window.localStorage['conductor']);
         ConductorService.getById(conductorId.usuario.nombre).then(
             function(respuesta){
-                //console.log(respuesta.data);
                 $scope.conductor = respuesta.data;
+                $window.localStorage['idUsuario'] = $scope.conductor.usuario_id;
                 $window.localStorage['idGremio'] = $scope.conductor.empresa_id;
                 $rootScope.placa = $scope.conductor.id;
                 $window.localStorage['idConductor'] = $scope.conductor.id;
@@ -92,11 +95,8 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
     });
         
     $scope.logout = function(){
-        console.log($window.localStorage['idConductor']);
         GeolocalizacionService.deletePosicion($window.localStorage['idConductor']).then(
             function(respuesta){
-                console.log("Ubicacion eliminada");
-                $window.localStorage.clear();
                 $location.path("/login");
             },function(error){
                 mostarAlert("Cerrar Sesión", "Error al intentar cerrar sesión intente nuevamente");

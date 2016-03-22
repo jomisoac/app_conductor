@@ -51,4 +51,27 @@ app.service("ConductorService", function($http,$window){
         };
         return $http(pet);
     }
+    
+    this.updateContrasena = function(id,pass){
+        var pet = {
+            method: 'POST',
+            url:  uri + '/api/usuarios/'+id+'/change_pass',
+            headers: {
+                'Authorization': 'Bearer '+$window.localStorage['token']
+            },
+            data : pass
+        };
+        return $http(pet);
+    }
+    
+    this.getPrestaciones = function(id){
+        var pet = {
+            method: 'GET',
+            url: uri+'/api/conductores/'+id+'/pagos_prestaciones',
+            headers: {
+                'Authorization': 'Bearer '+$window.localStorage['token']
+            }
+        };
+        return $http(pet);
+    }
 });

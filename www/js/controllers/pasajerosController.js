@@ -9,7 +9,6 @@ app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootS
             function(respuesta){
                 $scope.listaPasajeros = respuesta.data;
                 $rootScope.listaPasajeros = $scope.listaPasajeros;
-                console.log($scope.listaPasajeros);
                 if($scope.listaPasajeros.length == 0)
                     $scope.mostrarAdvertencia = false;
                 else

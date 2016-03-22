@@ -11,11 +11,13 @@ app.controller('HomeCtrl', function($scope,$ionicPopup,$location,$ionicHistory,$
         ConductorService.getById(conductorId.usuario.nombre).then(
             function(respuesta){
                 $scope.conductor = respuesta.data;
-                console.log($scope.conductor);
-                if(respuesta.data.estado === "En ruta"){
+                
+                if(respuesta.data.estado === "No disponible" || respuesta.data.estado === "En ruta"){  
                     $scope.estado = "No disponible";
                     $scope.classButton = "button-assertive";  
-                    //button-balanced
+                }else if(respuesta.data.estado === "Disponible"){
+                    $scope.estado = "Disponible";
+                    $scope.classButton = "button-balanced";
                 }
                 //$ionicLoading.hide();
             }
@@ -46,13 +48,10 @@ app.controller('HomeCtrl', function($scope,$ionicPopup,$location,$ionicHistory,$
             $scope.classButton = "button-assertive";  
         }
         $scope.conductor.estado = $scope.estado;
-        console.log($scope.conductor);
         ConductorService.update($scope.conductor).then(
             function(respuesta){
-                console.log("actualizó");
-                console.log(respuesta.data);
             },function(error){
-                console.log("no actualizó");
+                mostarAlert("Estado","Error al actualizar el estado");
             }
         );
     }

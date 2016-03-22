@@ -1,0 +1,15 @@
+<ion-header-bar class="bar-positive">
+    <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
+    <h1 class="title">Imagen Conductor</h1>
+    <button class="button button-icon icon ion-ios-cloud-upload" ng-click="enviarImagenConductor()"></button>
+</ion-header-bar>
+<ion-content>
+    <div class="center">
+        <input id="files" uploader-model="image.imagen" type="file">
+        <img id="img-conductor" ng-src="{{image.imagen.name}}" style="width:50%; height: 100%;"/>
+    </div>
+</ion-content>
+<ion-footer-bar class="bar-light item-input-inset center-text">
+    <button class="button button-full" ng-class="classButton" ng-click="getImageConductor()">Cargar Imagen</button>
+</ion-footer-bar>
+                

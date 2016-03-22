@@ -6,11 +6,10 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
     $scope.date = new Date();
     $ionicLoading.show();
     $scope.vehiculo = {};
-    $scope.documentos = {};
+    //$scope.documentos = {};
       
     VehiculoService.getById($window.localStorage['idConductor']).then(
         function(respuesta){
-            console.log(respuesta);
             if(respuesta.data){
                 informacionVehiculo = true;
                 $scope.vehiculo = respuesta.data;
@@ -30,7 +29,6 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
   });
     
   $scope.registarActualizar = function(){
-      console.log(informacionVehiculo);
       $ionicLoading.show();
       if(informacionVehiculo){
           VehiculoService.actualizar($scope.vehiculo).then(
@@ -41,7 +39,6 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
                   }
               },function(error){
                   $ionicLoading.hide();
-                  console.log(error.data);
                   mostarAlert("Registro del Vehiculo","Error al registrar el vehiculo, intenten más tarde");
               }
           );
@@ -54,24 +51,22 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
                   }
               },function(error){
                   $ionicLoading.hide();
-                  console.log(error.data);
                   mostarAlert("Registro del Vehiculo","Error al registrar el vehiculo, intenten más tarde");
               }
           );
       }
   }
   
+  
   $scope.registarActualizarDocumentacion = function(){
       $ionicLoading.show();
       var documentacion = {};
       documentacion.vehiculo_id = $scope.vehiculo.id;
-      documentacion.fecha_soat = $filter('date')($scope.documentos.fecha_soat, "yyyy-MM-dd");
-      documentacion.fecha_tecnomecanica = $filter('date')($scope.documentos.fecha_tecnomecanica, "yyyy-MM-dd");
-      documentacion.soat = $scope.documentos.soat;
-      documentacion.tecnomecanica = $scope.documentos.tecnomecanica;
-      documentacion.tarjeta_propiedad = $scope.documentos.tarjeta_propiedad;
-      
-      console.log(documentacion);
+      documentacion.fecha_soat = $filter('date')($scope.vehiculo.fecha_soat, "yyyy-MM-dd");
+      documentacion.fecha_tecnomecanica = $filter('date')($scope.vehiculo.fecha_tecnomecanica, "yyyy-MM-dd");
+      documentacion.soat = $scope.vehiculo.soat;
+      documentacion.tecnomecanica = $scope.vehiculo.tecnomecanica;
+      documentacion.tarjeta_propiedad = $scope.vehiculo.tarjeta_propiedad;
       
       VehiculoService.actualizarDocumentacion(documentacion).then(
         function(respuesta){
@@ -83,7 +78,7 @@ app.controller('VehiculoCtrl',function($scope,VehiculoService,$rootScope,$ionicP
         }
       );
   }
-  
+    
   function mostarAlert(titulo,contenido){
     var alertPopup = $ionicPopup.alert({
       title: titulo,

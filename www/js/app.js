@@ -24,6 +24,7 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                 var jwt = $window.localStorage['token'];
                 if(jwt){
                     if(jwtHelper.isTokenExpired(jwt)){
+                        console.log("Expiro");
                         $http({
                             url : $window.localStorage['uri']+'/api/new_token',
                             skipAuthorization : true,
@@ -37,9 +38,10 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                             }
                         );
                     }else{
+                        console.log("No ha expirado");
                     }
                 }
-            },150000);
+            },10000);
             
             var config = null;
             
@@ -63,7 +65,6 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
             });
             
             $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                alert(JSON.stringify(objnotification));
                 switch(notification.event) {
                     case 'registered':
                       if (notification.regid.length > 0 ) {
@@ -73,14 +74,14 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                       break;
 
                     case 'message':
-                      // this is the actual push notification. its format depends on the data model from the push server
-                      if(notification.tipo == "Pasajero"){
+                      if(notification.payload.tipo == "Pasajeros"){
                          $location.path("/pasajeros");  
-                       }else if(notification.tipo == "Paquete"){
+                       }else if(notification.payload.tipo == "Paquetes"){
                          $location.path("/encomienda");  
-                       }else if(notification.tipo == "Giro"){
+                       }else if(notification.payload.tipo == "Giros"){
                          $location.path("/giro");  
                        }
+                       
                       break;
 
                     case 'error':
@@ -204,6 +205,30 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                 }
             }
           })
+        
+        .state('cambiar-contrasena', {
+            url: '/cambiar-contrasena',
+            templateUrl: 'templates/cambiar-contrasena.html',
+            controller: 'ContrasenaCtrl'
+        })
+        
+        .state('imagen-conductor', {
+            url: '/imagen-conductor',
+            templateUrl: 'templates/imagen-conductor.html',
+            controller: 'ImagenCtrl'
+        })
+        
+        .state('imagen-vehiculo', {
+            url: '/imagen-vehiculo',
+            templateUrl: 'templates/imagen-vehiculo.html',
+            controller: 'ImagenCtrl'
+        })
+        
+        .state('pagos-realizados', {
+            url: '/pagos-realizados',
+            templateUrl: 'templates/pagos-realizados.html',
+            controller: 'PagosCtrl'
+        })
         ;
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/login');

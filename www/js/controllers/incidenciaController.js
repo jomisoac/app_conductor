@@ -4,6 +4,5 @@ app.controller('IncidenciaCtrl', function($scope,$location,$ionicPopup,$window,$
   
     $scope.registarIncidencia = function(){
         $scope.incidencia.fechaIncidencia = $filter('date')(new Date(), 'yyyy-MM-dd');
-        console.log($scope.incidencia);
     }
 })

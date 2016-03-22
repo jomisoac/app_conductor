@@ -17,7 +17,6 @@
                 <img src="http://{{conductor.imagen}}" class="img-perfil img-rounded" style="width:60px;height: 60px;">
                 <p class="nombre-conductor">{{conductor.nombres }} {{conductor.apellidos}}</p>
                 <p class="sub-items-info-menu">CC: {{conductor.identificacion}}</p>
-                <p class="sub-items-info-menu">Id: {{conductor.id}}</p>
             </div>
         </div>
             <ion-list>
@@ -41,12 +40,10 @@
                     <i class="icon ion-compose"></i>
                     Reportar Ausencia
                 </ion-item>
-                <!--
                 <ion-item menu-close ui-sref="app.configuracion">
                     <i class="icon ion-gear-a"></i>
                     Configuración
                 </ion-item>
-                -->
                 <ion-item ng-click="logout()">
                     <i class="icon ion-ios-undo"></i>
                     Salir
