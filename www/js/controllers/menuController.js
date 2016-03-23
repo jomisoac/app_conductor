@@ -1,4 +1,4 @@
-app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService){
+app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService, socketCh){
     
     /*
     $ionicPlatform.ready(function() {
@@ -21,16 +21,12 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                 
                                 var posicion = {
                                     conductor_id: $window.localStorage['idConductor'],
-                                    latitud: lat,
-                                    longitud: long
+                                    lat: lat,
+                                    lng: long,
+                                    ruta_id: 0//#############
                                 };
                                 if(posicion.conductor_id){
-                                    GeolocalizacionService.guardar(posicion).then(
-                                        function(respuesta){
-                                        },function(error){
-                                            alert("Posición no enviada !!");
-                                        }
-                                    );
+                                    socketCh.emit("posConductor", posicion);
                                 }
                                 
                             }, function(err) {
