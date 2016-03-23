@@ -1,5 +1,6 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService){
     
+    /*
     $ionicPlatform.ready(function() {
         
         cordova.plugins.backgroundMode.setDefaults({ 
@@ -69,7 +70,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
             }
             
     });
-    
+    */
     
     $scope.$on('$ionicView.enter',function(){
         
