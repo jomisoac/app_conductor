@@ -86,6 +86,10 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
             }
         );
     });
+
+    socketCh.on('connect', function () {
+        alert('conectado a websocket')
+    })
         
     $scope.logout = function(){
         $location.path("/login");
