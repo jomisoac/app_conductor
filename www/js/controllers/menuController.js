@@ -79,12 +79,17 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                 $window.localStorage['idConductor'] = $scope.conductor.id;
                 $ionicLoading.hide();
                 ConductorService.updateRegId($scope.conductor.id, $window.localStorage['regid']);
+                socketCh.connect();
             }
             ,function(error){
                 $ionicLoading.hide();
             }
         );
     });
+
+    socketCh.on('connect', function () {
+        alert('conectado a websocket')
+    })
         
     $scope.logout = function(){
         $location.path("/login");
