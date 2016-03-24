@@ -75,18 +75,18 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
 
                     case 'message':
                       if(notification.payload.tipo == "Pasajeros"){
-                          alert(notification.payload.message);
+                          //alert(notification.payload.message);
                          $location.path("/pasajeros");  
                        }else if(notification.payload.tipo == "Paquetes"){
-                           alert(notification.payload.message);
+                           //alert(notification.payload.message);
                          $location.path("/encomienda");  
                        }else if(notification.payload.tipo == "Giros"){
-                           alert(notification.payload.message);
+                           //alert(notification.payload.message);
                          $location.path("/giro");  
                        }else if(notification.payload.tipo == "Desepacho"){
-                           alert(notification.payload.message);
+                           //alert(notification.payload.message);
                        }else if(notification.payload.tipo == "Actualizacion Turno"){
-                           alert(notification.payload.message);
+                           //alert(notification.payload.message);
                            $window.localStorage['idRuta'] = notification.payload.datos;
                        }
                        
