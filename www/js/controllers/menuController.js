@@ -1,7 +1,7 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService, socketCh){
     
-    /*
-    $ionicPlatform.ready(function() {
+    
+     $ionicPlatform.ready(function() {
         
         cordova.plugins.backgroundMode.setDefaults({ 
             title:  'Viaja Seguro',
@@ -23,7 +23,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                     conductor_id: $window.localStorage['idConductor'],
                                     lat: lat,
                                     lng: long,
-                                    ruta_id: 0//#############
+                                    ruta_id: $window.localStorage['idRuta']
                                 };
                                 if(posicion.conductor_id){
                                     socketCh.emit("posConductor", posicion);
@@ -47,16 +47,12 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                 
                                 var posicion = {
                                     conductor_id: $window.localStorage['idConductor'],
-                                    latitud: lat,
-                                    longitud: long
+                                    lat: lat,
+                                    lng: long,
+                                    ruta_id: $window.localStorage['idRuta']
                                 };
                                 if(posicion.conductor_id){
-                                    GeolocalizacionService.guardar(posicion).then(
-                                        function(respuesta){
-                                        },function(error){
-                                            alert("Posición no enviada !!");
-                                        }
-                                    );
+                                    socketCh.emit("posConductor", posicion);
                                 }
                                 
                             }, function(err) {
@@ -66,7 +62,6 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
             }
             
     });
-    */
     
     $scope.$on('$ionicView.enter',function(){
         
@@ -92,13 +87,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
     });
         
     $scope.logout = function(){
-        GeolocalizacionService.deletePosicion($window.localStorage['idConductor']).then(
-            function(respuesta){
-                $location.path("/login");
-            },function(error){
-                mostarAlert("Cerrar Sesión", "Error al intentar cerrar sesión intente nuevamente");
-            }
-        );
+        $location.path("/login");
     }
     
     function mostarAlert(titulo,contenido){

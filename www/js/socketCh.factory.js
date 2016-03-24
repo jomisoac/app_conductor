@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('commons')
+        .module('starter')
         .factory('socketCh', socket);
 
     function socket($rootScope) {

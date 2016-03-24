@@ -2,7 +2,7 @@
 var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers','angular-jwt'])
     .run(
         function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
-                  $location,$cordovaGeolocation,jwtHelper,$http)     {
+                  $location,jwtHelper,$http,$ionicPopup,$cordovaGeolocation,socketCh)     {
         $window.localStorage['usuario'] = null;
         $window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
         //$window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
@@ -16,7 +16,7 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                         var lat  = position.coords.latitude
                         var long = position.coords.longitude
                     }, function(err) {
-                       alert("Por favor encender GPS del equipo");
+                        alert("Por favor encender GPS del equipo");
                     }
             );
             
@@ -75,11 +75,19 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
 
                     case 'message':
                       if(notification.payload.tipo == "Pasajeros"){
+                          alert(notification.payload.message);
                          $location.path("/pasajeros");  
                        }else if(notification.payload.tipo == "Paquetes"){
+                           alert(notification.payload.message);
                          $location.path("/encomienda");  
                        }else if(notification.payload.tipo == "Giros"){
+                           alert(notification.payload.message);
                          $location.path("/giro");  
+                       }else if(notification.payload.tipo == "Desepacho"){
+                           alert(notification.payload.message);
+                       }else if(notification.payload.tipo == "Actualizacion Turno"){
+                           alert(notification.payload.message);
+                           $window.localStorage['idRuta'] = notification.payload.datos;
                        }
                        
                       break;
@@ -92,7 +100,7 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                       alert('An unknown GCM event has occurred');
                       break;
                 }  
-            });
+            });    
             
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
