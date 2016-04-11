@@ -17,7 +17,6 @@
   <allow-intent href="mailto:*" />
   <allow-intent href="geo:*" />
   <content src="index.html"/>
-  <preference name="orientation" value="landscape" />
   <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
   <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
   <preference name="webviewbounce" value="false"/>

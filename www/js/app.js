@@ -1,12 +1,27 @@
 
-var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers','angular-jwt'])
+var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers','angular-jwt','ion-floating-menu'])
     .run(
         function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
-                  $location,jwtHelper,$http,$ionicPopup,$cordovaGeolocation,socketCh)     {
+                  $location,jwtHelper,$http)     {
         $window.localStorage['usuario'] = null;
         $window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
         //$window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
         $ionicPlatform.ready(function() {
+        
+            window.addEventListener("orientationchange", function() {
+                if(window.orientation == 0){
+                    $rootScope.orientacionVertical = true;
+                    $rootScope.orientacionHorizontal = false;
+                }
+                else if(window.orientation == 90 || window.orientation == -90){
+                    $rootScope.orientacionHorizontal = true;
+                    $rootScope.orientacionVertical = false;
+                }else{
+                    $rootScope.orientacionVertical = true;
+                    $rootScope.orientacionHorizontal = false;
+                }
+            }, false);
+            
             
             var posOptions = {timeout: 2000, enableHighAccuracy: false};
             $cordovaGeolocation
@@ -85,7 +100,7 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
                          $location.path("/giro");  
                        }else if(notification.payload.tipo == "Desepacho"){
                            //alert(notification.payload.message);
-                       }else if(notification.payload.tipo == "Actualizacion Turno"){
+                       }else if(notification.payload.tipo == "Actualizacion turno"){
                            //alert(notification.payload.message);
                            $window.localStorage['idRuta'] = notification.payload.datos;
                        }

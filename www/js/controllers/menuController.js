@@ -1,8 +1,11 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService, socketCh){
     
-    
-     $ionicPlatform.ready(function() {
+    $scope.orientacionVertical = true;
+    $scope.orientacionHorizontal = false;
         
+     
+    $ionicPlatform.ready(function() {
+        /*
         cordova.plugins.backgroundMode.setDefaults({ 
             title:  'Viaja Seguro',
             text:   'Enviando su ubicación.'
@@ -32,7 +35,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                             }, function(err) {
                                 console.log(err);
                         });
-                }, 10000);
+                }, 3000);
         }
         // Called when background mode has been activated
         cordova.plugins.backgroundMode.onactivate = function () {
@@ -58,12 +61,34 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                             }, function(err) {
                                 console.log(err);
                         });
-                }, 10000);
+                }, 3000);
+            }  
+            */
+        
+        window.addEventListener("orientationchange", function() {
+            if(window.orientation == 0){
+                $scope.orientacionVertical = true;
+                $scope.orientacionHorizontal = false;
             }
-            
+            else if(window.orientation == 90 || window.orientation == -90){
+                $scope.orientacionHorizontal = true;
+                $scope.orientacionVertical = false;
+            }
+        }, false); 
+        
     });
     
+    
     $scope.$on('$ionicView.enter',function(){
+        
+        if(window.orientation == 0){
+            $scope.orientacionVertical = true;
+            $scope.orientacionHorizontal = false;
+        }
+        else if(window.orientation == 90 || window.orientation == -90){
+            $scope.orientacionHorizontal = true;
+            $scope.orientacionVertical = false;
+        }
         
         $ionicLoading.show();
         $rootScope.placa;

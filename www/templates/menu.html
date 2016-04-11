@@ -12,40 +12,39 @@
         <ion-header-bar class="bar-positive">
             <h1 class="title">Viaja Seguro</h1>
         </ion-header-bar>
-        <ion-content>
-            <div class="home">
-                <img src="http://{{conductor.imagen}}" class="img-perfil img-rounded" style="width:60px;height: 60px;">
-                <p class="nombre-conductor">{{conductor.nombres }} {{conductor.apellidos}}</p>
-                <p class="sub-items-info-menu">CC: {{conductor.identificacion}}</p>
+        <ion-content class="custom">
+            <div class="home center">
+                <img src="http://{{conductor.imagen}}" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
+                <h4 class="nombre-conductor">{{conductor.nombres }} {{conductor.apellidos}}</h4>
+                <h4 class="id-conductor">CC: {{conductor.identificacion}}</h4>
             </div>
-        </div>
             <ion-list>
                 <ion-item menu-close ui-sref="app.home">
-                    <i class="icon ion-home"></i>
+                    <i class="icon ion-home" style="font-size: 25px;"></i>
                     Home
                 </ion-item>
                 <ion-item menu-close ui-sref="app.registrarVehiculo">
-                    <i class="icon ion-model-s"></i>
+                    <i class="icon ion-model-s" style="font-size: 25px;"></i>
                     Gestión Vehículo
                 </ion-item>
                 <ion-item menu-close ui-sref="app.documentosVehiculo">
-                    <i class="icon ion-clipboard"></i>
+                    <i class="icon ion-clipboard" style="font-size: 25px;"></i>
                     Gestión Documentación
                 </ion-item>
                 <ion-item menu-close ui-sref="app.gremioConductores">
-                    <i class="icon ion-ios-people"></i>    
+                    <i class="icon ion-ios-people" style="font-size: 25px;"></i>    
                     Gremio de transporte
                 </ion-item>
                 <ion-item menu-close ui-sref="app.reportarAusencia">
-                    <i class="icon ion-compose"></i>
+                    <i class="icon ion-compose" style="font-size: 25px;"></i>
                     Reportar Ausencia
                 </ion-item>
                 <ion-item menu-close ui-sref="app.configuracion">
-                    <i class="icon ion-gear-a"></i>
+                    <i class="icon ion-gear-a" style="font-size: 25px;"></i>
                     Configuración
                 </ion-item>
                 <ion-item ng-click="logout()">
-                    <i class="icon ion-ios-undo"></i>
+                    <i class="icon ion-ios-undo" style="font-size: 25px;"></i>
                     Salir
                 </ion-item>
             </ion-list>

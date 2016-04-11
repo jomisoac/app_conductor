@@ -9,8 +9,9 @@
     <div class="list">
         <div class="item item-avatar" ng-repeat="pasajero in listaPasajeros">
             <img ng-src="img/logo.png">
-            <h2>{{pasajero.nombres}}</h2>
+            <h2><strong>{{pasajero.nombres}}</strong></h2>
             <p>{{pasajero.direccion}}</p>
+            <p>{{pasajero.telefono}}</p>
         </div>
     </div>
     <div ng-show="!mostrarAdvertencia" class="text-center">

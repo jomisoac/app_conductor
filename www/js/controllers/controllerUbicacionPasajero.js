@@ -28,11 +28,11 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$io
     }
     
     function initMap(pos) {
-                
+        $ionicLoading.hide(); 
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: pos.lat, lng: pos.lng},
             scrollwheel: false,
-            zoom: 8
+            zoom: 11
         });
                 
         var geocoder = new google.maps.Geocoder();
@@ -61,8 +61,6 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$io
             infowindow.open(map, markerMiPosicion);
         });
         geocodeLatLng(geocoder,map,markerMiPosicion.getPosition().lat(),markerMiPosicion.getPosition().lng());
-        
-        $ionicLoading.hide();
 
         angular.forEach($rootScope.listaPasajeros, function(value, key) {
             geocoder.geocode({ 'address': value.direccion }, function (results, status) {

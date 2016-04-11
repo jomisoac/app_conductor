@@ -5,11 +5,9 @@
 </ion-header-bar>
 <ion-content>
     <div class="center">
-        <input id="files" uploader-model="image.imagen" type="file">
-        <img id="img-conductor" ng-src="{{image.imagen.name}}" style="width:50%; height: 100%;"/>
+        <img  ng-src="{{collection.selectedImage}}" style="width:100%; height: 100%;margin-top:20%;"/>
     </div>
 </ion-content>
 <ion-footer-bar class="bar-light item-input-inset center-text">
     <button class="button button-full" ng-class="classButton" ng-click="getImageConductor()">Cargar Imagen</button>
 </ion-footer-bar>
-                

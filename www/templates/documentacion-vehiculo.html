@@ -3,16 +3,20 @@
         <ion-list>
             <ion-checkbox ng-model="vehiculo.soat">SOAT</ion-checkbox>
             <div ng-show="vehiculo.soat" class="list list-inset">
-                <label class="item item-input item-stacked-label input-bottom">
-                    <span>Fecha de Vencimiento</span>
-                    <input value="2012-10-02" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_soat" formatDate>
+                <label class="item item-input item-stacked-label input-bottom" style="background:#F2F2F2;">
+                    <span >Fecha de Vencimiento</span>
+                </label>
+                <label class="item item-input item-stacked-label input-bottom" style="background:#d50002;">
+                    <input style="background:#d50002;color:#fff;"  value="2012-10-02" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_soat" formatDate>
                 </label>
             </div>
             <ion-checkbox ng-model="vehiculo.tecnomecanica">Tecnomecánica</ion-checkbox>
             <div ng-show="vehiculo.tecnomecanica" class="list list-inset">
-                <label class="item item-input item-stacked-label input-bottom">
+                <label class="item item-input item-stacked-label input-bottom" style="background:#F2F2F2;">
                     <span>Fecha de Vencimiento</span>
-                    <input type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_tecnomecanica" formatDate>
+                </label>
+                <label class="item item-input item-stacked-label input-bottom" style="background:#d50002;">
+                    <input style="background:#d50002;color:#fff;" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_tecnomecanica" formatDate>
                 </label>
             </div>
             <ion-checkbox ng-model="vehiculo.tarjeta_propiedad">Targeta de propiedad</ion-checkbox>

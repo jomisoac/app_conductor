@@ -2,29 +2,41 @@
     <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
     <h1 class="title">Pagos Realizados</h1>
 </ion-header-bar>
-<ion-content>
-    <div ng-show="!mostrarAdvertencia" class="text-center">
-        <strong class="positive">El conductor no registra pagos</strong>
-    </div>
-    <div class="list list-inset">
-        <p class="center"><strong>Ahorro</strong></p>
-        <div class="item" ng-repeat="ahorro in pagoAhorro">
-            <p>Fecha de pago: {{ahorro.fecha}} &nbsp;&nbsp; Monto pagado: {{ahorro.valor  | currency}}</p>
-        </div>
-    </div>
-    <div class="list list-inset">
-        <p class="center"><strong>Seguridad Social</strong></p>
-        <div class="item" ng-repeat="seguridadSocial in pagoSeguridadSocial">
-            <p>Fecha de pago: {{seguridadSocial.fecha}} &nbsp;&nbsp; Monto pagado: {{seguridadSocial.valor | currency}}</p>
-        </div>
-    </div>
-    <div class="list list-inset">
-        <p class="center"><strong>Pensión</strong></p>
-        <div class="item" ng-repeat="pen in pension">
-            <p>Fecha de pago: {{pen.fecha}} &nbsp;&nbsp; Monto pagado: {{pen.valor  | currency}}</p>
-        </div>
-    </div>
-</ion-content>
+<ion-tabs class="tabs-positive tabs-icon-top">
+    <ion-tab title="Ahorro" icon-on="ion-social-usd" icon-off="ion-social-usd-outline">
+        <ion-content class="padding scroll-content ionic-scroll  has-header has-tabs">
+            <br><br><br><br><br>
+            <div ng-show="!mostrarAdvertencia" class="text-center">
+                <strong class="positive">El conductor no registra pagos</strong>
+            </div>
+            <div class="item" ng-repeat="ahorro in pagoAhorro">
+                <p>Fecha de pago: {{ahorro.fecha}} &nbsp;&nbsp; Monto pagado: {{ahorro.valor  | currency}}</p>
+            </div>
+        </ion-content>
+    </ion-tab>
+    <ion-tab title="Seguridad social" icon-on="ion-social-usd" icon-off="ion-social-usd-outline">
+        <ion-content class="padding scroll-content ionic-scroll  has-header has-tabs">
+            <br><br><br><br><br>
+            <div ng-show="!mostrarAdvertencia" class="text-center">
+                <strong class="positive">El conductor no registra pagos</strong>
+            </div>
+            <div class="item" ng-repeat="seguridadSocial in pagoSeguridadSocial">
+                <p>Fecha de pago: {{seguridadSocial.fecha}} &nbsp;&nbsp; Monto pagado: {{seguridadSocial.valor | currency}}</p>
+            </div>
+        </ion-content>
+    </ion-tab>
+    <ion-tab title="Pensión" icon-on="ion-social-usd" icon-off="ion-social-usd-outline">
+        <ion-content class="padding scroll-content ionic-scroll  has-header has-tabs">
+            <br><br><br><br><br>
+            <div ng-show="!mostrarAdvertencia" class="text-center">
+                <strong class="positive">El conductor no registra pagos</strong>
+            </div>
+            <div class="item" ng-repeat="pen in pension">
+                <p>Fecha de pago: {{pen.fecha}} &nbsp;&nbsp; Monto pagado: {{pen.valor  | currency}}</p>
+            </div>
+        </ion-content>
+    </ion-tab>
+</ion-tabs>
 <ion-footer-bar class="bar-light item-input-inset center">
     <h1 class="title">Total pagos realizados {{totalPagos | currency}}</h1>
 </ion-footer-bar>
