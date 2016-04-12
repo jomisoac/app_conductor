@@ -1,8 +1,32 @@
-app.controller('IncidenciaCtrl', function($scope,$location,$ionicPopup,$window,$filter,IncidenciaService) {
+app.controller('IncidenciaCtrl', function($scope,$location,$ionicPopup,$ionicLoading,$window,$filter,IncidenciaService) {
     
-    $scope.incidencia = {};
+    var idConductor;
+    
+    $scope.$on('$ionicView.enter',function(){
+        $scope.incidencia = {};
+        idConductor = $window.localStorage['idConductor'];
+    });
   
     $scope.registarIncidencia = function(){
-        $scope.incidencia.fechaIncidencia = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $ionicLoading.show();
+        
+        IncidenciaService.registrarAusencia(idConductor).then(
+            function(respuesta){
+                $ionicLoading.hide();
+                mostarAlert("Registro de incidencias","Incidencia registrada con exito");
+            },function(error){
+                console.log("Error");
+                $ionicLoading.hide();
+            }
+        );
+    }
+    
+    function mostarAlert(titulo,contenido){
+        var alertPopup = $ionicPopup.alert({
+            title: titulo,
+            template: contenido
+        });
+        alertPopup.then(function (res) {
+        });
     }
 })

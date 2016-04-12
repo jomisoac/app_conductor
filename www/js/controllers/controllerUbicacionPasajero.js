@@ -114,7 +114,8 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$io
         
         function trazarRuta(origen,destino){
             if(!origen || !destino) return;
-            var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+            var directionsDisplay = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "#d50002" } });
+            directionsDisplay.setOptions({ suppressMarkers: true });
             var directionsService = new google.maps.DirectionsService();
             var request = {
                 origin: origen,

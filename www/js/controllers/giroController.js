@@ -1,7 +1,7 @@
 app.controller('GiroCtrl',function($scope,$location,GirosService,$rootScope,$ionicLoading){
     
     $scope.$on('$ionicView.enter',function(){
-        $scope.mostrarAdvertencia = true;
+        $scope.mostrarAdvertencia = false;
         $ionicLoading.show();
         $scope.listaGiros = [];
         $scope.giro = {};
@@ -10,11 +10,12 @@ app.controller('GiroCtrl',function($scope,$location,GirosService,$rootScope,$ion
             function(respuesta){
                 $scope.listaGiros = respuesta.data;
                 if($scope.listaGiros.length == 0)
-                    $scope.mostrarAdvertencia = false;
-                else
                     $scope.mostrarAdvertencia = true;
+                else
+                    $scope.mostrarAdvertencia = false;
                 $ionicLoading.hide();
             },function(error){
+                $scope.mostrarAdvertencia = false;
                 console.log(error);
                 $ionicLoading.hide();
             }

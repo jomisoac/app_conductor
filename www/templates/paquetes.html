@@ -4,17 +4,18 @@
 </ion-header-bar>
 <ion-content>
     <div class="list">
+        <div ng-show="mostrarAdvertencia" class="center" style="margin-top:20%;">
+            <img ng-src="img/logo.png" style="width:250px;heigth:250px;">
+            <p class="positive" style="font-size:180%;font-weight: bold;font-style: oblique;">El conductor no registra encomiendas pendientes</p>
+        </div>
         <div class="item item-avatar" ng-repeat="encomienda in listaEncomiendas">
-            <img ng-src="img/ionic.png">
-            <h2>Remitente: {{encomienda.nombres}}</h2>
+            <img ng-src="img/logo.png">
+            <h2><strong>Remitente: {{encomienda.nombres}}</strong></h2>
             <p>Receptor: {{encomienda.nombre_receptor}}</p>
             <p>Dirección destino: {{encomienda.direccionD}}</p>
             <p>Telefono remitente: {{encomienda.telefono}}</p>
             <p>Telefono receptor: {{encomienda.telefono_receptor}}</p>
         </div>
-    </div>
-    <div ng-show="!mostrarAdvertencia" class="text-center">
-        <strong class="positive text-center">El conductor no registra encomiendas pendientes</strong>
     </div>
 </ion-content>
 <ion-footer-bar class="bar-assertive">

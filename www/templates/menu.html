@@ -18,34 +18,34 @@
                 <h4 class="nombre-conductor">{{conductor.nombres }} {{conductor.apellidos}}</h4>
                 <h4 class="id-conductor">CC: {{conductor.identificacion}}</h4>
             </div>
-            <ion-list>
+            <ion-list class="center">
                 <ion-item menu-close ui-sref="app.home">
                     <i class="icon ion-home" style="font-size: 25px;"></i>
-                    Home
+                    <h2> Home </h2>
                 </ion-item>
                 <ion-item menu-close ui-sref="app.registrarVehiculo">
                     <i class="icon ion-model-s" style="font-size: 25px;"></i>
-                    Gestión Vehículo
+                    <h2> Gestión Vehículo </h2>
                 </ion-item>
                 <ion-item menu-close ui-sref="app.documentosVehiculo">
                     <i class="icon ion-clipboard" style="font-size: 25px;"></i>
-                    Gestión Documentación
+                    <h2> Gestión Documentación </h2>
                 </ion-item>
                 <ion-item menu-close ui-sref="app.gremioConductores">
                     <i class="icon ion-ios-people" style="font-size: 25px;"></i>    
-                    Gremio de transporte
+                    <h2> Gremio de transporte </h2>
                 </ion-item>
                 <ion-item menu-close ui-sref="app.reportarAusencia">
                     <i class="icon ion-compose" style="font-size: 25px;"></i>
-                    Reportar Ausencia
+                    <h2> Reportar Ausencia </h2>
                 </ion-item>
                 <ion-item menu-close ui-sref="app.configuracion">
                     <i class="icon ion-gear-a" style="font-size: 25px;"></i>
-                    Configuración
+                    <h2> Configuración </h2>
                 </ion-item>
-                <ion-item ng-click="logout()">
+                <ion-item menu-close ng-click="logout()">
                     <i class="icon ion-ios-undo" style="font-size: 25px;"></i>
-                    Salir
+                    <h2> Salir </h2>
                 </ion-item>
             </ion-list>
         </ion-content>

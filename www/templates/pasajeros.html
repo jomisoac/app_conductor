@@ -6,16 +6,17 @@
     </div>
 </ion-header-bar>
 <ion-content>
-    <div class="list">
-        <div class="item item-avatar" ng-repeat="pasajero in listaPasajeros">
+    <div id="container" class="list list-inset">
+        <div ng-show="mostrarAdvertencia" class="center" style="margin-top:20%;">
+            <img ng-src="img/logo.png" style="width:250px;heigth:250px;">
+            <p class="positive" style="font-size:180%;font-weight: bold;font-style: oblique;">El conductor no registra pasajeros pendientes</p>
+        </div>
+        <div id="rounded" class="item item-avatar" ng-repeat="pasajero in listaPasajeros" style="background:#F2F2F2;margin-bottom:10px;">
             <img ng-src="img/logo.png">
             <h2><strong>{{pasajero.nombres}}</strong></h2>
             <p>{{pasajero.direccion}}</p>
             <p>{{pasajero.telefono}}</p>
         </div>
-    </div>
-    <div ng-show="!mostrarAdvertencia" class="text-center">
-        <strong class="positive">El conductor no registra pasajeros pendientes</strong>
     </div>
 </ion-content>
 <ion-footer-bar class="bar-assertive">

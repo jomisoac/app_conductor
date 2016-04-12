@@ -2,21 +2,17 @@
     <ion-content>
         <ion-list>
             <ion-checkbox ng-model="vehiculo.soat">SOAT</ion-checkbox>
-            <div ng-show="vehiculo.soat" class="list list-inset">
-                <label class="item item-input item-stacked-label input-bottom" style="background:#F2F2F2;">
+            <div id="container" ng-show="vehiculo.soat" class="list list-inset center">
+                <label id = "rounded" class="item item-input item-stacked-label input-bottom" style="background:#F2F2F2;padding-right:12px;padding-bottom:20px;padding-top:12px;">
                     <span >Fecha de Vencimiento</span>
-                </label>
-                <label class="item item-input item-stacked-label input-bottom" style="background:#d50002;">
-                    <input style="background:#d50002;color:#fff;"  value="2012-10-02" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_soat" formatDate>
+                    <input style="margin-top:10px;background:#d50002;color:#fff;border-radius:15px;padding-left:30%;"  value="2012-10-02" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_soat" formatDate>
                 </label>
             </div>
             <ion-checkbox ng-model="vehiculo.tecnomecanica">Tecnomecánica</ion-checkbox>
-            <div ng-show="vehiculo.tecnomecanica" class="list list-inset">
-                <label class="item item-input item-stacked-label input-bottom" style="background:#F2F2F2;">
+            <div id="container" ng-show="vehiculo.tecnomecanica" class="list list-inset center">
+                <label id = "rounded" class="item item-input item-stacked-label input-bottom" style="background:#F2F2F2;padding-right:12px;padding-bottom:20px;padding-top:12px;">
                     <span>Fecha de Vencimiento</span>
-                </label>
-                <label class="item item-input item-stacked-label input-bottom" style="background:#d50002;">
-                    <input style="background:#d50002;color:#fff;" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_tecnomecanica" formatDate>
+                    <input style="margin-top:10px;background:#d50002;color:#fff;border-radius:15px;padding-left:30%;" type="date" name="fechaNacimiento" ng-model="vehiculo.fecha_tecnomecanica" formatDate>
                 </label>
             </div>
             <ion-checkbox ng-model="vehiculo.tarjeta_propiedad">Targeta de propiedad</ion-checkbox>

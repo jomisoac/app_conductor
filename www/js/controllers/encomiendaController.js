@@ -2,7 +2,7 @@ app.controller('EncomiendaCtrl',function($scope,$location,EncomiendaService,$roo
     
     
     $scope.$on('$ionicView.enter',function(){
-        $scope.mostrarAdvertencia = true;
+        $scope.mostrarAdvertencia = false;
         $ionicLoading.show();
         $scope.listaEncomiendas = [];
         $scope.encomienda = {};
@@ -11,9 +11,9 @@ app.controller('EncomiendaCtrl',function($scope,$location,EncomiendaService,$roo
             function(respuesta){
                 $scope.listaEncomiendas = respuesta.data;
                 if($scope.listaEncomiendas.length == 0)
-                    $scope.mostrarAdvertencia = false;
-                else
                     $scope.mostrarAdvertencia = true;
+                else
+                    $scope.mostrarAdvertencia = false;
                     $ionicLoading.hide();
                 },function(error){
                     $ionicLoading.hide();

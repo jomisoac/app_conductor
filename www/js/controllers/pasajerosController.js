@@ -1,7 +1,7 @@
 app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootScope,$ionicLoading,$rootScope){
     
     $scope.$on('$ionicView.enter',function(){
-        $scope.mostrarAdvertencia = true;
+        $scope.mostrarAdvertencia = false;
         $ionicLoading.show();
         $scope.listaPasajeros = [];
         
@@ -9,10 +9,11 @@ app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootS
             function(respuesta){
                 $scope.listaPasajeros = respuesta.data;
                 $rootScope.listaPasajeros = $scope.listaPasajeros;
+                
                 if($scope.listaPasajeros.length == 0)
-                    $scope.mostrarAdvertencia = false;
-                else
                     $scope.mostrarAdvertencia = true;
+                else
+                    $scope.mostrarAdvertencia = false;
                 $ionicLoading.hide();
             },function(error){
                 console.log(error);

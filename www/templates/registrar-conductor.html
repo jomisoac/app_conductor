@@ -59,7 +59,10 @@
                     <option ng-repeat="empresa in listaEmpesas" value="{{empresa.id}}">{{empresa.nombre}}</option>
                 </select>
             </label>
-            <ion-floating-button click="registarConductor()" has-footer="true" button-color="#fff" icon="ion-android-done" iconColor="#000" ng-disabled="formConductor.$invalid"></ion-floating-button>
+            <button 
+                    class="button button-block button-positive" 
+                    ng-click="registarConductor()" ng-disabled="formConductor.$invalid">Registrar
+            </button>
             <span class="text-center positive" ng-show="mostrarAdvertencia">Las contraseñas no coinciden</span>
         </div>
     </form>

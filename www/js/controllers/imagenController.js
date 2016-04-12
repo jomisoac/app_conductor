@@ -1,4 +1,4 @@
-app.controller('ImagenCtrl', function($scope,$location,$ionicPopup,$window,$ionicLoading,ImagenService,VehiculoService,$cordovaImagePicker,$ionicPlatform) {
+app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionicLoading,ImagenService,VehiculoService,$cordovaImagePicker,$ionicPlatform,$cordovaFileTransfer) {
     
     var idConductor;
     var idVehiculo;
@@ -39,8 +39,6 @@ app.controller('ImagenCtrl', function($scope,$location,$ionicPopup,$window,$ioni
           // Loop through acquired images
           for (var i = 0; i < results.length; i++) {
               $scope.collection.selectedImage = results[i];   // We loading only one image so we can use it like this
-              data = new FormData();
-              data.append('imagen', $scope.collection.selectedImage);
               window.plugins.Base64.encodeFile($scope.collection.selectedImage, function(base64){  
                   // Encode URI to Base64 needed for contacts plugin
                   $scope.collection.selectedImage = base64;
@@ -64,8 +62,6 @@ app.controller('ImagenCtrl', function($scope,$location,$ionicPopup,$window,$ioni
           // Loop through acquired images
           for (var i = 0; i < results.length; i++) {
               $scope.collection.selectedImage = results[i];   // We loading only one image so we can use it like this
-              data = new FormData();
-              data.append('imagen', $scope.collection.selectedImage);
               window.plugins.Base64.encodeFile($scope.collection.selectedImage, function(base64){  
                   // Encode URI to Base64 needed for contacts plugin
                   $scope.collection.selectedImage = base64;
@@ -77,16 +73,29 @@ app.controller('ImagenCtrl', function($scope,$location,$ionicPopup,$window,$ioni
     }
     
     $scope.enviarImagenConductor = function(){
-        $ionicLoading.show();
-        ImagenService.postImageConductor(idConductor,data).then(
-            function(respuesta){
-                $ionicLoading.hide();
-                mostarAlert("Imagen conductor", "Imagen cargada satisfatoriamente");
-            },function(error){
-                $ionicLoading.hide();
-                mostarAlert("Imagen conductor", "Error al cargar la imagen, intente más tarde");
-            }
-        );
+        var urlServidor = "http://dev.viajaseguro.co/public/images/conductores";
+        var urlImage = $scope.collection.selectedImage;
+        var filename = targetPath.split("/").pop();
+        alert(urlServidor+"   "+urlImage+"    "+filename);
+        var options = {
+            fileKey: "file",
+            fileName: filename,
+            chunkedMode: false,
+            mimeType: "image/jpg"
+        };
+        $cordovaFileTransfer.upload(urlServidor, urlImage, options).then(function(result) {
+            console.log("SUCCESS: " + JSON.stringify(result.response));
+            alert("success");
+            alert(JSON.stringify(result.response));
+        }, function(err) {
+            console.log("ERROR: " + JSON.stringify(err));
+            alert(JSON.stringify(err));
+        }, function (progress) {
+            // constant progress updates
+            $timeout(function () {
+            $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+          })
+        });
     }
     
     $scope.enviarImagenVehiculo = function(){

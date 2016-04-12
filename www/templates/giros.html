@@ -4,6 +4,10 @@
 </ion-header-bar>
 <ion-content>
     <div class="list">
+        <div ng-show="mostrarAdvertencia" class="center" style="margin-top:20%;">
+            <img ng-src="img/logo.png" style="width:250px;heigth:250px;">
+            <p class="positive" style="font-size:180%;font-weight: bold;font-style: oblique;">El conductor no registra giros pendientes</p>
+        </div>
         <div class="item item-avatar" ng-repeat="giro in listaGiros">
             <img ng-src="img/logo.png">
             <h2><strong> Remitente: {{giro.nombres}} </strong></h2>
@@ -12,9 +16,6 @@
             <p>Telefono remitente: {{giro.telefono}}</p>
             <p>Telefono receptor: {{giro.telefono_receptor}}</p>
             <p><strong>Monto: {{giro.monto | currency}}</strong></p>
-        </div>
-        <div ng-show="!mostrarAdvertencia" class="text-center">
-            <strong class="positive">El conductor no registra giros pendientes</strong>
         </div>
     </div>
 </ion-content>

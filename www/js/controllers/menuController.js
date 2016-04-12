@@ -1,7 +1,7 @@
 app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,ConductorService,$location,$timeout,$ionicLoading,$ionicHistory,$ionicPlatform,$cordovaGeolocation,GeolocalizacionService, socketCh){
     
     $scope.orientacionVertical = true;
-    $scope.orientacionHorizontal = false;
+    $scope.orientacionHorizontal;
         
      
     $ionicPlatform.ready(function() {
@@ -62,8 +62,8 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                 console.log(err);
                         });
                 }, 3000);
-            }  
-            */
+            } 
+            
         
         window.addEventListener("orientationchange", function() {
             if(window.orientation == 0){
@@ -75,6 +75,8 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                 $scope.orientacionVertical = false;
             }
         }, false); 
+        
+        */
         
     });
     
