@@ -11,8 +11,8 @@ app.controller('HomeCtrl', function($scope,$ionicPopup,$location,$ionicHistory,$
         ConductorService.getById(conductorId.usuario.nombre).then(
             function(respuesta){
                 $scope.conductor = respuesta.data;
-                
-                if(respuesta.data.estado === "No disponible" || respuesta.data.estado === "En ruta"){  
+                console.log(respuesta.data);
+                if(respuesta.data.estado === "No disponible" || respuesta.data.estado === "En ruta" || respuesta.data.estado == null){  
                     $scope.estado = "No disponible";
                     $scope.classButton = "button-assertive";  
                 }else if(respuesta.data.estado === "Disponible"){

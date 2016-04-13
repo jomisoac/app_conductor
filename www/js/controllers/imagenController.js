@@ -1,10 +1,11 @@
-app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionicLoading,ImagenService,VehiculoService,$cordovaImagePicker,$ionicPlatform,$cordovaFileTransfer) {
+app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionicLoading,ImagenService,VehiculoService,$cordovaImagePicker,$ionicPlatform,$cordovaFile) {
     
     var idConductor;
     var idVehiculo;
     var data;
     
     $scope.collection = {};
+    $scope.imageModel = {};
         
     $scope.$on('$ionicView.enter',function(){
         
@@ -73,9 +74,25 @@ app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionic
     }
     
     $scope.enviarImagenConductor = function(){
+        console.log($scope.imageModel);
+        
+        /*$ionicLoading.show();
+        ImagenService.postImageConductor(idConductor,$scope.imageModel).then(
+            function(respuesta){
+                $ionicLoading.hide();
+                mostarAlert("Imagen conductor", "Imagen cargada satisfatoriamente");
+            },function(error){
+                $ionicLoading.hide();
+                mostarAlert("Imagen conductor", "Error al cargar la imagen, intente más tarde");
+            }
+        );
+        */
+        
         var urlServidor = "http://dev.viajaseguro.co/public/images/conductores";
         var urlImage = $scope.collection.selectedImage;
-        var filename = targetPath.split("/").pop();
+        var filename = "conductor-"+idConductor;
+
+        
         alert(urlServidor+"   "+urlImage+"    "+filename);
         var options = {
             fileKey: "file",
@@ -96,6 +113,7 @@ app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionic
             $scope.downloadProgress = (progress.loaded / progress.total) * 100;
           })
         });
+        
     }
     
     $scope.enviarImagenVehiculo = function(){

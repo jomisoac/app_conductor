@@ -2,7 +2,7 @@
 var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers','angular-jwt','ion-floating-menu'])
     .run(
         function($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
-                  $location,jwtHelper,$http)     {
+                  $location,jwtHelper,$http,$cordovaGeolocation)     {
         $window.localStorage['usuario'] = null;
         $window.localStorage['uri'] = 'http://dev.viajaseguro.co/public';
         //$window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
@@ -258,4 +258,20 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
         
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    });
+    })
+
+    .directive('fileModel', ['$parse', function ($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+            
+                element.bind('change', function(){
+                    scope.$apply(function(){
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+    }]);

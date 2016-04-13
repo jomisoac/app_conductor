@@ -3,14 +3,13 @@ app.service("ImagenService", function($http,$window){
     
     this.postImageConductor = function(id,imagen)
     {
+        var fd = new FormData();
+        fd.append('imagen', imagen);
         return $http.post(
-                uri+'api/conductores/'+id+'/imagen' , imagen,
+                uri+'api/conductores/'+id+'/imagen' , fd,
                 {
-                    transformRequest: angular.identity, 
-                    headers: 
-                    {'Content-Type': undefined,
-                     'Authorization': 'Bearer '+$window.localStorage['token']  
-                    }
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
                 }
             );
     }
