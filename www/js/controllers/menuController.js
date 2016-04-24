@@ -5,7 +5,6 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
         
      
     $ionicPlatform.ready(function() {
-        /*
         cordova.plugins.backgroundMode.setDefaults({ 
             title:  'Viaja Seguro',
             text:   'Enviando su ubicación.'
@@ -74,9 +73,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                 $scope.orientacionHorizontal = true;
                 $scope.orientacionVertical = false;
             }
-        }, false);   
-        
-        */
+        }, false);
     });
     
     
