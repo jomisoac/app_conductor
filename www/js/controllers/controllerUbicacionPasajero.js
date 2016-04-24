@@ -1,14 +1,36 @@
-app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$ionicLoading) {
+app.controller('UbicacionPasajeroCtrl', function($scope,$window,$location,$rootScope,$ionicLoading,NotificacionService) {
     
     var pasajeros = [];
+    
+    var infoPasajeroEncomienda;
+    var nombre;
+    var direccion;
     
     var markerConductor = "img/marker_car.png";
     var markerPasajero = "img/marker_pasajero.png";
     var direccionConductor;
+    
+    $scope.opcion = "Prueba";
+    $scope.titulo ;
         
     $scope.$on('$ionicView.enter',function(){
         var posicion = {};
+        infoPasajeroEncomienda = $rootScope.infoPasajeroEncomienda;
+        if($rootScope.bandera == "encomienda"){
+            direccion = infoPasajeroEncomienda.direccionD;
+            $scope.opcion = "Encomienda Recogida";
+            $scope.titulo = "Ubicación Encomienda";
+        }else if($rootScope.bandera == "pasajero"){
+            $scope.opcion = "Pasajero Recogido";
+            direccion = infoPasajeroEncomienda.direccion;
+            $scope.titulo = "Ubicación Pasajero";
+        }else if($rootScope.bandera == "giro"){
+            $scope.opcion = "Giro Recogido";
+            direccion = infoPasajeroEncomienda.direccionD;
+            $scope.titulo = "Ubicación Giro";
+        }
         
+        console.log(infoPasajeroEncomienda);
         if (navigator.geolocation) {
             $ionicLoading.show();
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -22,6 +44,56 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$io
             });
         }
     });
+    
+    $scope.finalizarBusqueda = function(){
+        $ionicLoading.show();
+        if($rootScope.bandera == "encomienda"){
+            var data = {
+                id : infoPasajeroEncomienda.id,
+                tipo : "paquete"
+            };
+            NotificacionService.FinalizarBusqueda(data).then(
+                function(respuesta){
+                    console.log(respuesta);
+                    $ionicLoading.hide();
+                    alert("La encomienda se encuentra en el vehiculo");
+                },function(error){
+                    console.log(error);
+                    $ionicLoading.hide();
+                }
+            );
+        }else if($rootScope.bandera == "pasajero"){
+            var data = {
+                id : infoPasajeroEncomienda.id,
+                tipo : "pasajero"
+            };
+            NotificacionService.FinalizarBusqueda(data).then(
+                function(respuesta){
+                    console.log(respuesta);
+                    $ionicLoading.hide();
+                    alert("El pasajero se encuentra en el vehiculo");
+                    $location.path("/pasajeros");
+                },function(error){
+                    console.log(error);
+                }
+            );
+            
+        }else if($rootScope.bandera == "giro"){
+            var data = {
+                id : infoPasajeroEncomienda.id,
+                tipo : "giro"
+            };
+            NotificacionService.FinalizarBusqueda(data).then(
+                function(respuesta){
+                    console.log(respuesta);
+                    $ionicLoading.hide();
+                    alert("El giro se encuentra en el vehiculo");
+                },function(error){
+                    console.log(error);
+                }
+            );
+        }
+    }
      
     $scope.volver = function(){
         $location.path("app/home");
@@ -61,17 +133,16 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$io
             infowindow.open(map, markerMiPosicion);
         });
         geocodeLatLng(geocoder,map,markerMiPosicion.getPosition().lat(),markerMiPosicion.getPosition().lng());
-
-        angular.forEach($rootScope.listaPasajeros, function(value, key) {
-            geocoder.geocode({ 'address': value.direccion }, function (results, status) {
+        
+        geocoder.geocode({ 'address': direccion }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     var posicion = ParseLocation(results[0].geometry.location);                
                     var marker = new google.maps.Marker({
                         position: {lat: parseFloat(posicion.lat), lng: parseFloat(posicion.lng)},
                         map: map,
-                        title: value.nombres,
+                        title: infoPasajeroEncomienda.nombres+"<br>"+"Dirección: "+direccion,
                         icon: markerPasajero,
-                        address: value.direccion
+                        address: infoPasajeroEncomienda.direccion
                     });
                                     
                     marker.addListener('click', function() {
@@ -86,7 +157,9 @@ app.controller('UbicacionPasajeroCtrl', function($scope,$location,$rootScope,$io
                 }
                     
             });
-        });
+
+        //angular.forEach($rootScope.listaPasajeros, function(value, key) {
+        //});
                 
         function ParseLocation(location) {
             var position = {

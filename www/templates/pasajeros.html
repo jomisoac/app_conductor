@@ -1,9 +1,6 @@
 <ion-header-bar class="bar-positive">
     <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
     <h1 class="title">Pasajeros</h1>
-    <div class="buttons">
-        <button class="button" ng-click="recogerPasajeros()">Recoger Pasajeros</button>
-    </div>
 </ion-header-bar>
 <ion-content>
     <div id="container" class="list list-inset">
@@ -16,6 +13,8 @@
             <h2><strong>{{pasajero.nombres}}</strong></h2>
             <p>{{pasajero.direccion}}</p>
             <p>{{pasajero.telefono}}</p>
+            <p><strong> {{pasajero.estado}}</strong></p>
+            <button class="button button-small button-assertive" ng-click="recogerPasajeros(pasajero)">Recoger Pasajero</button>
         </div>
     </div>
 </ion-content>

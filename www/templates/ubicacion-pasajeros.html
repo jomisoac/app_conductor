@@ -1,7 +1,10 @@
 <ion-header-bar class="bar-positive">
     <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
-    <h1 class="title">Ubicación Pasajeros</h1>
+    <h1 class="title">{{titulo}}</h1>
 </ion-header-bar>
 <ion-content>
     <div id="map" data-tap-disabled="true"></div>
 </ion-content>
+<ion-footer-bar class="bar-light item-input-inset center-text">
+    <button ng-click="finalizarBusqueda()" class="button button-full button-positive">{{opcion}}</button>
+</ion-footer-bar>

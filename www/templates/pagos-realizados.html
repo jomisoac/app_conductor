@@ -10,7 +10,8 @@
                 <strong class="positive">El conductor no registra pagos</strong>
             </div>
             <div class="item" ng-repeat="ahorro in pagoAhorro">
-                <p>Fecha de pago: {{ahorro.fecha}} &nbsp;&nbsp; Monto pagado: {{ahorro.valor  | currency}}</p>
+                <p>Fecha de pago: {{ahorro.fecha}} </p>
+                <p>Monto pagado: {{ahorro.valor  | currency}}</p>
             </div>
         </ion-content>
     </ion-tab>
@@ -21,7 +22,8 @@
                 <strong class="positive">El conductor no registra pagos</strong>
             </div>
             <div class="item" ng-repeat="seguridadSocial in pagoSeguridadSocial">
-                <p>Fecha de pago: {{seguridadSocial.fecha}} &nbsp;&nbsp; Monto pagado: {{seguridadSocial.valor | currency}}</p>
+                <p>Fecha de pago: {{seguridadSocial.fecha}} </p>
+                <p>Monto pagado: {{seguridadSocial.valor | currency}}</p>
             </div>
         </ion-content>
     </ion-tab>
@@ -32,7 +34,8 @@
                 <strong class="positive">El conductor no registra pagos</strong>
             </div>
             <div class="item" ng-repeat="pen in pension">
-                <p>Fecha de pago: {{pen.fecha}} &nbsp;&nbsp; Monto pagado: {{pen.valor  | currency}}</p>
+                <p>Fecha de pago: {{pen.fecha}} </p>
+                <p>Monto pagado: {{pen.valor  | currency}}</p>
             </div>
         </ion-content>
     </ion-tab>

@@ -15,6 +15,8 @@
             <p>Dirección destino: {{encomienda.direccionD}}</p>
             <p>Telefono remitente: {{encomienda.telefono}}</p>
             <p>Telefono receptor: {{encomienda.telefono_receptor}}</p>
+            <p>Estado: <strong>{{encomienda.estado}}</strong></p>
+            <button class="button button-small button-assertive" ng-click="recogerEncomienda(encomienda)">Recoger Encomienda</button>
         </div>
     </div>
 </ion-content>

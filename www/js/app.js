@@ -62,7 +62,8 @@ var app  = angular.module('starter', ['ionic','ngCordova','starter.controllers',
             
             if (ionic.Platform.isAndroid()) {
                 config = {
-                    "senderID": "984044898845"
+                    "senderID": "984044898845",
+                    "icon": "img/logo.png"
                 };
             }else if (ionic.Platform.isIOS()) {
                 config = {

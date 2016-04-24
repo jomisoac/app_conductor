@@ -1,11 +1,11 @@
-app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootScope,$ionicLoading,$rootScope){
+app.controller('PasajerosCtrl',function($scope,$location,$rootScope,$ionicLoading,$rootScope,$window,PasajerosService,NotificacionService){
     
     $scope.$on('$ionicView.enter',function(){
         $scope.mostrarAdvertencia = false;
         $ionicLoading.show();
         $scope.listaPasajeros = [];
         
-        PasajerosService.getAll($rootScope.placa).then(
+        PasajerosService.getAll($window.localStorage['idConductor']).then(
             function(respuesta){
                 $scope.listaPasajeros = respuesta.data;
                 $rootScope.listaPasajeros = $scope.listaPasajeros;
@@ -26,7 +26,16 @@ app.controller('PasajerosCtrl',function($scope,$location,PasajerosService,$rootS
         $location.path("app/home");
     }
     
-    $scope.recogerPasajeros = function(){
+    $scope.recogerPasajeros = function(pasajero){
+        $rootScope.infoPasajeroEncomienda = pasajero;
+        $rootScope.bandera = "pasajero";
+        NotificacionService.EnviarNotificacionPasajero(pasajero.identificacion).then(
+            function(respuesta){
+                console.log(respuesta);
+            },function(error){
+                console.log(error);
+            }
+        );
         $location.path("ubicacion-pasajeros");
     }
 

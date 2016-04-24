@@ -1,4 +1,4 @@
-app.controller('EncomiendaCtrl',function($scope,$location,EncomiendaService,$rootScope,$ionicLoading){
+app.controller('EncomiendaCtrl',function($scope,$location,EncomiendaService,$rootScope,$ionicLoading,NotificacionService){
     
     
     $scope.$on('$ionicView.enter',function(){
@@ -22,6 +22,25 @@ app.controller('EncomiendaCtrl',function($scope,$location,EncomiendaService,$roo
         );
     });
     
+    
+    $scope.recogerEncomienda = function(encomienda){
+        $rootScope.infoPasajeroEncomienda = encomienda;
+        $rootScope.bandera = "encomienda";
+        
+        var data = {
+            "identificacion" : encomienda.ide_remitente
+        };
+        
+        NotificacionService.EnviarNotificacionGiro(data).then(
+            function(respuesta){
+                console.log(respuesta)
+            },function(error){
+                console.log(error);
+            }
+        );
+        
+        $location.path("ubicacion-pasajeros");
+    }
     
     $scope.volver = function(){
         $location.path("app/home");

@@ -16,6 +16,8 @@
             <p>Telefono remitente: {{giro.telefono}}</p>
             <p>Telefono receptor: {{giro.telefono_receptor}}</p>
             <p><strong>Monto: {{giro.monto | currency}}</strong></p>
+            <p>Estado: <strong>{{giro.estado}}</strong></p>
+            <button class="button button-small button-assertive" ng-click="recogerGiros(giro)">Recoger Giro</button>
         </div>
     </div>
 </ion-content>
