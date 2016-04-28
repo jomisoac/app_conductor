@@ -5,13 +5,13 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
         
      
     $ionicPlatform.ready(function() {
-        cordova.plugins.backgroundMode.setDefaults({ 
+        cordova.plugins.backgroundMode.setDefaults({
             title:  'Viaja Seguro',
             text:   'Enviando su ubicación.'
         });
         // Enable background mode
         cordova.plugins.backgroundMode.enable();
-        
+
         if(!cordova.plugins.backgroundMode.isActive()){
             setInterval(function () {
                 var posOptions = {timeout: 10000, enableHighAccuracy: false};
@@ -20,7 +20,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                             .then(function (position) {
                                 var lat  = position.coords.latitude
                                 var long = position.coords.longitude
-                                
+
                                 var posicion = {
                                     conductor_id: $window.localStorage['idConductor'],
                                     lat: lat,
@@ -30,7 +30,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                 if(posicion.conductor_id){
                                     socketCh.emit("posConductor", posicion);
                                 }
-                                
+
                             }, function(err) {
                                 console.log(err);
                         });
@@ -46,7 +46,7 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                             .then(function (position) {
                                 var lat  = position.coords.latitude
                                 var long = position.coords.longitude
-                                
+
                                 var posicion = {
                                     conductor_id: $window.localStorage['idConductor'],
                                     lat: lat,
@@ -56,14 +56,14 @@ app.controller('MenuCtrl',function($scope,$ionicPopup,$rootScope,$window,Conduct
                                 if(posicion.conductor_id){
                                     socketCh.emit("posConductor", posicion);
                                 }
-                                
+
                             }, function(err) {
                                 console.log(err);
                         });
                 }, 3000);
-            } 
-            
-        
+            }
+
+
         window.addEventListener("orientationchange", function() {
             if(window.orientation == 0){
                 $scope.orientacionVertical = true;

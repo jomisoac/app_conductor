@@ -30,7 +30,10 @@
     "org.apache.cordova.device",
     "org.apache.cordova.dialogs",
     "org.apache.cordova.file",
-    "org.apache.cordova.media"
+    "org.apache.cordova.media",
+    "cordova-plugin-geolocation",
+    "cordova-plugin-camera",
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     "android"

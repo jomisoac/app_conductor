@@ -1,13 +1,19 @@
 <ion-header-bar class="bar-positive">
     <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
-    <h1 class="title">Imagen Vehículo</h1>
-    <button class="button button-icon icon ion-ios-cloud-upload" ng-click="enviarImagenVehiculo()"></button>
+    <h1 class="title">Imagen Conductor</h1>
+    <button class="button button-icon icon ion-ios-cloud-upload" ng-click="enviarImagen('vehiculo')"></button>
 </ion-header-bar>
 <ion-content>
     <div class="center">
-        <img  ng-src="{{collection.selectedImage}}" style="width:90%; height: 100%;margin-top:20%;"/>
+        <img  ng-src="{{selectedImage}}" style="width:100%; height: 100%;margin-top:20%;"/>
+        {{downloadProgress}}
     </div>
 </ion-content>
-<ion-footer-bar class="bar-light item-input-inset center-text">
-    <button class="button button-full" ng-class="classButton" ng-click="getImageVehiculo()">Cargar Imagen</button>
+<ion-footer-bar class="bar-light center-text button-bar-inline">
+    <button class="button button-positive" ng-click="getFoto('CAMERA')" style="width:150px;">
+        <i class="icon ion-camera"></i>Camara
+    </button>
+    <button class="button button-positive" ng-click="getFoto('PHOTOLIBRARY')" style="width:150px;">
+        <i class="icon ion-images"></i>Galeria
+    </button>
 </ion-footer-bar>

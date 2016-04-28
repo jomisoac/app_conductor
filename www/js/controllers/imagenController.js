@@ -1,15 +1,16 @@
-app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionicLoading,ImagenService,VehiculoService,$cordovaImagePicker,$ionicPlatform,$cordovaFile) {
+app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionicLoading,ImagenService,VehiculoService,
+                                     $cordovaCamera, $cordovaFileTransfer, $timeout) {
     
     var idConductor;
     var idVehiculo;
     var data;
     
-    $scope.collection = {};
+    $scope.selectedImage = {};
     $scope.imageModel = {};
         
     $scope.$on('$ionicView.enter',function(){
         
-        $scope.collection.selectedImage = "img/cliente.png";
+        $scope.selectedImage = "img/cliente.png";
         
         idConductor = $window.localStorage['idConductor'];
       
@@ -26,107 +27,53 @@ app.controller('ImagenCtrl',function($scope,$location,$ionicPopup,$window,$ionic
     $scope.volver = function(){
         $location.path("app/configuracion");
     }
-    
-    $scope.getImageConductor = function() {       
-        // Image picker will load images according to these settings
-        var options = {
-          maximumImagesCount: 1, // Max number of selected images, I'm using only one for this example
-          width: 800,
-          height: 800,
-          quality: 80            // Higher is better
-        };
 
-      $cordovaImagePicker.getPictures(options).then(function (results) {
-          // Loop through acquired images
-          for (var i = 0; i < results.length; i++) {
-              $scope.collection.selectedImage = results[i];   // We loading only one image so we can use it like this
-              window.plugins.Base64.encodeFile($scope.collection.selectedImage, function(base64){  
-                  // Encode URI to Base64 needed for contacts plugin
-                  $scope.collection.selectedImage = base64;
-              });
-          }
-      }, function(error) {
-          console.log('Error: ' + JSON.stringify(error));    // In case of error
-      });
-    }
+    $scope.getFoto = function (source) { // CAMERA-PHOTOLIBRARY
+            var options = {
+                quality: 50,
+                destinationType: Camera.DestinationType.FILE_URL,
+                sourceType: Camera.PictureSourceType[source]
+            };
+            $cordovaCamera.getPicture(options).then(
+                function (imageData) {
+                    $scope.selectedImage = imageData;
+                    $ionicLoading.show({template: '...', duration: 500});
+                },
+                function (err) {
+                    $ionicLoading.show({template: 'Error ...', duration: 500});
+                })
+        }
     
-    $scope.getImageVehiculo = function() {       
-        // Image picker will load images according to these settings
-        var options = {
-          maximumImagesCount: 1, // Max number of selected images, I'm using only one for this example
-          width: 800,
-          height: 800,
-          quality: 80            // Higher is better
-        };
+    $scope.enviarImagen = function(resource){
 
-      $cordovaImagePicker.getPictures(options).then(function (results) {
-          // Loop through acquired images
-          for (var i = 0; i < results.length; i++) {
-              $scope.collection.selectedImage = results[i];   // We loading only one image so we can use it like this
-              window.plugins.Base64.encodeFile($scope.collection.selectedImage, function(base64){  
-                  // Encode URI to Base64 needed for contacts plugin
-                  $scope.collection.selectedImage = base64;
-              });
-          }
-      }, function(error) {
-          console.log('Error: ' + JSON.stringify(error));    // In case of error
-      });
-    }
-    
-    $scope.enviarImagenConductor = function(){
-        console.log($scope.imageModel);
-        
-        /*$ionicLoading.show();
-        ImagenService.postImageConductor(idConductor,$scope.imageModel).then(
-            function(respuesta){
-                $ionicLoading.hide();
-                mostarAlert("Imagen conductor", "Imagen cargada satisfatoriamente");
-            },function(error){
-                $ionicLoading.hide();
-                mostarAlert("Imagen conductor", "Error al cargar la imagen, intente más tarde");
-            }
-        );
-        */
-        
-        var urlServidor = "http://dev.viajaseguro.co/public/images/conductores";
-        var urlImage = $scope.collection.selectedImage;
-        var filename = "conductor-"+idConductor;
-
-        
-        alert(urlServidor+"   "+urlImage+"    "+filename);
+        if (resource == 'conductor') {
+            var urlServidor = 'http://dev.viajaseguro.co/public/api/conductores/' + idConductor + '/imagen';
+        } else {
+            var urlServidor = 'http://dev.viajaseguro.co/public/api/vehiculos/' + idVehiculo + '/imagen';
+        }
         var options = {
-            fileKey: "file",
-            fileName: filename,
+            fileKey: "imagen",
+            fileName: "conductor"+idConductor,
             chunkedMode: false,
-            mimeType: "image/jpg"
+            mimeType: "image/jpg",
+            headers: {
+                'Authorization': 'Bearer '+$window.localStorage['token']
+            }
         };
-        $cordovaFileTransfer.upload(urlServidor, urlImage, options).then(function(result) {
+        $cordovaFileTransfer.upload(urlServidor, $scope.selectedImage, options).then(function(result) {
             console.log("SUCCESS: " + JSON.stringify(result.response));
-            alert("success");
-            alert(JSON.stringify(result.response));
+            $ionicLoading.hide();
+            alert("Foto Actualizada");
         }, function(err) {
             console.log("ERROR: " + JSON.stringify(err));
-            alert(JSON.stringify(err));
+            $ionicLoading.hide();
+            alert("Ha ocurrido un error");
         }, function (progress) {
-            // constant progress updates
-            $timeout(function () {
-            $scope.downloadProgress = (progress.loaded / progress.total) * 100;
-          })
+            $ionicLoading.show({
+                template: Math.floor((progress.loaded / progress.total) * 100)+'%'
+            });
         });
         
-    }
-    
-    $scope.enviarImagenVehiculo = function(){
-        $ionicLoading.show();
-        ImagenService.postImageVehiculo(idVehiculo,data).then(
-            function(respuesta){
-                $ionicLoading.hide();
-                mostarAlert("Imagen conductor", "Imagen cargada satisfatoriamente");
-            },function(error){
-                $ionicLoading.hide();
-                mostarAlert("Imagen conductor", "Error al cargar la imagen, intente más tarde");
-            }
-        );
     }
     
     function mostarAlert(titulo,contenido){
