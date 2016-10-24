@@ -13,88 +13,88 @@
 
 
         $ionicPlatform.ready(function () {
-            // cordova.plugins.backgroundMode.setDefaults({
-            //     title: 'Viaja Seguro',
-            //     text: 'Enviando su ubicación.'
-            // });
+            cordova.plugins.backgroundMode.setDefaults({
+                title: 'Viaja Seguro',
+                text: 'Enviando su ubicación.'
+            });
             // Enable background mode
-            // cordova.plugins.backgroundMode.enable();
+            cordova.plugins.backgroundMode.enable();
 
-            // if (!cordova.plugins.backgroundMode.isActive()) {
-            //     setInterval(function () {
-            //         var posOptions = {timeout: 10000, enableHighAccuracy: false};
-            //         $cordovaGeolocation
-            //             .getCurrentPosition(posOptions)
-            //             .then(function (position) {
-            //                 var lat = position.coords.latitude
-            //                 var long = position.coords.longitude
-            //
-            //                 var posicion = {
-            //                     conductor_id: sessionStorage.getItem('idConductor'),
-            //                     lat: lat,
-            //                     lng: long,
-            //                     ruta_id: sessionStorage.getItem('idRuta')
-            //                 };
-            //                 if (posicion.conductor_id) {
-            //                     socketCh.emit("posConductor", posicion);
-            //                 }
-            //
-            //             }, function (err) {
-            //                 console.log(err);
-            //             });
-            //     }, 3000);
-            // }
+            if (!cordova.plugins.backgroundMode.isActive()) {
+                setInterval(function () {
+                    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                    $cordovaGeolocation
+                        .getCurrentPosition(posOptions)
+                        .then(function (position) {
+                            var lat = position.coords.latitude
+                            var long = position.coords.longitude
+
+                            var posicion = {
+                                conductor_id: sessionStorage.getItem('idConductor'),
+                                lat: lat,
+                                lng: long,
+                                ruta_id: sessionStorage.getItem('idRuta')
+                            };
+                            if (posicion.conductor_id) {
+                                socketCh.emit("posConductor", posicion);
+                            }
+
+                        }, function (err) {
+                            console.log(err);
+                        });
+                }, 3000);
+            }
             // Called when background mode has been activated
-            // cordova.plugins.backgroundMode.onactivate = function () {
-            //     // Set an interval of 3 seconds (3000 milliseconds)
-            //     setInterval(function () {
-            //         var posOptions = {timeout: 10000, enableHighAccuracy: false};
-            //         $cordovaGeolocation
-            //             .getCurrentPosition(posOptions)
-            //             .then(function (position) {
-            //                 var lat = position.coords.latitude
-            //                 var long = position.coords.longitude
-            //
-            //                 var posicion = {
-            //                     conductor_id: sessionStorage.getItem('idConductor'),
-            //                     lat: lat,
-            //                     lng: long,
-            //                     ruta_id: sessionStorage.getItem('idRuta')
-            //                 };
-            //                 if (posicion.conductor_id) {
-            //                     socketCh.emit("posConductor", posicion);
-            //                 }
-            //
-            //             }, function (err) {
-            //                 console.log(err);
-            //             });
-            //     }, 3000);
-            // }
+            cordova.plugins.backgroundMode.onactivate = function () {
+                // Set an interval of 3 seconds (3000 milliseconds)
+                setInterval(function () {
+                    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+                    $cordovaGeolocation
+                        .getCurrentPosition(posOptions)
+                        .then(function (position) {
+                            var lat = position.coords.latitude
+                            var long = position.coords.longitude
+
+                            var posicion = {
+                                conductor_id: sessionStorage.getItem('idConductor'),
+                                lat: lat,
+                                lng: long,
+                                ruta_id: sessionStorage.getItem('idRuta')
+                            };
+                            if (posicion.conductor_id) {
+                                socketCh.emit("posConductor", posicion);
+                            }
+
+                        }, function (err) {
+                            console.log(err);
+                        });
+                }, 3000);
+            }
 
 
-            // window.addEventListener("orientationchange", function () {
-            //     if (window.orientation == 0) {
-            //         $scope.orientacionVertical = true;
-            //         $scope.orientacionHorizontal = false;
-            //     }
-            //     else if (window.orientation == 90 || window.orientation == -90) {
-            //         $scope.orientacionHorizontal = true;
-            //         $scope.orientacionVertical = false;
-            //     }
-            // }, false);
+            window.addEventListener("orientationchange", function () {
+                if (window.orientation == 0) {
+                    $scope.orientacionVertical = true;
+                    $scope.orientacionHorizontal = false;
+                }
+                else if (window.orientation == 90 || window.orientation == -90) {
+                    $scope.orientacionHorizontal = true;
+                    $scope.orientacionVertical = false;
+                }
+            }, false);
         });
 
 
         $scope.$on('$ionicView.enter', function () {
 
-            // if (window.orientation == 0) {
-            //     $scope.orientacionVertical = true;
-            //     $scope.orientacionHorizontal = false;
-            // }
-            // else if (window.orientation == 90 || window.orientation == -90) {
-            //     $scope.orientacionHorizontal = true;
-            //     $scope.orientacionVertical = false;
-            // }
+            if (window.orientation == 0) {
+                $scope.orientacionVertical = true;
+                $scope.orientacionHorizontal = false;
+            }
+            else if (window.orientation == 90 || window.orientation == -90) {
+                $scope.orientacionHorizontal = true;
+                $scope.orientacionVertical = false;
+            }
 
             $ionicLoading.show();
             $rootScope.id = null;
