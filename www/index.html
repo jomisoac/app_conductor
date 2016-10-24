@@ -14,52 +14,70 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="lib/ion-floating-menu/dist/ion-floating-menu.js" type="text/javascript"></script>
-    <script src="cordova.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
     <!-- your app's js -->
-    <script src="http://dev.viajaseguro.co:8070/socket.io/socket.io.js"></script>
+    <!--<script src="http://localhost:1337/socket.io/socket.io.js"></script>-->
 
+    <script src="app/app.js"></script>
     <script src="js/libs/angular-jwt.js"></script>
     <script src="js/platform.js"></script>
-    <script src="js/app.js"></script>
+    <script src="app/config/app_run.js"></script>
+    <script src="app/config/app_config.js"></script>
+    <script src="app/config/fie.directive.js"></script>
     <script src="js/services.js"></script> 
 
-    <!--controladores-->
-    <script src="js/controllers/menuController.js"></script>
-    <script src="js/controllers/controllers.js"></script>
-    <script src="js/controllers/loginController.js"></script>
-    <script src="js/controllers/homeController.js"></script>
-    <script src="js/controllers/vehiculoController.js"></script>
-    <script src="js/controllers/conductorController.js"></script>
-    <script src="js/controllers/gremioController.js"></script>
-    <script src="js/controllers/pasajerosController.js"></script>
-    <script src="js/controllers/giroController.js"></script>
-    <script src="js/controllers/encomiendaController.js"></script>
-    <script src="js/controllers/timerController.js"></script>
-    <script src="js/controllers/controllerUbicacionPasajero.js"></script>
-    <script src="js/controllers/incidenciaController.js"></script>
-    <script src="js/controllers/contrasenaController.js"></script>
-    <script src="js/controllers/pagosController.js"></script>
-    <script src="js/controllers/imagenController.js"></script>
-    <!--servicios-->
-    <script src="js/services/loginService.js"></script>
-    <script src="js/services/conductorService.js"></script>
-    <script src="js/services/empresaService.js"></script>
-    <script src="js/services/vehiculoService.js"></script>
-    <script src="js/services/pasajerosService.js"></script>
-    <script src="js/services/girosService.js"></script>
-    <script src="js/services/encomiendaService.js"></script>
-    <script src="js/services/geolocalizacionService.js"></script>
-    <script src="js/services/incidenciaService.js"></script>
-    <script src="js/services/imagenService.js"></script>
-    <script src="js/services/notificacioneService.js"></script>
+    <!--auth-->
+    <script src="app/auth/auth.module.js"></script>
+    <script src="app/auth/loginController.js"></script>
+    <script src="app/auth/loginService.js"></script>
+    <!--conductor-->
+    <script src="app/conductor/conductor.module.js"></script>
+    <script src="app/conductor/conductorController.js"></script>
+    <script src="app/conductor/conductorService.js"></script>
+    <script src="app/conductor/imagenController.js"></script>
+    <script src="app/conductor/imagenService.js"></script>
+    <script src="app/conductor/incidenciaController.js"></script>
+    <script src="app/conductor/incidenciaService.js"></script>
+    <!--configuracion-->
+    <script src="app/configuracion/configuracion.module.js"></script>
+    <script src="app/configuracion/contrasenaController.js"></script>
+    <script src="app/configuracion/homeController.js"></script>
+    <script src="app/configuracion/menuController.js"></script>
+    <script src="app/configuracion/timerController.js"></script>
+    <!--giros-->
+    <script src="app/giros/giros.module.js"></script>
+    <script src="app/giros/giroController.js"></script>
+    <script src="app/giros/girosService.js"></script>
+    <!--gremio-->
+    <script src="app/gremio/gremio.module.js"></script>
+    <script src="app/gremio/gremioController.js"></script>
+    <!--pagos-->
+    <script src="app/pagos/pagos.module.js"></script>
+    <script src="app/pagos/pagosController.js"></script>
+    <!--paquetes-->
+    <script src="app/paquetes/paquetes.module.js"></script>
+    <script src="app/paquetes/encomiendaController.js"></script>
+    <script src="app/paquetes/encomiendaService.js"></script>
+    <!--pasajeros-->
+    <script src="app/pasajeros/pasajeros.module.js"></script>
+    <script src="app/pasajeros/pasajerosController.js"></script>
+    <script src="app/pasajeros/pasajerosService.js"></script>
+    <script src="app/pasajeros/controllerUbicacionPasajero.js"></script>
+    <!--vehiculo-->
+    <script src="app/vehiculo/vehiculo.module.js"></script>
+    <script src="app/vehiculo/vehiculoController.js"></script>
+    <script src="app/vehiculo/vehiculoService.js"></script>
+    <!--services-->
+    <script src="app/services/empresaService.js"></script>
+    <script src="app/services/geolocalizacionService.js"></script>
+    <script src="app/services/notificacioneService.js"></script>
     <!-- socket -->
     <script src="js/socketCh.factory.js"></script>
   </head>
 
-  <body ng-app="starter">
+  <body ng-app="app">
     <ion-nav-view></ion-nav-view>
   </body>
 </html>

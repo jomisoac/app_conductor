@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('starter')
+        .module('app')
         .factory('socketCh', socket);
 
     function socket($rootScope) {
@@ -22,7 +22,7 @@
         return service;
 
         function connect() {
-            socket = io.connect('http://dev.viajaseguro.co:8070')
+            socket = io.connect('http://localhost:1337')
             sessionId = socket.io.engine.id;
         }
 

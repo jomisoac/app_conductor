@@ -1,11 +1,17 @@
-app.factory(("ionPlatform"), function( $q ){
-    var ready = $q.defer();
+(function () {
+    'use strict';
 
-    ionic.Platform.ready(function( device ){
-        ready.resolve( device );
-    });
+    angular
+        .module('app')
+        .factory(("ionPlatform"), function ($q) {
+            var ready = $q.defer();
 
-    return {
-        ready: ready.promise
-    }
-})
+            ionic.Platform.ready(function (device) {
+                ready.resolve(device);
+            });
+
+            return {
+                ready: ready.promise
+            }
+        })
+})();
