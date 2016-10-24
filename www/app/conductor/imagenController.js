@@ -5,8 +5,8 @@
         .module('conductor')
         .controller('ImagenCtrl', ImagenCtrl);
 
-    function ImagenCtrl($scope, $location, $ionicPopup, $window, $ionicLoading, ImagenService, VehiculoService,
-                        $cordovaCamera, $cordovaFileTransfer, $timeout) {
+    function ImagenCtrl($scope, $location, $ionicPopup, $ionicLoading, ImagenService, VehiculoService,
+                        $cordovaCamera, $cordovaFileTransfer, api) {
 
         var idConductor;
         var idVehiculo;
@@ -19,11 +19,11 @@
 
             $scope.selectedImage = "img/cliente.png";
 
-            idConductor = $window.localStorage['idConductor'];
+            idConductor = sessionStorage.getItem('idConductor');
 
             VehiculoService.getById(idConductor).then(
                 function (respuesta) {
-                    idVehiculo = respuesta.data.id;
+                    idVehiculo = respuesta.data.data[0].vehiculo.id;
                 }, function (error) {
                     $ionicLoading.hide();
                     mostarAlert("Error", "Error al consultar la información, intente más tarde");
@@ -54,9 +54,9 @@
         $scope.enviarImagen = function (resource) {
 
             if (resource == 'conductor') {
-                var urlServidor = 'http://localhost:1337/conductores/' + idConductor + '/imagen';
+                var urlServidor = api + '/conductores/' + idConductor + '/imagen';
             } else {
-                var urlServidor = 'http://localhost:1337/vehiculos/' + idVehiculo + '/imagen';
+                var urlServidor = api + '/vehiculos/' + idVehiculo + '/imagen';
             }
             var options = {
                 fileKey: "imagen",
@@ -64,7 +64,7 @@
                 chunkedMode: false,
                 mimeType: "image/jpg",
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             $cordovaFileTransfer.upload(urlServidor, $scope.selectedImage, options).then(function (result) {

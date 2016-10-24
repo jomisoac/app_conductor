@@ -5,16 +5,16 @@
         .module('conductor')
         .controller('IncidenciaCtrl', IncidenciaCtrl);
 
-    function IncidenciaCtrl($scope, $location, $ionicPopup, $ionicLoading, $window, $filter, IncidenciaService) {
-
+    function IncidenciaCtrl($scope, $ionicPopup, $ionicLoading, $filter, IncidenciaService) {
+        var vm = this;
         var idConductor;
 
         $scope.$on('$ionicView.enter', function () {
-            $scope.incidencia = {};
-            idConductor = $window.localStorage['idConductor'];
+            vm.incidencia = {};
+            idConductor = sessionStorage.getItem('idConductor')
         });
 
-        $scope.registarIncidencia = function () {
+        vm.registarIncidencia = function () {
             $ionicLoading.show();
 
             IncidenciaService.registrarAusencia(idConductor).then(

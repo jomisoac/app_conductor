@@ -3,11 +3,10 @@
 
     angular
         .module('empresas', [])
-        .service('EmpresaService', function ($http, $window) {
-            var uri = $window.localStorage['uri'];
+        .service('EmpresaService', function ($http, api) {
 
             this.getAll = function () {
-                return $http.get(uri + '/empresas');
+                return $http.get(api + '/empresas');
             }
         });
 

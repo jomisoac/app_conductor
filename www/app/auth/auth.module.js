@@ -13,12 +13,12 @@
             .state('login', {
                 url: '/login',
                 templateUrl: 'app/auth/login.html',
-                controller: 'LoginCtrl'
+                controller: 'LoginCtrl as vm'
             })
             .state('registrar', {
                 url: '/registrar',
                 templateUrl: 'app/auth/registrar-conductor.html',
-                controller: 'ConductorCtrl'
+                controller: 'ConductorCtrl as vm'
             })
 
     }

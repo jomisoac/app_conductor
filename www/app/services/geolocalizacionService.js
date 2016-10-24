@@ -3,15 +3,14 @@
 
     angular
         .module('geolocalizacion', [])
-        .service('GeolocalizacionService', function ($http, $window) {
-            var uri = $window.localStorage['uri'];
+        .service('GeolocalizacionService', function ($http, api) {
 
             this.guardar = function (posicion) {
                 var pet = {
                     method: 'POST',
-                    url: uri + '/conductores/' + posicion.conductor_id + '/ubicacion',
+                    url: api + '/conductores/' + posicion.conductor_id + '/ubicacion',
                     headers: {
-                        'Authorization': 'Bearer ' + $window.localStorage['token']
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                     },
                     data: posicion
                 };
@@ -21,9 +20,9 @@
             this.deletePosicion = function (id) {
                 var pet = {
                     method: 'DELETE',
-                    url: uri + '/conductores/' + id + '/ubicacion',
+                    url: api + '/conductores/' + id + '/ubicacion',
                     headers: {
-                        'Authorization': 'Bearer ' + $window.localStorage['token']
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                     }
                 };
                 return $http(pet);

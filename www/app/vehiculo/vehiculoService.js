@@ -5,16 +5,14 @@
         .module('vehiculo')
         .service('VehiculoService', VehiculoService);
 
-    function VehiculoService($http, $window) {
-
-        var uri = $window.localStorage['uri'];
+    function VehiculoService($http, api) {
 
         this.getById = function (id) {
             var pet = {
                 method: 'GET',
-                url: uri + '/conductores/' + id + '/vehiculo',
+                url: api + '/conductores/' + id + '/vehiculo',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);
@@ -23,9 +21,9 @@
         this.actualizarDocumentacion = function (doc) {
             var pet = {
                 method: 'PUT',
-                url: uri + '/vehiculos/' + doc.vehiculo_id + '/documentacion',
+                url: api + '/vehiculos/' + doc.vehiculo_id,
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: doc
             };
@@ -35,9 +33,9 @@
         this.actualizar = function (vehiculo) {
             var pet = {
                 method: 'PUT',
-                url: uri + '/vehiculos/' + vehiculo.id,
+                url: api + '/vehiculos/' + vehiculo.id,
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: vehiculo
             };
@@ -45,12 +43,12 @@
         }
 
         this.registrar = function (vehiculo) {
-            id = $window.localStorage['idConductor'];
+            id = sessionStorage.getItem('idConductor');
             var pet = {
                 method: 'POST',
                 url: uri + '/conductores/' + id + '/vehiculo',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: vehiculo
             };

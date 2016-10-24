@@ -13,14 +13,14 @@
             .state('imagen-conductor', {
                 url: '/imagen-conductor',
                 templateUrl: 'app/conductor/imagen-conductor.html',
-                controller: 'ImagenCtrl'
+                controller: 'ImagenCtrl as vm'
             })
 
             .state('app.reportarAusencia', {
                 url: '/reportar-ausencia',
                 views: {
                     'menuContent': {
-                        controller: 'IncidenciaCtrl',
+                        controller: 'IncidenciaCtrl as vm',
                         templateUrl: 'app/conductor/reportar-ausencia.html',
                     }
                 }

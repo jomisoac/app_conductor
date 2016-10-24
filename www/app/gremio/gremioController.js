@@ -10,9 +10,9 @@
         $scope.listaConductores = [];
 
         $scope.$on('$ionicView.enter', function () {
-            ConductorService.getAll($window.localStorage['idGremio']).then(
+            ConductorService.getAll(sessionStorage.getItem('idGremio')).then(
                 function (respuesta) {
-                    $scope.listaConductores = respuesta.data;
+                    $scope.listaConductores = respuesta.data.data[0].conductores;
                     $ionicLoading.hide();
                 }, function (error) {
                     console.log(error);

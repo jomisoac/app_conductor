@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="false" ng-controller="MenuCtrl">
+<ion-side-menus enable-menu-with-back-views="false">
     <ion-side-menu-content>
         <ion-nav-bar class="bar-positive">
             <ion-nav-back-button></ion-nav-back-button>
@@ -14,9 +14,10 @@
         </ion-header-bar>
         <ion-content class="custom">
             <div class="home center">
-                <img src="http://{{conductor.imagen}}" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
-                <h4 class="nombre-conductor">{{conductor.nombres }} {{conductor.apellidos}}</h4>
-                <h4 class="id-conductor">CC: {{conductor.identificacion}}</h4>
+                <img ng-if="vm.conductor.imagen !== null" src="http://localhost:1337/images/conductores/{{vm.conductor.imagen}}" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
+                <img ng-if="vm.conductor.imagen === null" src="../img/profile.jpg" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
+                <h4 class="nombre-conductor">{{vm.conductor.nombres }} {{vm.conductor.apellidos}}</h4>
+                <h4 class="id-conductor">CC: {{vm.conductor.identificacion}}</h4>
             </div>
             <ion-list class="center">
                 <ion-item menu-close ui-sref="app.home">

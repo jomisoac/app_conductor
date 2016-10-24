@@ -5,16 +5,16 @@
                 <div class="input-label">Tipo de Incidencia</div>
                 <label id = "rounded" class="item item-input item-select item-light">
                     <div class="input-label"></div>
-                    <select ng-model="incidencia.asunto" name="incidencia" ng-required="true">
+                    <select ng-model="vm.incidencia.asunto" name="incidencia" ng-required="true">
                         <option value="Ausencia">Ausencia</option>
                         <option value="Accidente">Accidente</option>
                     </select> 
                 </label>
                 <div class="input-label">Descripción de Incidencia</div>
                 <label id = "rounded" class="item item-input item-light">
-                    <textarea ng-model="incidencia.descripcion" name="Text1" cols="40" rows="5"></textarea>
+                    <textarea ng-model="vm.incidencia.descripcion" name="Text1" cols="40" rows="5"></textarea>
                 </label>
-                <button class="button button-block button-positive" ng-click="registarIncidencia()" 
+                <button class="button button-block button-positive" ng-click="vm.registarIncidencia()"
                 ng-disabled="formLogin.$invalid">Reportar Incidencia
                 </button>
             </div>

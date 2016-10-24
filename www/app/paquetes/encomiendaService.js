@@ -5,15 +5,14 @@
         .module('paquetes')
         .service('EncomiendaService', EncomiendaService);
 
-    function EncomiendaService($http, $window) {
-        var uri = $window.localStorage['uri'];
+    function EncomiendaService($http, api) {
 
         this.getAll = function (conductorId) {
             var pet = {
                 method: 'GET',
-                url: uri + '/centrales/' + conductorId + '/paquetes',
+                url: api + '/centrales/' + conductorId + '/paquetes',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);

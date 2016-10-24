@@ -5,15 +5,14 @@
         .module('pasajeros')
         .service('PasajerosService', PasajerosService);
 
-    function PasajerosService($http, $window) {
-        var uri = $window.localStorage['uri'];
+    function PasajerosService($http, api) {
 
         this.getAll = function (conductorId) {
             var pet = {
                 method: 'GET',
-                url: uri + '/centrales/' + conductorId + '/pasajeros',
+                url: api + '/centrales/' + conductorId + '/pasajeros',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);
@@ -25,7 +24,7 @@
                 method: 'GET',
                 url: uri + '/pasajeros/' + id,
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);

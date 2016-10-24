@@ -15,15 +15,16 @@
             $scope.vehiculo = {};
             //$scope.documentos = {};
 
-            VehiculoService.getById($window.localStorage['idConductor']).then(
+            VehiculoService.getById(sessionStorage.getItem('idConductor')).then(
                 function (respuesta) {
-                    if (respuesta.data) {
+                    console.log(respuesta)
+                    if (respuesta.data.data[0].vehiculo) {
                         informacionVehiculo = true;
-                        $scope.vehiculo = respuesta.data;
-                        if (respuesta.data.fecha_soat)
-                            $scope.vehiculo.fecha_soat = new Date(respuesta.data.fecha_soat);
-                        if (respuesta.data.fecha_tecnomecanica)
-                            $scope.vehiculo.fecha_tecnomecanica = new Date(respuesta.data.fecha_tecnomecanica);
+                        $scope.vehiculo = respuesta.data.data[0].vehiculo;
+                        if (respuesta.data.data[0].vehiculo.fecha_soat)
+                            $scope.vehiculo.fecha_soat = new Date(respuesta.data.data[0].vehiculo.fecha_soat);
+                        if (respuesta.data.data[0].vehiculo.fecha_tecnomecanica)
+                            $scope.vehiculo.fecha_tecnomecanica = new Date(respuesta.data.data[0].vehiculo.fecha_tecnomecanica);
                         $ionicLoading.hide();
                     } else {
                         informacionVehiculo = false;

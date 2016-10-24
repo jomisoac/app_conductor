@@ -5,33 +5,35 @@
         .module('auth')
         .controller('LoginCtrl', LoginCtrl);
 
-    function LoginCtrl($scope, $ionicPopup, $location, LoginService, $window, jwtHelper, $ionicLoading) {
-        $scope.$on('$ionicView.enter', function () {
-            $scope.usuario = {};
-            $scope.matenerSesion = false
-        });
+    function LoginCtrl(LoginService, $ionicLoading, $location) {
+        var vm = this;
+        vm.usuario = {};
+        vm.matenerSesion = true;
 
-        $scope.iniciarSesion = function () {
+        vm.iniciarSesion = iniciarSesion;
+
+        function iniciarSesion(){
             $ionicLoading.show();
-            LoginService.login($scope.usuario).then(success, error);
-            function success(p) {
-                var conductor = p.data.data;
-                if (conductor.user.rol === "CONDUCTOR") {
-                    $window.localStorage['conductor'] = JSON.stringify(conductor);
-                    if ($scope.matenerSesion) {
-                        $window.localStorage['usuario'] = $scope.usuario
-                    } else {
-                        $window.localStorage['token'] = p.data.data.token;
-                    }
+            LoginService.login(vm.usuario, vm.matenerSesion).then(success, error);
+            function success(user) {
+                console.log(user)
+                if(user.rol == "CONDUCTOR"){
+                    $ionicLoading.hide();
                     $location.path("app/home");
                 }
-                $ionicLoading.hide();
             }
-
             function error(error) {
                 $ionicLoading.hide();
-                mostarAlert("Error", "Error al loguearse intente mas tarde");
-                //$scope.mensajeError = error.status == 401 ? error.data.mensajeError : 'A ocurrido un erro inesperado';
+                mostarAlert("Error login "+error.status,"Error al logear verifique que los datos ingresados sean correctos");
+            }
+        }
+
+        function autologin(){
+            vm.usuario = LoginService.local.getCredenciales();
+            if(vm.usuario){
+                iniciarSesion();
+            }else{
+                $ionicLoading.hide();
             }
         }
 

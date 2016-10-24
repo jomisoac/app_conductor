@@ -14,6 +14,7 @@
                 url: '/app',
                 abstract: true,
                 templateUrl: 'app/layout/menu.html',
+                controller: 'MenuCtrl as vm'
             })
 
             .state('app.configuracion', {
@@ -36,7 +37,7 @@
                 views: {
                     'menuContent': {
                         templateUrl: 'app/layout/principal.html',
-                        controller: 'HomeCtrl'
+                        controller: 'HomeCtrl as vm'
                     }
                 }
             })

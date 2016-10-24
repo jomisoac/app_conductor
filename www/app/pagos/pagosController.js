@@ -17,13 +17,13 @@
             $scope.pension = [];
             $scope.totalPagos = 0;
 
-            ConductorService.getPrestaciones($window.localStorage['idConductor']).then(
+            ConductorService.getPrestaciones(sessionStorage.getItem('idConductor')).then(
                 function (respuesta) {
                     $ionicLoading.hide();
 
-                    if (respuesta.data.length != 0) {
+                    if (respuesta.data.data.length != 0) {
                         $scope.mostrarAdvertencia = true;
-                        angular.forEach(respuesta.data, function (value, key) {
+                        angular.forEach(respuesta.data.data, function (value, key) {
                             if (value.prestacion_id == 1) {
                                 $scope.pagoAhorro.push(value);
                             } else if (value.prestacion_id == 2) {

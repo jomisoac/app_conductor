@@ -12,7 +12,7 @@
             $ionicLoading.show();
             $scope.listaPasajeros = [];
 
-            PasajerosService.getAll($window.localStorage['idConductor']).then(
+            PasajerosService.getAll(sessionStorage.getItem('idConductor')).then(
                 function (respuesta) {
                     $scope.listaPasajeros = respuesta.data;
                     $rootScope.listaPasajeros = $scope.listaPasajeros;

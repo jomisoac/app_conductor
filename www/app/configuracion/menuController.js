@@ -6,6 +6,7 @@
         .controller('MenuCtrl', MenuCtrl);
 
     function MenuCtrl($scope, $ionicPopup, $rootScope, $window, ConductorService, $location, $timeout, $ionicLoading, $ionicHistory, $ionicPlatform, $cordovaGeolocation, GeolocalizacionService, socketCh) {
+        var vm = this;
 
         $scope.orientacionVertical = true;
         $scope.orientacionHorizontal;
@@ -29,10 +30,10 @@
             //                 var long = position.coords.longitude
             //
             //                 var posicion = {
-            //                     conductor_id: $window.localStorage['idConductor'],
+            //                     conductor_id: sessionStorage.getItem('idConductor'),
             //                     lat: lat,
             //                     lng: long,
-            //                     ruta_id: $window.localStorage['idRuta']
+            //                     ruta_id: sessionStorage.getItem('idRuta')
             //                 };
             //                 if (posicion.conductor_id) {
             //                     socketCh.emit("posConductor", posicion);
@@ -55,10 +56,10 @@
             //                 var long = position.coords.longitude
             //
             //                 var posicion = {
-            //                     conductor_id: $window.localStorage['idConductor'],
+            //                     conductor_id: sessionStorage.getItem('idConductor'),
             //                     lat: lat,
             //                     lng: long,
-            //                     ruta_id: $window.localStorage['idRuta']
+            //                     ruta_id: sessionStorage.getItem('idRuta')
             //                 };
             //                 if (posicion.conductor_id) {
             //                     socketCh.emit("posConductor", posicion);
@@ -99,17 +100,17 @@
             $rootScope.id = null;
             $rootScope.gremio = null;
             $scope.conductor = {};
-            var conductorId = JSON.parse($window.localStorage['conductor']);
-            ConductorService.getById(conductorId.user.conductor.id).then(
+            var user = JSON.parse(sessionStorage['usuario']);
+            ConductorService.getById(user.conductor.id).then(
                 function (respuesta) {
-                    $scope.conductor = respuesta.data;
-                    $window.localStorage['idUsuario'] = $scope.conductor.usuario;
-                    $window.localStorage['idGremio'] = $scope.conductor.empresa;
+                    vm.conductor = respuesta.data.data;
+                    sessionStorage.setItem('idUsuario', JSON.stringify(vm.conductor.user));
+                    sessionStorage.setItem('idGremio', JSON.stringify(vm.conductor.empresa));
                     $rootScope.id = $scope.conductor.id;
-                    $window.localStorage['idConductor'] = $scope.conductor.id;
+                    sessionStorage.setItem('idConductor', JSON.stringify(vm.conductor.id));
                     $ionicLoading.hide();
-                    ConductorService.updateRegId($scope.conductor.id, $window.localStorage['regid']);
-                    socketCh.connect();
+                    // ConductorService.updateRegId(vm.conductor.id, sessionStorage['regid']);
+                    // socketCh.connect();
                 }
                 , function (error) {
                     $ionicLoading.hide();
@@ -123,7 +124,6 @@
 
         $scope.logout = function () {
             $location.path("/login");
-            $window.localStorage.clear();
         }
 
         function mostarAlert(titulo, contenido) {
@@ -132,7 +132,7 @@
                 template: contenido
             });
             alertPopup.then(function (res) {
-                $scope.conductor = {};
+                vm.conductor = {};
             });
         }
     }

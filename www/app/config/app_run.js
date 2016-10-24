@@ -8,10 +8,7 @@
         .run(appRun);
 
     function appRun($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
-                    $location,jwtHelper,$http,$cordovaGeolocation) {
-        $window.localStorage['usuario'] = null;
-        $window.localStorage['uri'] = 'http://localhost:1337';
-        //$window.localStorage['uri'] = 'http://localhost/viaja_seguro/public'
+                    $location,jwtHelper,$http,$cordovaGeolocation, api) {
         $ionicPlatform.ready(function() {
 
             // window.addEventListener("orientationchange", function() {
@@ -42,18 +39,18 @@
             // );
 
             // setInterval(function(){
-            //     var jwt = $window.localStorage['token'];
+            //     var jwt = sessionStorage.getItem('jwt');
             //     if(jwt){
             //         if(jwtHelper.isTokenExpired(jwt)){
             //             console.log("Expiro");
             //             $http({
-            //                 url : $window.localStorage['uri']+'/api/new_token',
+            //                 url : api+'/new_token',
             //                 skipAuthorization : true,
             //                 method: 'GET',
             //                 headers : { Authorization : 'Bearer '+ jwt}
             //             }).then(
             //                 function(response){
-            //                     $window.localStorage['token'] = response.data.token;
+            //                     sessionStorage.getItem('jwt') = response.data.data.token;
             //                 },
             //                 function(response){
             //                 }
@@ -91,7 +88,7 @@
             //         case 'registered':
             //           if (notification.regid.length > 0 ) {
             //             //alert('registration ID = ' + notification.regid);
-            //             $window.localStorage['regid'] = notification.regid;
+            //             sessionStorage.setItem('regid', notification.regid);
             //           }
             //           break;
             //
@@ -109,7 +106,7 @@
             //                //alert(notification.payload.message);
             //            }else if(notification.payload.tipo == "Actualizacion turno"){
             //                //alert(notification.payload.message);
-            //                $window.localStorage['idRuta'] = notification.payload.datos;
+            //                sessionStorage.setItem('idRuta', notification.payload.datos);
             //            }
             //
             //           break;

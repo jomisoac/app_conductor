@@ -5,15 +5,14 @@
         .module('conductor')
         .service("IncidenciaService", IncidenciaService);
 
-    function IncidenciaService($http, $window) {
-        var uri = $window.localStorage['uri'];
+    function IncidenciaService($http, api) {
 
         this.registrarAusencia = function (id, incidencia) {
             var pet = {
                 method: 'POST',
-                url: uri + '/conductores/' + id + '/incidencias',
+                url: api + '/conductores/' + id + '/incidencias',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: incidencia
             };

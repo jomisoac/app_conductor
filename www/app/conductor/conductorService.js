@@ -5,15 +5,14 @@
         .module('conductor')
         .service("ConductorService", ConductorService);
 
-    function ConductorService($http, $window) {
-        var uri = $window.localStorage['uri'];
+    function ConductorService($http, api) {
 
         this.getAll = function (id) {
             var pet = {
                 method: 'GET',
-                url: uri + '/empresas/' + id + '/conductores',
+                url: api + '/empresas/' + id + '/conductores',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);
@@ -22,25 +21,25 @@
         this.getById = function (id) {
             var pet = {
                 method: 'GET',
-                url: uri + '/conductores/' + id,
+                url: api + '/conductores/' + id,
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);
         }
 
         this.registrar = function (conductor) {
-            var url = uri + '/usuarios/conductores';
+            var url = api + '/usuarios/conductores';
             return $http.post(url, conductor);
         }
 
         this.update = function (conductor) {
             var pet = {
                 method: 'PUT',
-                url: uri + '/conductor/' + conductor.id,
+                url: api + '/conductor/' + conductor.id,
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: conductor
             };
@@ -50,9 +49,9 @@
         this.updateRegId = function (conductor_id, reg_id) {
             var pet = {
                 method: 'PUT',
-                url: uri + '/conductores/' + conductor_id + '/reg_id/' + reg_id,
+                url: api + '/conductores/' + conductor_id + '/reg_id/' + reg_id,
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);
@@ -60,10 +59,10 @@
 
         this.updateContrasena = function (id, pass) {
             var pet = {
-                method: 'POST',
-                url: uri + '/usuarios/' + id + '/change_pass',
+                method: 'PUT',
+                url: api + '/user/' + id + '/updateContrasena',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: pass
             };
@@ -73,9 +72,9 @@
         this.getPrestaciones = function (id) {
             var pet = {
                 method: 'GET',
-                url: uri + '/conductores/' + id + '/pagos_prestaciones',
+                url: api + '/conductores/' + id + '/pagos_prestaciones',
                 headers: {
-                    'Authorization': 'Bearer ' + $window.localStorage['token']
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 }
             };
             return $http(pet);

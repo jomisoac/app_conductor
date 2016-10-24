@@ -19,7 +19,8 @@
         $scope.cambiarContrasena = function () {
             $ionicLoading.show();
             if ($scope.contrasena.confirmarContrasena === $scope.contrasena.nueva) {
-                ConductorService.updateContrasena($window.localStorage['idUsuario'], $scope.contrasena).then(
+                $scope.contrasena.password = $scope.contrasena.nueva;
+                ConductorService.updateContrasena(sessionStorage.getItem('idUsuario'), $scope.contrasena).then(
                     function (respuesta) {
                         $ionicLoading.hide();
                         $scope.mostrarAdvertencia = false;
@@ -38,7 +39,7 @@
         }
 
         function cerrarSesion() {
-            GeolocalizacionService.deletePosicion($window.localStorage['idConductor']).then(
+            GeolocalizacionService.deletePosicion(sessionStorage.getItem('idConductor')).then(
                 function (respuesta) {
                     $location.path("/login");
                 }, function (error) {
