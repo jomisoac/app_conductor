@@ -12,7 +12,7 @@
         $stateProvider
             .state('imagen-vehiculo', {
                 url: '/imagen-vehiculo',
-                templateUrl: 'templates/imagen-vehiculo.html',
+                templateUrl: 'app/vehiculo/imagen-vehiculo.html',
                 controller: 'ImagenCtrl'
             })
             .state('app.registrarVehiculo', {
@@ -20,7 +20,7 @@
                 views: {
                     'menuContent': {
                         controller: 'VehiculoCtrl',
-                        templateUrl: 'templates/registrar-vehiculo.html'
+                        templateUrl: 'app/vehiculo/registrar-vehiculo.html'
                     }
                 }
             })
@@ -29,7 +29,7 @@
                 views: {
                     'menuContent': {
                         controller: 'VehiculoCtrl',
-                        templateUrl: 'templates/documentacion-vehiculo.html'
+                        templateUrl: 'app/vehiculo/documentacion-vehiculo.html'
                     }
                 }
             })

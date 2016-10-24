@@ -13,7 +13,7 @@
             .state('app', {
                 url: '/app',
                 abstract: true,
-                templateUrl: 'templates/menu.html',
+                templateUrl: 'app/layout/menu.html',
             })
 
             .state('app.configuracion', {
@@ -21,21 +21,21 @@
                 views: {
                     'menuContent': {
                         //controller: 'HomeCtrl',
-                        templateUrl: 'templates/configuracion.html',
+                        templateUrl: 'app/configuracion/configuracion.html',
                     }
                 }
             })
 
             .state('cambiar-contrasena', {
                 url: '/cambiar-contrasena',
-                templateUrl: 'templates/cambiar-contrasena.html',
+                templateUrl: 'app/configuracion/cambiar-contrasena.html',
                 controller: 'ContrasenaCtrl'
             })
             .state('app.home', {
                 url: '/home',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/principal.html',
+                        templateUrl: 'app/layout/principal.html',
                         controller: 'HomeCtrl'
                     }
                 }

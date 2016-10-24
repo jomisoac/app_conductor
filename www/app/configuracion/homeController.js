@@ -15,7 +15,7 @@
 
             //$ionicLoading.show();
             var conductorId = JSON.parse($window.localStorage['conductor']);
-            ConductorService.getById(conductorId.usuario.nombre).then(
+            ConductorService.getById(conductorId.user.conductor.id).then(
                 function (respuesta) {
                     $scope.conductor = respuesta.data;
                     //console.log(respuesta.data);

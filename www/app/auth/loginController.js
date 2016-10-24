@@ -15,13 +15,13 @@
             $ionicLoading.show();
             LoginService.login($scope.usuario).then(success, error);
             function success(p) {
-                var conductor = jwtHelper.decodeToken(p.data.token);
-                if (conductor.usuario.rol == "CONDUCTOR") {
+                var conductor = p.data.data;
+                if (conductor.user.rol === "CONDUCTOR") {
                     $window.localStorage['conductor'] = JSON.stringify(conductor);
                     if ($scope.matenerSesion) {
                         $window.localStorage['usuario'] = $scope.usuario
                     } else {
-                        $window.localStorage['token'] = p.data.token;
+                        $window.localStorage['token'] = p.data.data.token;
                     }
                     $location.path("app/home");
                 }

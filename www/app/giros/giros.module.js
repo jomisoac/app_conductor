@@ -12,7 +12,7 @@
         $stateProvider
             .state('giro', {
                 url: '/giro',
-                templateUrl: 'templates/giros.html',
+                templateUrl: 'app/giros/giros.html',
                 controller: 'GiroCtrl'
             })
 

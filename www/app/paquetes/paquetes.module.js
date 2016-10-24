@@ -12,7 +12,7 @@
         $stateProvider
             .state('encomienda', {
                 url: '/encomienda',
-                templateUrl: 'templates/paquetes.html',
+                templateUrl: 'app/paquetes/paquetes.html',
                 controller: 'EncomiendaCtrl'
             })
     }

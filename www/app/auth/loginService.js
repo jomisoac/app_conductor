@@ -10,7 +10,7 @@
         var uri = $window.localStorage['uri'];
 
         this.login = function (usuario){
-            return $http.post(uri+'/user/autentication', usuario);
+            return $http.post(uri+'/user/authentication', usuario);
         };
 
         this.storeUser = function (jwt) {

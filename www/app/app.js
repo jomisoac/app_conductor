@@ -17,7 +17,7 @@
             'paquetes',
             'gremio',
             'pagos',
-            'pasajeos',
+            'pasajeros',
             'empresas',
             'geolocalizacion',
             'notificaciones',

@@ -15,7 +15,7 @@
                 views: {
                     'menuContent': {
                         controller: 'GremioCtrl',
-                        templateUrl: 'templates/gremio-conductores.html',
+                        templateUrl: 'app/gremio/gremio-conductores.html',
                     }
                 }
             })

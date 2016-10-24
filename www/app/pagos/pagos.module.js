@@ -12,7 +12,7 @@
         $stateProvider
             .state('pagos-realizados', {
                 url: '/pagos-realizados',
-                templateUrl: 'templates/pagos-realizados.html',
+                templateUrl: 'app/pagos/pagos-realizados.html',
                 controller: 'PagosCtrl'
             })
     }

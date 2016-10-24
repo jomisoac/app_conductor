@@ -12,12 +12,12 @@
         $stateProvider
             .state('login', {
                 url: '/login',
-                templateUrl: 'templates/login.html',
+                templateUrl: 'app/auth/login.html',
                 controller: 'LoginCtrl'
             })
             .state('registrar', {
                 url: '/registrar',
-                templateUrl: 'templates/registrar-conductor.html',
+                templateUrl: 'app/auth/registrar-conductor.html',
                 controller: 'ConductorCtrl'
             })
 

@@ -12,7 +12,7 @@
         $stateProvider
             .state('imagen-conductor', {
                 url: '/imagen-conductor',
-                templateUrl: 'templates/imagen-conductor.html',
+                templateUrl: 'app/conductor/imagen-conductor.html',
                 controller: 'ImagenCtrl'
             })
 
@@ -21,7 +21,7 @@
                 views: {
                     'menuContent': {
                         controller: 'IncidenciaCtrl',
-                        templateUrl: 'templates/reportar-ausencia.html',
+                        templateUrl: 'app/conductor/reportar-ausencia.html',
                     }
                 }
             })

@@ -96,16 +96,16 @@
             // }
 
             $ionicLoading.show();
-            $rootScope.placa;
-            $rootScope.gremio;
-            $scope.conductor;
+            $rootScope.id = null;
+            $rootScope.gremio = null;
+            $scope.conductor = {};
             var conductorId = JSON.parse($window.localStorage['conductor']);
-            ConductorService.getById(conductorId.usuario.nombre).then(
+            ConductorService.getById(conductorId.user.conductor.id).then(
                 function (respuesta) {
                     $scope.conductor = respuesta.data;
-                    $window.localStorage['idUsuario'] = $scope.conductor.usuario_id;
-                    $window.localStorage['idGremio'] = $scope.conductor.empresa_id;
-                    $rootScope.placa = $scope.conductor.id;
+                    $window.localStorage['idUsuario'] = $scope.conductor.usuario;
+                    $window.localStorage['idGremio'] = $scope.conductor.empresa;
+                    $rootScope.id = $scope.conductor.id;
                     $window.localStorage['idConductor'] = $scope.conductor.id;
                     $ionicLoading.hide();
                     ConductorService.updateRegId($scope.conductor.id, $window.localStorage['regid']);

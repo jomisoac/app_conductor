@@ -12,12 +12,12 @@
         $stateProvider
             .state('pasajeros', {
                 url: '/pasajeros',
-                templateUrl: 'templates/pasajeros.html',
+                templateUrl: 'app/pasajeros/pasajeros.html',
                 controller: 'PasajerosCtrl'
             })
             .state('ubicacion-pasajeros', {
                 url: '/ubicacion-pasajeros',
-                templateUrl: 'templates/ubicacion-pasajeros.html',
+                templateUrl: 'app/pasajeros/ubicacion-pasajeros.html',
                 controller: 'UbicacionPasajeroCtrl'
             })
 
