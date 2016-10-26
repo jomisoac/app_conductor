@@ -22,7 +22,7 @@
         return service;
 
         function connect() {
-            socket = io.connect('http://localhost:1337')
+            socket = io.connect('http://api.viajaseguro.co')
             sessionId = socket.io.engine.id;
         }
 

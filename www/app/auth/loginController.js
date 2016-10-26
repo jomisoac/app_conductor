@@ -5,7 +5,7 @@
         .module('auth')
         .controller('LoginCtrl', LoginCtrl);
 
-    function LoginCtrl(LoginService, $ionicLoading, $location) {
+    function LoginCtrl(LoginService, $ionicLoading, $location, $state) {
         var vm = this;
         vm.usuario = {};
         vm.matenerSesion = true;
@@ -19,7 +19,7 @@
                 console.log(user)
                 if(user.rol == "CONDUCTOR"){
                     $ionicLoading.hide();
-                    $location.path("app/home");
+                    $state.go('app.home')
                 }
             }
             function error(error) {

@@ -34,6 +34,7 @@
             return promise;
 
             function success(p) {
+                console.log(p)
                 if (matenerSesion == true) {
                     setCredenciales(usuario);
                 }
