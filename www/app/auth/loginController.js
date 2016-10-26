@@ -5,7 +5,7 @@
         .module('auth')
         .controller('LoginCtrl', LoginCtrl);
 
-    function LoginCtrl(LoginService, $ionicLoading, $location, $state) {
+    function LoginCtrl(LoginService, $ionicLoading, $location, $state, $ionicPopup) {
         var vm = this;
         vm.usuario = {};
         vm.matenerSesion = true;

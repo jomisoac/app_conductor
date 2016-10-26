@@ -3,7 +3,7 @@
         <div ng-repeat="conductor in listaConductores">
             <div class="item item-avatar" style="padding-left:35px;">
                 <img ng-if="conductor.imagen !== null" style="left: 80%;" ng-src="http://api.viajaseguro.co/images/conductores/{{conductor.imagen}}">
-                <img ng-if="conductor.imagen === null" style="left: 80%;" ng-src="../img/profile.jpg">
+                <img ng-if="conductor.imagen === null" style="left: 80%;" ng-src="img/profile.jpg">
                 <h2><strong>{{conductor.nombres }} {{conductor.apellidos}}</strong></h2>
                 <p>Telefono: {{conductor.telefono}}</p>
             </div>

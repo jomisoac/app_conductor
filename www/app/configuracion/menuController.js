@@ -21,54 +21,54 @@
             cordova.plugins.backgroundMode.enable();
 
             if (!cordova.plugins.backgroundMode.isActive()) {
-                setInterval(function () {
-                    var posOptions = {timeout: 10000, enableHighAccuracy: false};
-                    $cordovaGeolocation
-                        .getCurrentPosition(posOptions)
-                        .then(function (position) {
-                            var lat = position.coords.latitude
-                            var long = position.coords.longitude
-
-                            var posicion = {
-                                conductor_id: sessionStorage.getItem('idConductor'),
-                                lat: lat,
-                                lng: long,
-                                ruta_id: sessionStorage.getItem('idRuta')
-                            };
-                            if (posicion.conductor_id) {
-                                socketCh.emit("posConductor", posicion);
-                            }
-
-                        }, function (err) {
-                            console.log(err);
-                        });
-                }, 3000);
+                // setInterval(function () {
+                //     var posOptions = {timeout: 10000, enableHighAccuracy: true};
+                //     $cordovaGeolocation
+                //         .getCurrentPosition(posOptions)
+                //         .then(function (position) {
+                //             var lat = position.coords.latitude
+                //             var long = position.coords.longitude
+                //
+                //             var posicion = {
+                //                 conductor_id: sessionStorage.getItem('idConductor'),
+                //                 lat: lat,
+                //                 lng: long,
+                //                 ruta_id: sessionStorage.getItem('idRuta')
+                //             };
+                //             if (posicion.conductor_id) {
+                //                 socketCh.emit("posConductor", posicion);
+                //             }
+                //
+                //         }, function (err) {
+                //             console.log(err);
+                //         });
+                // }, 3000);
             }
             // Called when background mode has been activated
             cordova.plugins.backgroundMode.onactivate = function () {
                 // Set an interval of 3 seconds (3000 milliseconds)
-                setInterval(function () {
-                    var posOptions = {timeout: 10000, enableHighAccuracy: false};
-                    $cordovaGeolocation
-                        .getCurrentPosition(posOptions)
-                        .then(function (position) {
-                            var lat = position.coords.latitude
-                            var long = position.coords.longitude
-
-                            var posicion = {
-                                conductor_id: sessionStorage.getItem('idConductor'),
-                                lat: lat,
-                                lng: long,
-                                ruta_id: sessionStorage.getItem('idRuta')
-                            };
-                            if (posicion.conductor_id) {
-                                socketCh.emit("posConductor", posicion);
-                            }
-
-                        }, function (err) {
-                            console.log(err);
-                        });
-                }, 3000);
+                // setInterval(function () {
+                //     var posOptions = {timeout: 10000, enableHighAccuracy: true};
+                //     $cordovaGeolocation
+                //         .getCurrentPosition(posOptions)
+                //         .then(function (position) {
+                //             var lat = position.coords.latitude
+                //             var long = position.coords.longitude
+                //
+                //             var posicion = {
+                //                 conductor_id: sessionStorage.getItem('idConductor'),
+                //                 lat: lat,
+                //                 lng: long,
+                //                 ruta_id: sessionStorage.getItem('idRuta')
+                //             };
+                //             if (posicion.conductor_id) {
+                //                 socketCh.emit("posConductor", posicion);
+                //             }
+                //
+                //         }, function (err) {
+                //             console.log(err);
+                //         });
+                // }, 3000);
             }
 
 

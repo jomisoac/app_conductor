@@ -15,7 +15,7 @@
         <ion-content class="custom">
             <div class="home center">
                 <img ng-if="vm.conductor.imagen !== null" src="http://api.viajaseguro.co/images/conductores/{{vm.conductor.imagen}}" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
-                <img ng-if="vm.conductor.imagen === null" src="../img/profile.jpg" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
+                <img ng-if="vm.conductor.imagen === null" src="img/profile.jpg" class="img-perfil img-rounded" style="width:120px;height:120px;margin-top:10%;">
                 <h4 class="nombre-conductor">{{vm.conductor.nombres }} {{vm.conductor.apellidos}}</h4>
                 <h4 class="id-conductor">CC: {{vm.conductor.identificacion}}</h4>
             </div>

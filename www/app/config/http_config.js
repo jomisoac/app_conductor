@@ -7,7 +7,7 @@
     angular
         .module('app')
         .config(config)
-        .constant('api', 'http://localhost:1337');
+        .constant('api', 'http://api.viajaseguro.co');
 
 
     /* @ngInject */

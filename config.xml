@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.appconductor614542" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Viaja Seguro Conductor App</name>
-    <description>
+  <name>Viaja Seguro Conductor App</name>
+  <description>
         Aplicación de viaja seguro para sus conductores !!!!
     </description>
   <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
     </author>
-  <plugin name="cordova-plugin-whitelist" version="1" />
-  <plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
-  <access origin="*" />
-  <allow-intent href="http://*/*" />
-  <allow-intent href="https://*/*" />
-  <allow-intent href="tel:*" />
-  <allow-intent href="sms:*" />
-  <allow-intent href="mailto:*" />
-  <allow-intent href="geo:*" />
+  <plugin name="cordova-plugin-whitelist" version="1"/>
+  <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
+  <access origin="*"/>
+  <allow-intent href="http://*/*"/>
+  <allow-intent href="https://*/*"/>
+  <allow-intent href="tel:*"/>
+  <allow-intent href="sms:*"/>
+  <allow-intent href="mailto:*"/>
+  <allow-intent href="geo:*"/>
   <content src="index.html"/>
-  <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
-  <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root" />
-  <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+  <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root"/>
+  <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root"/>
+  <preference name="AndroidPersistentFileLocation" value="Compatibility"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -30,8 +30,8 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
-  <platform name="android">                                             
-    <allow-intent href="market:*" />
+  <platform name="android">
+    <allow-intent href="market:*"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
     <icon src="resources/android/icon/drawable-hdpi-icon.png" density="hdpi"/>
