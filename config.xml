@@ -8,14 +8,10 @@
       Your Name Here
     </author>
   <plugin name="cordova-plugin-whitelist" version="1"/>
-  <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
+  <plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
+  <allow-navigation href="file://*/*"/>
+  <allow-intent href="*"/>
   <access origin="*"/>
-  <allow-intent href="http://*/*"/>
-  <allow-intent href="https://*/*"/>
-  <allow-intent href="tel:*"/>
-  <allow-intent href="sms:*"/>
-  <allow-intent href="mailto:*"/>
-  <allow-intent href="geo:*"/>
   <content src="index.html"/>
   <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root"/>
   <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root"/>

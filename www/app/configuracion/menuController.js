@@ -13,14 +13,14 @@
 
 
         $ionicPlatform.ready(function () {
-            cordova.plugins.backgroundMode.setDefaults({
-                title: 'Viaja Seguro',
-                text: 'Enviando su ubicación.'
-            });
+            // cordova.plugins.backgroundMode.setDefaults({
+            //     title: 'Viaja Seguro',
+            //     text: 'Enviando su ubicación.'
+            // });
             // Enable background mode
-            cordova.plugins.backgroundMode.enable();
+            // cordova.plugins.backgroundMode.enable();
 
-            if (!cordova.plugins.backgroundMode.isActive()) {
+            // if (!cordova.plugins.backgroundMode.isActive()) {
                 // setInterval(function () {
                 //     var posOptions = {timeout: 10000, enableHighAccuracy: true};
                 //     $cordovaGeolocation
@@ -43,9 +43,9 @@
                 //             console.log(err);
                 //         });
                 // }, 3000);
-            }
+            // }
             // Called when background mode has been activated
-            cordova.plugins.backgroundMode.onactivate = function () {
+            // cordova.plugins.backgroundMode.onactivate = function () {
                 // Set an interval of 3 seconds (3000 milliseconds)
                 // setInterval(function () {
                 //     var posOptions = {timeout: 10000, enableHighAccuracy: true};
@@ -69,7 +69,7 @@
                 //             console.log(err);
                 //         });
                 // }, 3000);
-            }
+            // }
 
 
             window.addEventListener("orientationchange", function () {

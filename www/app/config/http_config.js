@@ -7,7 +7,7 @@
     angular
         .module('app')
         .config(config)
-        .constant('api', 'http://api.viajaseguro.co');
+        .constant('api', 'http://192.168.1.32:1337');
 
 
     /* @ngInject */
@@ -27,8 +27,8 @@
                         headers : {Authorization : 'Bearer '+ jwt}
                     }).then(
                         function(response){
-                            sessionStorage.setItem('jwt',response.data.token);
-                            return response.data.token;
+                            sessionStorage.setItem('jwt',response.data.data.token);
+                            return response.data.data.token;
                         },
                         function(response){
                             //sessionStorage.removeItem('jwt');

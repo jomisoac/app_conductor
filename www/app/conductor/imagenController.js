@@ -37,9 +37,11 @@
 
         $scope.getFoto = function (source) { // CAMERA-PHOTOLIBRARY
             var options = {
-                quality: 50,
-                destinationType: navigator.camera.DestinationType.FILE_URL,
-                sourceType: navigator.camera.PictureSourceType[source]
+                quality: 100,
+                destinationType: Camera.DestinationType.FILE_URI,
+                sourceType: Camera.PictureSourceType[source],
+                // popoverOptions: CameraPopoverOptions,
+                correctOrientation: true,
             };
             $cordovaCamera.getPicture(options).then(
                 function (imageData) {
@@ -59,26 +61,31 @@
         }
 
         $scope.enviarImagen = function (resource) {
-
+            var trustAllHosts = true;
             if (resource == 'conductor') {
                 var urlServidor = api + '/conductores/' + idConductor + '/imagen';
             } else {
                 var urlServidor = api + '/vehiculos/' + idVehiculo + '/imagen';
             }
             var options = FileUploadOptions({
-                httpMethod: 'POST',
-                fileKey: "imagen",
-                fileName : $scope.selectedImage.substr($scope.selectedImage.lastIndexOf('/') + 1),
-                chunkedMode: false,
-                mimeType: "image/jpg",
+                fileKey : 'imagen',
+                filename : $scope.selectedImage.substr($scope.selectedImage.lastIndexOf('/') + 1),
+                mimeType : 'image/jpeg',
+                chunkedMode : false,
+                httpMethod : 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
-                },
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined,
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                    }
+                }
             });
-            $cordovaFileTransfer.upload(encodeURI(urlServidor), $scope.selectedImage, options, true).then(function (result) {
+
+            $cordovaFileTransfer.upload(encodeURI(urlServidor), $scope.selectedImage, options).then(function (result) {
                 console.log("SUCCESS: " + JSON.stringify(result.response));
                 $ionicLoading.hide();
-                alert("Foto Actualizada");
+                mostarAlert("Exito!", "Foto Actualizada");
             }, function (err) {
                 console.log("ERROR: " + JSON.stringify(err));
                 $ionicLoading.hide();
@@ -88,8 +95,7 @@
                     template: Math.floor((progress.loaded / progress.total) * 100) + '%'
                 });
             });
-
-        }
+        };
 
         function mostarAlert(titulo, contenido) {
             var alertPopup = $ionicPopup.alert({

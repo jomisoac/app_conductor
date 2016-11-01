@@ -17,16 +17,14 @@
         }
 
         $scope.cambiarContrasena = function () {
-            $ionicLoading.show();
             if ($scope.contrasena.confirmarContrasena === $scope.contrasena.nueva) {
+                $ionicLoading.show();
                 $scope.contrasena.password = $scope.contrasena.nueva;
                 ConductorService.updateContrasena(sessionStorage.getItem('idUsuario'), $scope.contrasena).then(
                     function (respuesta) {
                         $ionicLoading.hide();
-                        $scope.mostrarAdvertencia = false;
                         mostarAlert("Cambio de Contraseña", "La contraseña fue cambiada exitosamente, por favor inicie sesión nuevamente");
                         cerrarSesion();
-
                     },
                     function (error) {
                         $ionicLoading.hide();
@@ -34,7 +32,8 @@
                     }
                 );
             } else {
-                $scope.mostrarAdvertencia = true;
+                $ionicLoading.hide();
+                mostarAlert('Error!', 'Las contrase&ntilde;as no coinciden.')
             }
         }
 
