@@ -5,15 +5,15 @@
 </ion-header-bar>
 <ion-content>
     <div class="center">
-        <img ng-src="{{selectedImage}}" style="width:100%; height: auto; margin-top: 20%"/>
+        <img ng-src="{{picData}}" style="width:100%; height: auto; margin-top: 20%"/>
         {{downloadProgress}}
     </div>
 </ion-content>
 <ion-footer-bar class="bar-light center-text button-bar-inline">
-    <button class="button button-positive" ng-click="getFoto('CAMERA')" style="width:150px;">
+    <button class="button button-positive" ng-click="tomarFoto()" style="width:150px;">
         <i class="icon ion-camera"></i>Camara
     </button>
-    <button class="button button-positive" ng-click="getFoto('PHOTOLIBRARY')" style="width:150px;">
+    <button class="button button-positive" ng-click="selectedFoto()" style="width:150px;">
         <i class="icon ion-images"></i>Galeria
     </button>
 </ion-footer-bar>
