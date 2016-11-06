@@ -25,6 +25,11 @@
   <preference name="auto-hide-splash-screen" value="false"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
+  <preference name="showmessageinnotification" value="true" />
+  <preference name="defaultnotificationmessage" value="Has recibido un nuevo mensaje!" />
+  <feature name="PushPlugin" >
+    <param name="android-package" value="com.amazon.cordova.plugin.PushPlugin"/>
+  </feature>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

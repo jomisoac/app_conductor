@@ -65,15 +65,25 @@
 
             if (ionic.Platform.isAndroid()) {
                 config = {
-                    "senderID": "984044898845",
-                    "icon": "img/logo.png"
+                    'badge': 'true',
+                    'sound': 'true',
+                    'alert': 'true',
+                    'ecb': 'onNotification',
+                    'icon': 'img/logo.png',
+                    'senderID': '984044898845'
                 };
             } else if (ionic.Platform.isIOS()) {
                 config = {
-                    "badge": "true",
-                    "sound": "true",
-                    "alert": "true"
+                    'badge': 'true',
+                    'sound': 'true',
+                    'alert': 'true',
+                    'ecb': 'onNotification',
+                    'icon': 'img/logo.png',
+                    'senderID': '984044898845'
                 };
+            }
+            window.onNotification = function(r){
+                console.log('onNotification', r)
             }
 
             $cordovaPush.register(config).then(function (result) {
@@ -95,6 +105,7 @@
                         break;
 
                     case 'message':
+                        console.log(notification)
                         if (notification.payload.tipo == "pasajeros") {
                             //alert(notification.payload.message);
                             $location.path("/pasajeros");
