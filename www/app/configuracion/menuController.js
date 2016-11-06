@@ -109,7 +109,7 @@
                     $rootScope.id = $scope.conductor.id;
                     sessionStorage.setItem('idConductor', JSON.stringify(vm.conductor.id));
                     $ionicLoading.hide();
-                    ConductorService.updateRegId(sessionStorage.getItem('idUsuario'), sessionStorage['regid']);
+                    ConductorService.updateRegId(sessionStorage.getItem('idUsuario'), $rootScope.reg_id);
                     // socketCh.connect();
                 }
                 , function (error) {

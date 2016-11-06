@@ -62,7 +62,6 @@
 
         function updateRegId(regid) {
             var usuario_id = JSON.parse(sessionStorage.getItem('usuario')).id;
-            sessionStorage.setItem('regid', regid);
             var pet = {
                 method: 'PUT',
                 url: api + '/user/' + usuario_id + '/updateRegId',
@@ -70,7 +69,7 @@
                     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: {
-                    reg_id: regid
+                    reg_id: sessionStorage.getItem('regid')
                 }
             };
             return $http(pet);

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.appconductor614542" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Viaja Seguro Conductor App</name>
+  <name>Viajaseguro conductor</name>
   <description>
         Aplicación de viaja seguro para sus conductores !!!!
     </description>
-  <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
+  <author email="jomisoac@gmail.com" href="http://facebook.com/jomisoac">
+      Jose Miguel Soto A.
     </author>
   <plugin name="cordova-plugin-whitelist" version="1"/>
   <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
   <allow-navigation href="*"/>
-  <allow-navigation href="file://*/*"/>
   <allow-intent href="*"/>
   <access origin="*"/>
   <content src="index.html"/>
@@ -22,6 +21,8 @@
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
+  <preference name="AutoHideSplashScreen" value="false"/>
+  <preference name="auto-hide-splash-screen" value="false"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
   <feature name="StatusBar">
@@ -81,5 +82,5 @@
     <splash src="resources/ios/splash/Default@2x~iphone.png" width="640" height="960"/>
     <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
   </platform>
-  <icon src="resources/ios/icon/icon-small@3x.png"/>
+  <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>

@@ -19,7 +19,8 @@
                 function (respuesta) {
                     $scope.conductor = respuesta.data.data;
                     //console.log(respuesta.data);
-                    if (respuesta.data.data.estado === "no_disponible" || respuesta.data.estado === "en_ruta" || respuesta.data.data.estado == null) {
+                    if (respuesta.data.data.estado === "no_disponible" || respuesta.data.data.estado === "en_ruta"
+                        || respuesta.data.data.estado === "ausente"  || respuesta.data.data.estado === "accidente" || respuesta.data.data.estado === null) {
                         $scope.estado = "no_disponible";
                         $scope.classButton = "button-assertive";
                     } else if (respuesta.data.data.estado === "disponible") {
@@ -41,7 +42,8 @@
         }
 
         $scope.cambiarEstado = function () {
-            if ($scope.estado === "no_disponible" || $scope.estado === "en_ruta") {
+            if ($scope.estado === "no_disponible" || $scope.estado === "en_ruta"
+                || $scope.estado === 'accidente' || $scope.estado === 'ausente') {
                 $scope.estado = "disponible";
                 $scope.classButton = "button-balanced";
             } else if ($scope.estado === "disponible") {
