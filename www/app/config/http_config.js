@@ -21,7 +21,7 @@
             if(jwt && config.url.indexOf(api) === 0){
                 if(jwtHelper.isTokenExpired(jwt)){
                     return $http({
-                        url : api+'/refresh',
+                        url : api+'/refresh_token',
                         skipAuthorization : true,
                         method: 'GET',
                         headers : {Authorization : 'Bearer '+ jwt}

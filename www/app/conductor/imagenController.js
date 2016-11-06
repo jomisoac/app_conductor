@@ -46,7 +46,7 @@
             };
             $cordovaCamera.getPicture(options).then(
                 function (imageData) {
-                    $scope.picData = "data:image/jpeg;base64," + imageData;
+                    $scope.picData = imageData;
                     $scope.picturePath = imageData;
                     window.resolveLocalFileSystemURL(imageData, copyFile, fail);
                     $ionicLoading.show({template: '...', duration: 500});
@@ -65,6 +65,7 @@
             $cordovaCamera.getPicture(options).then(
                 function (imageData) {
                     $scope.picData = imageData;
+                    $scope.picturePath = imageData;
                     $ionicLoading.show({template: '...', duration: 500});
                 },
                 function (err) {
@@ -106,6 +107,9 @@
                 options.fileKey = "imagen";
                 options.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
                 options.mimeType = "image/jpeg";
+                params.headers = {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                }
                 options.params = params;
                 options.chunkedMode = false;
 
@@ -158,7 +162,7 @@
                         $scope.retries++;
                         setTimeout(function () {
                             //debug
-                            console.log('enviando para: ' + encodeURI(server));
+                            console.log('enviando para: ' + encodeURI(urlServidor));
                             $scope.liveConsole = "enviando";
 
                             //the action / the magic
