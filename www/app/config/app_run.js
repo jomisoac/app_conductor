@@ -7,7 +7,7 @@
         .module('app')
         .run(appRun);
 
-    function appRun($ionicPlatform,$window, $cordovaPush, $cordovaDevice,$timeout,$rootScope,
+    function appRun($ionicPlatform, $cordovaPush,$rootScope,
                     $location,jwtHelper,$http,$cordovaGeolocation, api) {
         $ionicPlatform.ready(function() {
 
@@ -44,7 +44,7 @@
                     if(jwtHelper.isTokenExpired(jwt)){
                         console.log("Expiro");
                         $http({
-                            url : api+'/new_token',
+                            url : api+'/refresh_token',
                             skipAuthorization : true,
                             method: 'GET',
                             headers : { Authorization : 'Bearer '+ jwt}
@@ -93,15 +93,9 @@
                       break;
 
                     case 'message':
-                      if(notification.payload.tipo == "Pasajeros"){
+                      if(notification.payload.tipo == "pasajeros"){
                           //alert(notification.payload.message);
                          $location.path("/pasajeros");
-                       }else if(notification.payload.tipo == "Paquetes"){
-                           //alert(notification.payload.message);
-                         $location.path("/encomienda");
-                       }else if(notification.payload.tipo == "Giros"){
-                           //alert(notification.payload.message);
-                         $location.path("/giro");
                        }else if(notification.payload.tipo == "Desepacho"){
                            //alert(notification.payload.message);
                        }else if(notification.payload.tipo == "Actualizacion turno"){

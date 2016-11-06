@@ -5,7 +5,7 @@
         .module('configuracion')
         .controller('MenuCtrl', MenuCtrl);
 
-    function MenuCtrl($scope, $ionicPopup, $rootScope, $window, ConductorService, $location, $timeout, $ionicLoading, $ionicHistory, $ionicPlatform, $cordovaGeolocation, GeolocalizacionService, socketCh) {
+    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, $window, ConductorService, $location, $timeout, $ionicLoading, $ionicHistory, $ionicPlatform, $cordovaGeolocation, GeolocalizacionService, socketCh) {
         var vm = this;
 
         $scope.orientacionVertical = true;
@@ -109,7 +109,7 @@
                     $rootScope.id = $scope.conductor.id;
                     sessionStorage.setItem('idConductor', JSON.stringify(vm.conductor.id));
                     $ionicLoading.hide();
-                    // ConductorService.updateRegId(vm.conductor.id, sessionStorage['regid']);
+                    ConductorService.updateRegId(sessionStorage.getItem('idUsuario'), sessionStorage['regid']);
                     // socketCh.connect();
                 }
                 , function (error) {
@@ -123,7 +123,7 @@
         })
 
         $scope.logout = function () {
-            $location.path("/login");
+            LoginService.logout();
         }
 
         function mostarAlert(titulo, contenido) {

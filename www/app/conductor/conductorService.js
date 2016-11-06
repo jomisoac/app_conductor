@@ -34,10 +34,10 @@
             return $http.post(url, conductor);
         }
 
-        this.update = function (conductor) {
+        this.updateEstado = function (conductor) {
             var pet = {
                 method: 'PUT',
-                url: api + '/conductor/' + conductor.id,
+                url: api + '/conductores/' + conductor.id + '/cambioEstado',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
@@ -49,9 +49,12 @@
         this.updateRegId = function (conductor_id, reg_id) {
             var pet = {
                 method: 'PUT',
-                url: api + '/conductores/' + conductor_id + '/reg_id/' + reg_id,
+                url: api + '/user/' + conductor_id + '/updateRegId',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                },
+                data: {
+                    reg_id: reg_id
                 }
             };
             return $http(pet);

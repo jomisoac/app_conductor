@@ -5,7 +5,7 @@
         .module('auth')
         .controller('LoginCtrl', LoginCtrl);
 
-    function LoginCtrl(LoginService, $ionicLoading, $location, $state, $ionicPopup) {
+    function LoginCtrl(LoginService, $ionicLoading, $state, $ionicPopup) {
         var vm = this;
         vm.usuario = {};
         vm.matenerSesion = true;
@@ -16,7 +16,6 @@
             $ionicLoading.show();
             LoginService.login(vm.usuario, vm.matenerSesion).then(success, error);
             function success(user) {
-                console.log(user)
                 if(user.rol == "CONDUCTOR"){
                     $ionicLoading.hide();
                     $state.go('app.home')
@@ -24,7 +23,7 @@
             }
             function error(error) {
                 $ionicLoading.hide();
-                mostarAlert("Error login "+error.status,"Error al logear verifique que los datos ingresados sean correctos");
+                mostarAlert("Error login "+error.status,"Error al iniciar sesion verifique que los datos ingresados sean correctos");
             }
         }
 

@@ -7,10 +7,10 @@
 
     function IncidenciaService($http, api) {
 
-        this.registrarAusencia = function (id, incidencia) {
+        this.registrarIncidencia = function (id, incidencia) {
             var pet = {
                 method: 'POST',
-                url: api + '/conductores/' + id + '/incidencias',
+                url: api + '/conductores/' + id + '/reportar_incidencia',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },

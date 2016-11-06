@@ -5,7 +5,7 @@
         .module('conductor')
         .controller('IncidenciaCtrl', IncidenciaCtrl);
 
-    function IncidenciaCtrl($scope, $ionicPopup, $ionicLoading, $filter, IncidenciaService) {
+    function IncidenciaCtrl($scope, $ionicPopup, $ionicLoading, IncidenciaService) {
         var vm = this;
         var idConductor;
 
@@ -17,13 +17,15 @@
         vm.registarIncidencia = function () {
             $ionicLoading.show();
 
-            IncidenciaService.registrarAusencia(idConductor).then(
+            IncidenciaService.registrarIncidencia(idConductor, vm.incidencia).then(
                 function (respuesta) {
+                    vm.incidencia = {};
                     $ionicLoading.hide();
                     mostarAlert("Registro de incidencias", "Incidencia registrada con exito");
                 }, function (error) {
                     console.log("Error");
                     $ionicLoading.hide();
+                    mostarAlert('Error!', 'Algo fallo al intentar hacer el reporte.');
                 }
             );
         }

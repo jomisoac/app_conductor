@@ -6,7 +6,7 @@
         .service('LoginService', authService);
 
     /* @ngInject */
-    function authService($http, api, jwtHelper, $state, $window, $q, $ionicHistory) {
+    function authService($http, api, jwtHelper, $state, $window, $q, $ionicHistory, $ionicLoading) {
         var local = {
             setCredenciales: setCredenciales,
             getCredenciales: getCredenciales,
@@ -18,8 +18,6 @@
             logout: logout,
             autologin: autologin,
             updateRegId: updateRegId,
-            register: register,
-            updatePassword: updatePassword,
             storeUser: storeUser,
             currentUser: currentUser,
             local: local
@@ -34,7 +32,6 @@
             return promise;
 
             function success(p) {
-                console.log(p)
                 if (matenerSesion == true) {
                     setCredenciales(usuario);
                 }
@@ -64,30 +61,30 @@
         }
 
         function updateRegId(regid) {
-            sessionStorage.setItem('regid', regid);
             var usuario_id = JSON.parse(sessionStorage.getItem('usuario')).id;
-            return $http.put(api + '/usuarios/' + usuario_id + '/reg_id/' + regid);
+            sessionStorage.setItem('regid', regid);
+            var pet = {
+                method: 'PUT',
+                url: api + '/user/' + usuario_id + '/updateRegId',
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                },
+                data: {
+                    reg_id: regid
+                }
+            };
+            return $http(pet);
         };
 
         function logout() {
-            var usuario_id = JSON.parse(sessionStorage.getItem('usuario')).id;
-            return $http.put(api + '/usuarios/' + usuario_id + '/reg_id/undefined').then(function () {
+            $ionicLoading.show();
+            updateRegId().then(function (res) {
                 sessionStorage.clear();
                 $ionicHistory.clearHistory();
                 $window.localStorage.removeItem('credenciales');
+                $ionicLoading.hide();
                 $state.go('login');
             });
-        };
-
-        function register(usuario) {
-            return $http.post(api + '/usuarios/clientes', usuario);
-        };
-
-        function updatePassword(usuario, contrasenas) {
-            return $http.post(api + '/usuarios/' + usuario.id + '/change_pass',
-                contrasenas,
-                {headers: {'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')}}
-            );
         };
 
         function storeUser(jwt, user) {
