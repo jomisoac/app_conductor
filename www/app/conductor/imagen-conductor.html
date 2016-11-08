@@ -1,19 +1,22 @@
-<ion-header-bar class="bar-positive">
-    <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
-    <h1 class="title">Imagen Conductor</h1>
-    <button class="button button-icon icon ion-ios-cloud-upload" ng-click="enviarImagen('conductor')"></button>
-</ion-header-bar>
-<ion-content>
-    <div class="center">
-        <img ng-src="{{picData}}" style="width:100%; height: auto; margin-top: 20%"/>
-        {{downloadProgress}}
-    </div>
-</ion-content>
-<ion-footer-bar class="bar-light center-text button-bar-inline">
-    <button class="button button-positive" ng-click="tomarFoto()" style="width:150px;">
-        <i class="icon ion-camera"></i>Camara
-    </button>
-    <button class="button button-positive" ng-click="selectedFoto()" style="width:150px;">
-        <i class="icon ion-images"></i>Galeria
-    </button>
-</ion-footer-bar>
+<form name="imageForm" novalidate>
+    <ion-header-bar class="bar-positive">
+        <button class="button button-icon icon ion-arrow-left-c" ng-click="volver()"></button>
+        <h1 class="title">Imagen Conductor</h1>
+        <button class="button button-icon icon ion-ios-cloud-upload" ng-click="enviarImagen('conductor')"></button>
+    </ion-header-bar>
+    <ion-content>
+        <div class="center">
+            <img ng-src="{{picData}}" style="width:100%; height: auto; margin-top: 20%"/>
+            {{downloadProgress}}
+            <input type="file" uploader-model="picData" name="imagen" id="imagen" ng-show="false">
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-light center-text button-bar-inline">
+        <button class="button button-positive" ng-click="tomarFoto()" style="width:150px;">
+            <i class="icon ion-camera"></i>Camara
+        </button>
+        <button class="button button-positive" ng-click="selectedFoto()" style="width:150px;">
+            <i class="icon ion-images"></i>Galeria
+        </button>
+    </ion-footer-bar>
+</form>

@@ -7,14 +7,17 @@
 
     function ImagenService($http, api) {
 
-        this.postImageConductor = function (id, imagen) {
-            var fd = new FormData();
-            fd.append('imagen', imagen);
+        this.postImageConductor = function (id, imagen, urlservidor) {
+            var data = new FormData();
+            data.append('imagen', imagen);
             return $http.post(
-                api + '/conductores/' + id + '/imagen', fd,
+                urlservidor, data,
                 {
                     transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined}
+                    headers: {
+                        'Content-Type': undefined,
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                    }
                 }
             );
         }
