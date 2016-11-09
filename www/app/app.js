@@ -9,6 +9,7 @@
             'ngCordova',
             'angular-jwt',
             'ion-floating-menu',
+            'ngSails',
 
             'auth',
             'conductor',
@@ -21,6 +22,7 @@
             'empresas',
             'geolocalizacion',
             'notificaciones',
+            'ubicaciones',
             'vehiculo'
 
         ])

@@ -26,17 +26,17 @@
             }, false);
 
 
-            var posOptions = {timeout: 2000, enableHighAccuracy: false};
-            $cordovaGeolocation
-                .getCurrentPosition(posOptions)
-                .then(
-                    function (position) {
-                        var lat = position.coords.latitude
-                        var long = position.coords.longitude
-                    }, function (err) {
-                        alert("Por favor encender GPS del equipo");
-                    }
-                );
+            // var posOptions = {timeout: 2000, enableHighAccuracy: false};
+            // $cordovaGeolocation
+            //     .getCurrentPosition(posOptions)
+            //     .then(
+            //         function (position) {
+            //             var lat = position.coords.latitude
+            //             var long = position.coords.longitude
+            //         }, function (err) {
+            //             alert("Por favor encender GPS del equipo");
+            //         }
+            //     );
 
             setInterval(function () {
                 var jwt = sessionStorage.getItem('jwt');
@@ -44,7 +44,7 @@
                     if (jwtHelper.isTokenExpired(jwt)) {
                         console.log("Expiro");
                         $http({
-                            url: api + '/refresh_token',
+                            url: api + '/user/authentication/refresh',
                             skipAuthorization: true,
                             method: 'GET',
                             headers: {Authorization: 'Bearer ' + jwt}

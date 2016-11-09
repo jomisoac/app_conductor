@@ -5,7 +5,7 @@
         .module('configuracion')
         .controller('HomeCtrl', HomeCtrl);
 
-    function HomeCtrl($scope, $ionicPopup, $location, $ionicHistory, ConductorService, $rootScope, $ionicPlatform, $window) {
+    function HomeCtrl($scope, $ionicPopup, $location, ConductorService) {
 
         $scope.estado;
         $scope.classButton;

@@ -5,71 +5,84 @@
         .module('configuracion')
         .controller('MenuCtrl', MenuCtrl);
 
-    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, $window, ConductorService, $location, $timeout, $ionicLoading, $ionicHistory, $ionicPlatform, $cordovaGeolocation, GeolocalizacionService, socketCh) {
+    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, ConductorService,  $ionicLoading, $ionicPlatform, $cordovaGeolocation, UbicacionesRepository, GeolocalizacionService) {
         var vm = this;
 
         $scope.orientacionVertical = true;
         $scope.orientacionHorizontal;
 
 
-        $ionicPlatform.ready(function () {
-            // cordova.plugins.backgroundMode.setDefaults({
-            //     title: 'Viaja Seguro',
-            //     text: 'Enviando su ubicación.'
-            // });
-            // Enable background mode
-            // cordova.plugins.backgroundMode.enable();
+        var no_direction = false;
 
-            // if (!cordova.plugins.backgroundMode.isActive()) {
-                // setInterval(function () {
-                //     var posOptions = {timeout: 10000, enableHighAccuracy: true};
-                //     $cordovaGeolocation
-                //         .getCurrentPosition(posOptions)
-                //         .then(function (position) {
-                //             var lat = position.coords.latitude
-                //             var long = position.coords.longitude
-                //
-                //             var posicion = {
-                //                 conductor_id: sessionStorage.getItem('idConductor'),
-                //                 lat: lat,
-                //                 lng: long,
-                //                 ruta_id: sessionStorage.getItem('idRuta')
-                //             };
-                //             if (posicion.conductor_id) {
-                //                 socketCh.emit("posConductor", posicion);
-                //             }
-                //
-                //         }, function (err) {
-                //             console.log(err);
-                //         });
-                // }, 3000);
-            // }
+        $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+            viewData.enableBack = true;
+            $ionicLoading.show();
+            GeolocalizacionService.checkLocation().then(function (res) {
+                if(res){
+                    no_direction = true;
+                    $ionicLoading.hide();
+                }
+            })
+        });
+
+        $ionicPlatform.ready(function () {
+            cordova.plugins.backgroundMode.setDefaults({
+                title: 'Viaja Seguro',
+                text: 'Enviando su ubicación.'
+            });
+            // Enable background mode
+            cordova.plugins.backgroundMode.enable();
+
+            if (!cordova.plugins.backgroundMode.isActive()) {
+                setInterval(function () {
+                    var posOptions = {timeout: 10000, enableHighAccuracy: true};
+                    $cordovaGeolocation
+                        .getCurrentPosition(posOptions)
+                        .then(function (position) {
+                            var lat = position.coords.latitude
+                            var long = position.coords.longitude
+
+                            var posicion = {
+                                conductor_id: sessionStorage.getItem('idConductor'),
+                                lat: lat,
+                                lng: long,
+                                ruta_id: sessionStorage.getItem('idRuta')
+                            };
+                            if (posicion.conductor_id) {
+                                UbicacionesRepository.emit('posConductor', posicion);
+                            }
+
+                        }, function (err) {
+                            console.log(err);
+                        });
+                }, 3000);
+            }
             // Called when background mode has been activated
-            // cordova.plugins.backgroundMode.onactivate = function () {
+            cordova.plugins.backgroundMode.onactivate = function () {
                 // Set an interval of 3 seconds (3000 milliseconds)
-                // setInterval(function () {
-                //     var posOptions = {timeout: 10000, enableHighAccuracy: true};
-                //     $cordovaGeolocation
-                //         .getCurrentPosition(posOptions)
-                //         .then(function (position) {
-                //             var lat = position.coords.latitude
-                //             var long = position.coords.longitude
-                //
-                //             var posicion = {
-                //                 conductor_id: sessionStorage.getItem('idConductor'),
-                //                 lat: lat,
-                //                 lng: long,
-                //                 ruta_id: sessionStorage.getItem('idRuta')
-                //             };
-                //             if (posicion.conductor_id) {
-                //                 socketCh.emit("posConductor", posicion);
-                //             }
-                //
-                //         }, function (err) {
-                //             console.log(err);
-                //         });
-                // }, 3000);
-            // }
+                setInterval(function () {
+                    var posOptions = {timeout: 10000, enableHighAccuracy: true};
+                    $cordovaGeolocation
+                        .getCurrentPosition(posOptions)
+                        .then(function (position) {
+                            var lat = position.coords.latitude
+                            var long = position.coords.longitude
+
+                            var posicion = {
+                                conductor_id: sessionStorage.getItem('idConductor'),
+                                lat: lat,
+                                lng: long,
+                                ruta_id: sessionStorage.getItem('idRuta')
+                            };
+                            if (posicion.conductor_id) {
+                                UbicacionesRepository.emit('posConductor', posicion);
+                            }
+
+                        }, function (err) {
+                            console.log(err);
+                        });
+                }, 3000);
+            }
 
 
             window.addEventListener("orientationchange", function () {
@@ -118,10 +131,7 @@
             );
         });
 
-        socketCh.on('connect', function () {
-            alert('conectado a websocket')
-        })
-
+        UbicacionesRepository.connect();
         $scope.logout = function () {
             LoginService.logout();
         }

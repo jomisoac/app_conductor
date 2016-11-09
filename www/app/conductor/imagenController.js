@@ -38,22 +38,31 @@
         $scope.tomarFoto = function () {
             var options = {
                 quality: 50,
-                destinationType: Camera.DestinationType.FILE_URL,
+                destinationType: Camera.DestinationType.FILE_URI,
                 pictureSource: navigator.camera.PictureSourceType.CAMERA,
                 encodingType: Camera.EncodingType.JPEG,
                 saveToPhotoAlbum: false,
                 allowEdit: true
             };
-            $cordovaCamera.getPicture(options).then(
-                function (imageData) {
-                    $scope.picData = imageData;
-                    $scope.picturePath = imageData;
-                    window.resolveLocalFileSystemURL(imageData, copyFile, fail);
-                    $ionicLoading.show({template: '...', duration: 500});
-                },
-                function (err) {
-                    $ionicLoading.show({template: 'Error ...', duration: 500});
-                })
+            navigator.camera.getPicture(onSuccess,onFail,options);
+            // $cordovaCamera.getPicture(options).then(
+            //     function (imageData) {
+            //         $scope.picData = imageData;
+            //         $scope.picturePath = imageData;
+            //         window.resolveLocalFileSystemURL(imageData, copyFile, fail);
+            //         $ionicLoading.show({template: '...', duration: 500});
+            //     },
+            //     function (err) {
+            //         $ionicLoading.show({template: 'Error ...', duration: 500});
+            //     })
+        }
+        var onSuccess = function(FILE_URI) {
+            console.log(FILE_URI);
+            $scope.picData = FILE_URI;
+            $scope.$apply();
+        };
+        var onFail = function(e) {
+            console.log("On fail " + e);
         }
 
         $scope.selectedFoto = function () {
@@ -73,6 +82,14 @@
                 })
         };
 
+        var onUploadSuccess = function () {
+            mostarAlert('Exito', 'Imagen subida con exito')
+        }
+
+        var onUploadFail = function () {
+            console.log('fallo subir la imagen')
+        }
+
         $scope.enviarImagen = function (resource) {
             if (resource == 'conductor') {
                 var urlServidor = api + '/conductores/' + idConductor + '/imagen';
@@ -80,119 +97,130 @@
                 var urlServidor = api + '/vehiculos/' + idVehiculo + '/imagen';
             }
 
+            var myImg = $scope.picData;
+            var options = new FileUploadOptions();
+            options.fileKey="post";
+            options.chunkedMode = false;
+            var params = {};
+            params.headers = {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+            }
+            options.params = params;
+            var ft = new FileTransfer();
+            ft.upload(myImg, encodeURI(urlServidor), onUploadSuccess, onUploadFail, options);
 
             //if the user took a photo
-            if ($scope.picturePath != '') {
-
-                //gets the image filename
-                var fileName = $scope.picturePath.substr($scope.picturePath.lastIndexOf('/') + 1);
-
-                //debug
-                console.log('filename: ' + fileName);
-                console.log('cordova file:' + cordova.file.dataDirectory);
-                console.log('picturePath: ' + $scope.picturePath);
-                $scope.liveConsole = "preparando para enviar a foto";
-
-                //set the filepath
-                var filePath = $scope.picturePath;
-
-                //additional parameters if need, just saving the code for later use
-                var params = new Object();
-                // params.headers = {
-                //     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
-                // }
-
-                //options
-                var options = new FileUploadOptions();
-                options.fileKey = "imagen";
-                options.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
-                options.mimeType = "image/jpeg";
-                params.headers = {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
-                }
-                options.params = params;
-                options.chunkedMode = false;
-
-                //try uploading
-                //debug
-                console.log('enviando para: ' + encodeURI(urlServidor));
-                $scope.liveConsole = "enviando";
-
-                //the action / the magic
-                $cordovaFileTransfer.upload(encodeURI(urlServidor), filePath, options)
-                    .then(function (result) {
-                        uploadSucces(result);
-                    }, function (err) {
-                        uploadError(err);
-                    }, function (progress) {
-                        //updates the progressbar
-                        $scope.progressBar = (progress.loaded / progress.total) * 100;
-                    });
-
-                //if success
-                var uploadSucces = function (result) {
-                    //will study this clearcache later
-                    //clearCache();
-
-                    //reset retries
-                    $scope.retries = 0;
-
-                    //debug
-                    console.log("Imagem enviada, retorno do server:" + JSON.stringify(result));
-                    console.log(result.response);
-
-                    //return server message on console
-                    $scope.liveConsole = result.response.msg;
-
-                    //put the image on the img tag to preview sent image
-                    $scope.lastImage = result.response.img_thumb;
-                }
-
-                //if fail, try one more time
-                var uploadError = function (error) {
-
-                    //debug
-                    console.log('Erro:' + error);
-
-                    if ($scope.retries == 0) {
-                        //debug
-                        $scope.liveConsole += "vou tentar mais uma vez";
-
-                        //try one more time
-                        $scope.retries++;
-                        setTimeout(function () {
-                            //debug
-                            console.log('enviando para: ' + encodeURI(urlServidor));
-                            $scope.liveConsole = "enviando";
-
-                            //the action / the magic
-                            $cordovaFileTransfer.upload(encodeURI(urlServidor), filePath, options)
-                                .then(function (result) {
-                                    uploadSucces(result);
-                                }, function (err) {
-                                    uploadError(err);
-                                }, function (progress) {
-                                    //updates the progressbar
-                                    $scope.progressBar = (progress.loaded / progress.total) * 100;
-                                });
-                        }, 1000)
-                    } else {
-
-                        //reset retries
-                        $scope.retries = 0;
-
-                        //clearCache();
-
-                        //debug
-                        $scope.liveConsole += "não deu certo mesmo";
-                    }
-                }
-
-            } else {
-                //debug and show error message if no photo was taken
-                $scope.liveConsole = "tire uma foto primeiro";
-                console.log(JSON.stringify("tire uma foto primeiro"));
-            }
+            // if ($scope.picturePath != '') {
+            //
+            //     //gets the image filename
+            //     var fileName = $scope.picturePath.substr($scope.picturePath.lastIndexOf('/') + 1);
+            //
+            //     //debug
+            //     console.log('filename: ' + fileName);
+            //     console.log('cordova file:' + cordova.file.dataDirectory);
+            //     console.log('picturePath: ' + $scope.picturePath);
+            //     $scope.liveConsole = "preparando para enviar a foto";
+            //
+            //     //set the filepath
+            //     var filePath = $scope.picturePath;
+            //
+            //     //additional parameters if need, just saving the code for later use
+            //     var params = new Object();
+            //     // params.headers = {
+            //     //     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+            //     // }
+            //
+            //     //options
+            //     var options = new FileUploadOptions();
+            //     options.fileKey = "imagen";
+            //     options.fileName = filePath.substr(filePath.lastIndexOf('/') + 1);
+            //     options.mimeType = "image/jpeg";
+            //     params.headers = {
+            //         'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+            //     }
+            //     options.params = params;
+            //     options.chunkedMode = false;
+            //
+            //     //try uploading
+            //     //debug
+            //     console.log('enviando para: ' + encodeURI(urlServidor));
+            //     $scope.liveConsole = "enviando";
+            //
+            //     //the action / the magic
+            //     $cordovaFileTransfer.upload(encodeURI(urlServidor), filePath, options)
+            //         .then(function (result) {
+            //             uploadSucces(result);
+            //         }, function (err) {
+            //             uploadError(err);
+            //         }, function (progress) {
+            //             //updates the progressbar
+            //             $scope.progressBar = (progress.loaded / progress.total) * 100;
+            //         });
+            //
+            //     //if success
+            //     var uploadSucces = function (result) {
+            //         //will study this clearcache later
+            //         //clearCache();
+            //
+            //         //reset retries
+            //         $scope.retries = 0;
+            //
+            //         //debug
+            //         console.log("Imagem enviada, retorno do server:" + JSON.stringify(result));
+            //         console.log(result.response);
+            //
+            //         //return server message on console
+            //         $scope.liveConsole = result.response.msg;
+            //
+            //         //put the image on the img tag to preview sent image
+            //         $scope.lastImage = result.response.img_thumb;
+            //     }
+            //
+            //     //if fail, try one more time
+            //     var uploadError = function (error) {
+            //
+            //         //debug
+            //         console.log('Erro:' + error);
+            //
+            //         if ($scope.retries == 0) {
+            //             //debug
+            //             $scope.liveConsole += "vou tentar mais uma vez";
+            //
+            //             //try one more time
+            //             $scope.retries++;
+            //             setTimeout(function () {
+            //                 //debug
+            //                 console.log('enviando para: ' + encodeURI(urlServidor));
+            //                 $scope.liveConsole = "enviando";
+            //
+            //                 //the action / the magic
+            //                 $cordovaFileTransfer.upload(encodeURI(urlServidor), filePath, options)
+            //                     .then(function (result) {
+            //                         uploadSucces(result);
+            //                     }, function (err) {
+            //                         uploadError(err);
+            //                     }, function (progress) {
+            //                         //updates the progressbar
+            //                         $scope.progressBar = (progress.loaded / progress.total) * 100;
+            //                     });
+            //             }, 1000)
+            //         } else {
+            //
+            //             //reset retries
+            //             $scope.retries = 0;
+            //
+            //             //clearCache();
+            //
+            //             //debug
+            //             $scope.liveConsole += "não deu certo mesmo";
+            //         }
+            //     }
+            //
+            // } else {
+            //     //debug and show error message if no photo was taken
+            //     $scope.liveConsole = "tire uma foto primeiro";
+            //     console.log(JSON.stringify("tire uma foto primeiro"));
+            // }
 
 
             // var options = {
