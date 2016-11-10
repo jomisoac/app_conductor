@@ -29,7 +29,8 @@
         }
 
         function emit(tarea, data) {
-            $sails.emit(tarea, data);
+            console.log($sails)
+            $sails.sockets.emit(tarea, data);
         }
 
         function recivePosPasajeros() {

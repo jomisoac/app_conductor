@@ -3,7 +3,7 @@
 
     angular
         .module('geolocalizacion', [])
-        .service('GeolocalizacionService', function ($http, $q) {
+        .service('GeolocalizacionService', function ($http, $q, $ionicPopup) {
             var service = {
                 checkLocation: checkLocation,
             };
