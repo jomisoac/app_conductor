@@ -6,10 +6,11 @@
     angular
         .module('app', [
             'ionic',
-            'ngCordova',
             'angular-jwt',
             'ion-floating-menu',
             'ngSails',
+            // 'uiGmapgoogle-maps',
+            'ngCordova',
 
             'auth',
             'conductor',

@@ -15,22 +15,39 @@
         return {
             'connect': connect,
             'emit': emit,
-            'recivePosPasajeros': recivePosPasajeros
+            'recivePosPasajeros': recivePosPasajeros,
+            'testUbicion': testUbicion
         };
 
         function connect() {
             if(!subscribed_enviar_ubicacion){
                 console.log('Suscrito a envio de ubicacion');
-                $sails.on('connect', function (response) {
-                    console.log('Conectado al socket')
+                $sails.request({
+                    method: 'GET',
+                    url: '/join_ws_conductor',
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                    }
                 });
                 subscribed_enviar_ubicacion   = true;
             }
         }
 
-        function emit(tarea, data) {
-            console.log($sails)
-            $sails.sockets.emit(tarea, data);
+        function emit(data) {
+            $sails.request({
+                method: 'POST',
+                url: 'post_ubicacion_conductor',
+                data: data,
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                }
+            });
+        }
+
+        function testUbicion() {
+            $sails.on('posConductor', function (response) {
+                console.log(response);
+            })
         }
 
         function recivePosPasajeros() {

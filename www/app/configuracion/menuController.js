@@ -46,10 +46,10 @@
                                 conductor_id: sessionStorage.getItem('idConductor'),
                                 lat: lat,
                                 lng: long,
-                                ruta_id: sessionStorage.getItem('idRuta')
+                                estacion: sessionStorage.getItem('estacion')
                             };
                             if (posicion.conductor_id) {
-                                UbicacionesRepository.emit('posConductor', posicion);
+                                UbicacionesRepository.emit(posicion);
                             }
 
                         }, function (err) {
@@ -72,10 +72,10 @@
                                 conductor_id: sessionStorage.getItem('idConductor'),
                                 lat: lat,
                                 lng: long,
-                                ruta_id: sessionStorage.getItem('idRuta')
+                                estacion: sessionStorage.getItem('estacion')
                             };
                             if (posicion.conductor_id) {
-                                UbicacionesRepository.emit('posConductor', posicion);
+                                UbicacionesRepository.emit(posicion);
                             }
 
                         }, function (err) {
@@ -121,6 +121,7 @@
                     sessionStorage.setItem('idGremio', JSON.stringify(vm.conductor.empresa));
                     $rootScope.id = $scope.conductor.id;
                     sessionStorage.setItem('idConductor', JSON.stringify(vm.conductor.id));
+                    sessionStorage.setItem('estacion', JSON.stringify(vm.conductor.estacion));
                     $ionicLoading.hide();
                     ConductorService.updateRegId(sessionStorage.getItem('idUsuario'), localStorage.getItem('regid'));
                     // socketCh.connect();

@@ -8,7 +8,7 @@
       Jose Miguel Soto A.
     </author>
   <plugin name="cordova-plugin-whitelist" version="1"/>
-  <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
+  <plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
   <allow-navigation href="file://*/*"/>
   <allow-intent href="*"/>
   <access origin="*"/>
