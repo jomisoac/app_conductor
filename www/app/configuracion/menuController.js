@@ -16,6 +16,9 @@
 
         $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
             viewData.enableBack = true;
+        });
+
+        $ionicPlatform.ready(function () {
             $ionicLoading.show();
             GeolocalizacionService.checkLocation().then(function (res) {
                 if(res){
@@ -23,9 +26,6 @@
                     $ionicLoading.hide();
                 }
             })
-        });
-
-        $ionicPlatform.ready(function () {
             cordova.plugins.backgroundMode.setDefaults({
                 title: 'Viaja Seguro',
                 text: 'Enviando su ubicación.'
@@ -43,11 +43,15 @@
                             var long = position.coords.longitude
 
                             var posicion = {
-                                conductor_id: sessionStorage.getItem('idConductor'),
+                                id: sessionStorage.getItem('idConductor'),
                                 lat: lat,
                                 lng: long,
+                                empresa: sessionStorage.getItem('idGremio'),
+                                estado: sessionStorage.getItem('estado'),
+                                estacion: sessionStorage.getItem('estacion'),
+                                codigo_vial: sessionStorage.getItem('codigo_vial')
                             };
-                            if (posicion.conductor_id) {
+                            if (posicion.id) {
                                 UbicacionesRepository.emit(posicion);
                             }
 
@@ -68,11 +72,15 @@
                             var long = position.coords.longitude
 
                             var posicion = {
-                                conductor_id: sessionStorage.getItem('idConductor'),
+                                id: sessionStorage.getItem('idConductor'),
                                 lat: lat,
                                 lng: long,
+                                empresa: sessionStorage.getItem('idGremio'),
+                                estado: sessionStorage.getItem('estado'),
+                                estacion: sessionStorage.getItem('estacion'),
+                                codigo_vial: sessionStorage.getItem('codigo_vial')
                             };
-                            if (posicion.conductor_id) {
+                            if (posicion.id) {
                                 UbicacionesRepository.emit(posicion);
                             }
 
@@ -117,11 +125,15 @@
                     vm.conductor = respuesta.data.data;
                     sessionStorage.setItem('idUsuario', JSON.stringify(vm.conductor.user));
                     sessionStorage.setItem('idGremio', JSON.stringify(vm.conductor.empresa));
-                    $rootScope.id = $scope.conductor.id;
                     sessionStorage.setItem('idConductor', JSON.stringify(vm.conductor.id));
+                    sessionStorage.setItem('estado', JSON.stringify(vm.conductor.estado));
+                    sessionStorage.setItem('estacion', JSON.stringify(vm.conductor.estacion));
+                    sessionStorage.setItem('codigo_vial', JSON.stringify(vm.conductor.codigo_vial));
+                    
+                    $rootScope.id = $scope.conductor.id;
                     $ionicLoading.hide();
                     ConductorService.updateRegId(sessionStorage.getItem('idUsuario'), localStorage.getItem('regid'));
-                    // socketCh.connect();
+                    UbicacionesRepository.connect();
                 }
                 , function (error) {
                     $ionicLoading.hide();
@@ -129,7 +141,6 @@
             );
         });
 
-        UbicacionesRepository.connect();
         $scope.logout = function () {
             LoginService.logout();
         }

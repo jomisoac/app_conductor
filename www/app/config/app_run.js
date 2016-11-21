@@ -25,19 +25,6 @@
                 }
             }, false);
 
-
-            // var posOptions = {timeout: 2000, enableHighAccuracy: false};
-            // $cordovaGeolocation
-            //     .getCurrentPosition(posOptions)
-            //     .then(
-            //         function (position) {
-            //             var lat = position.coords.latitude
-            //             var long = position.coords.longitude
-            //         }, function (err) {
-            //             alert("Por favor encender GPS del equipo");
-            //         }
-            //     );
-
             setInterval(function () {
                 var jwt = sessionStorage.getItem('jwt');
                 if (jwt) {
@@ -68,7 +55,6 @@
                     'badge': 'true',
                     'sound': 'true',
                     'alert': 'true',
-                    'ecb': 'onNotification',
                     'icon': 'img/logo.png',
                     'senderID': '984044898845'
                 };
@@ -77,7 +63,6 @@
                     'badge': 'true',
                     'sound': 'true',
                     'alert': 'true',
-                    'ecb': 'onNotification',
                     'icon': 'img/logo.png',
                     'senderID': '984044898845'
                 };

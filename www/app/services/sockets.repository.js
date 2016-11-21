@@ -14,9 +14,7 @@
 
         return {
             'connect': connect,
-            'emit': emit,
-            'recivePosPasajeros': recivePosPasajeros,
-            'testUbicion': testUbicion
+            'emit': emit
         };
 
         function connect() {
@@ -29,6 +27,7 @@
                         'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                     }
                 });
+                escuchar();
                 subscribed_enviar_ubicacion   = true;
             }
         }
@@ -36,7 +35,7 @@
         function emit(data) {
             $sails.request({
                 method: 'POST',
-                url: 'post_ubicacion_conductor',
+                url: '/ubicacion_conductor',
                 data: data,
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
@@ -44,17 +43,20 @@
             });
         }
 
-        function testUbicion() {
-            $sails.on('posConductor', function (response) {
-                console.log(response);
-            })
-        }
+        function escuchar(){
+            $sails.on('madeDespacho', function(response){
+                console.log('echo el despacho' ,response)
+            });
 
-        function recivePosPasajeros() {
-            $sails.on('posPasajeros', function (response) {
-                console.log(response)
-                console.log('Recibiendo posicion pasajeros')
+            $sails.on('turnoUpdate', function(response){
+                console.log('Cambiado el turno' ,response)
+            });
+
+            
+            $sails.on('removeTurno', function(response){
+                console.log('Quitado del turno' ,response)
             });
         }
+
     }
 })();

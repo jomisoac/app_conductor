@@ -7,6 +7,7 @@
             var service = {
                 checkLocation: checkLocation,
             };
+
             return service;
 
             function checkLocation(){
@@ -20,12 +21,13 @@
                             defered.resolve(true);
                         } else {
                             defered.resolve(false);
+                            console.log('asd')
                             $ionicPopup.show({
                                 title: 'Debe habilitar los servicios de ubicación',
                                 buttons: [
                                     { text: 'Omitir' },
                                     {
-                                        text: '<b>Configuración</b>',
+                                        text: '<b>Ajustes</b>',
                                         type: 'button-positive',
                                         onTap: function(e) {
                                             cordova.plugins.diagnostic.switchToLocationSettings();
@@ -37,7 +39,6 @@
                         }
                     },
                     function(e)     {
-                        alert('Error ' + e);
                         defered.reject(e)
                     }
                 );
