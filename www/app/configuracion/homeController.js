@@ -5,7 +5,7 @@
         .module('configuracion')
         .controller('HomeCtrl', HomeCtrl);
 
-    function HomeCtrl($scope, $ionicPopup, $location, ConductorService) {
+    function HomeCtrl($scope, $ionicPopup, $location, ConductorService, $rootScope) {
 
         $scope.estado;
         $scope.classButton;
@@ -20,11 +20,12 @@
                     $scope.conductor = respuesta.data.data;
                     //console.log(respuesta.data);
                     if (respuesta.data.data.estado === "no_disponible" || respuesta.data.data.estado === "en_ruta"
-                        || respuesta.data.data.estado === "ausente"  || respuesta.data.data.estado === "accidente" || respuesta.data.data.estado === null) {
-                        $scope.estado = "no_disponible";
+                        || respuesta.data.data.estado === "ausente"  || respuesta.data.data.estado === "accidente" 
+                        || respuesta.data.data.estado === "en_turno" || respuesta.data.data.estado === null) {
+                        $rootScope.estado = "no_disponible";
                         $scope.classButton = "button-assertive";
                     } else if (respuesta.data.data.estado === "disponible") {
-                        $scope.estado = "disponible";
+                        $rootScope.estado = "disponible";
                         $scope.classButton = "button-balanced";
                     }
                     //$ionicLoading.hide();
@@ -43,11 +44,11 @@
 
         $scope.cambiarEstado = function () {
             if ($scope.estado === "no_disponible" || $scope.estado === "en_ruta"
-                || $scope.estado === 'accidente' || $scope.estado === 'ausente') {
-                $scope.estado = "disponible";
+                || $scope.estado === "en_turno" || $scope.estado === 'accidente' || $scope.estado === 'ausente') {
+                $rootScope.estado = "disponible";
                 $scope.classButton = "button-balanced";
             } else if ($scope.estado === "disponible") {
-                $scope.estado = "no_disponible";
+                $rootScope.estado = "no_disponible";
                 $scope.classButton = "button-assertive";
             }
             $scope.conductor.estado = $scope.estado;

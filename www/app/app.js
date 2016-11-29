@@ -24,7 +24,8 @@
             'geolocalizacion',
             'notificaciones',
             'ubicaciones',
-            'vehiculo'
-
+            'localNotificaciton',
+            'vehiculo',
+            'sails'
         ])
 })();

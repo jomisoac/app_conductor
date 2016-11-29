@@ -10,6 +10,22 @@
     function appRun($ionicPlatform, $cordovaPush, $rootScope,
                     $location, jwtHelper, $http, $cordovaGeolocation, api) {
         $ionicPlatform.ready(function () {
+            // Enable to debug issues.
+            // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+            
+            var notificationOpenedCallback = function(jsonData) {
+                console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+                console.log(jsonData);
+            };
+
+            window.plugins.OneSignal
+                .startInit("82e0b3fe-0075-4603-826b-3e9a7a9eb8d6", "AIzaSyDTUQ3R3HShSm4L8UbtiUnTbFBWkXOW0HI")
+                .handleNotificationOpened(notificationOpenedCallback)
+                .endInit();
+                
+            // Sync hashed email if you have a login system or collect it.
+            //   Will be used to reach the user at the most optimal time of day.
+            // window.plugins.OneSignal.syncHashedEmail(userEmail);
 
             window.addEventListener("orientationchange", function () {
                 if (window.orientation == 0) {
@@ -24,19 +40,6 @@
                     $rootScope.orientacionHorizontal = false;
                 }
             }, false);
-
-
-            // var posOptions = {timeout: 2000, enableHighAccuracy: false};
-            // $cordovaGeolocation
-            //     .getCurrentPosition(posOptions)
-            //     .then(
-            //         function (position) {
-            //             var lat = position.coords.latitude
-            //             var long = position.coords.longitude
-            //         }, function (err) {
-            //             alert("Por favor encender GPS del equipo");
-            //         }
-            //     );
 
             setInterval(function () {
                 var jwt = sessionStorage.getItem('jwt');
@@ -61,72 +64,70 @@
                 }
             }, 10000);
 
-            var config = null;
+            // var config = null;
 
-            if (ionic.Platform.isAndroid()) {
-                config = {
-                    'badge': 'true',
-                    'sound': 'true',
-                    'alert': 'true',
-                    'ecb': 'onNotification',
-                    'icon': 'img/logo.png',
-                    'senderID': '984044898845'
-                };
-            } else if (ionic.Platform.isIOS()) {
-                config = {
-                    'badge': 'true',
-                    'sound': 'true',
-                    'alert': 'true',
-                    'ecb': 'onNotification',
-                    'icon': 'img/logo.png',
-                    'senderID': '984044898845'
-                };
-            }
-            window.onNotification = function(r){
-                console.log('onNotification', r)
-            }
+            // if (ionic.Platform.isAndroid()) {
+            //     config = {
+            //         'badge': 'true',
+            //         'sound': 'true',
+            //         'alert': 'true',
+            //         'icon': 'img/logo.png',
+            //         'senderID': '984044898845'
+            //     };
+            // } else if (ionic.Platform.isIOS()) {
+            //     config = {
+            //         'badge': 'true',
+            //         'sound': 'true',
+            //         'alert': 'true',
+            //         'icon': 'img/logo.png',
+            //         'senderID': '984044898845'
+            //     };
+            // }
+            // window.onNotification = function(r){
+            //     console.log('onNotification', r)
+            // }
 
-            $cordovaPush.register(config).then(function (result) {
-                if (ionic.Platform.isIOS()) {
-                }
+            // $cordovaPush.register(config).then(function (result) {
+            //     if (ionic.Platform.isIOS()) {
+            //     }
 
-            }, function (err) {
-                //alert("Register error " + err)
-            });
+            // }, function (err) {
+            //     //alert("Register error " + err)
+            // });
 
-            $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                switch (notification.event) {
-                    case 'registered':
-                        if (notification.regid.length > 0) {
-                            localStorage.setItem('regid', notification.regid);
-                            sessionStorage.setItem('regid', notification.regid);
-                            $rootScope.reg_id = localStorage.getItem('regid')
-                        }
-                        break;
+            // $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+            //     switch (notification.event) {
+            //         case 'registered':
+            //             if (notification.regid.length > 0) {
+            //                 localStorage.setItem('regid', notification.regid);
+            //                 sessionStorage.setItem('regid', notification.regid);
+            //                 $rootScope.reg_id = localStorage.getItem('regid')
+            //             }
+            //             break;
 
-                    case 'message':
-                        console.log(notification)
-                        if (notification.payload.tipo == "pasajeros") {
-                            //alert(notification.payload.message);
-                            $location.path("/pasajeros");
-                        } else if (notification.payload.tipo == "Desepacho") {
-                            //alert(notification.payload.message);
-                        } else if (notification.payload.tipo == "Actualizacion turno") {
-                            //alert(notification.payload.message);
-                            sessionStorage.setItem('idRuta', notification.payload.datos);
-                        }
+            //         case 'message':
+            //             console.log(notification)
+            //             if (notification.payload.tipo == "pasajeros") {
+            //                 //alert(notification.payload.message);
+            //                 $location.path("/pasajeros");
+            //             } else if (notification.payload.tipo == "Desepacho") {
+            //                 //alert(notification.payload.message);
+            //             } else if (notification.payload.tipo == "Actualizacion turno") {
+            //                 //alert(notification.payload.message);
+            //                 sessionStorage.setItem('idRuta', notification.payload.datos);
+            //             }
 
-                        break;
+            //             break;
 
-                    case 'error':
-                        alert('GCM error = ' + notification.msg);
-                        break;
+            //         case 'error':
+            //             alert('GCM error = ' + notification.msg);
+            //             break;
 
-                    default:
-                        alert('An unknown GCM event has occurred');
-                        break;
-                }
-            });
+            //         default:
+            //             alert('An unknown GCM event has occurred');
+            //             break;
+            //     }
+            // });
 
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)

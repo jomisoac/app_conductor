@@ -10,11 +10,13 @@
         </div>
         <div id="rounded" class="item item-avatar" ng-repeat="pasajero in listaPasajeros" style="background:#F2F2F2;margin-bottom:10px;">
             <img ng-src="img/logo.png">
-            <h2><strong>{{pasajero.nombres}}</strong></h2>
-            <p>{{pasajero.direccion}}</p>
+            <h2><strong>{{pasajero.pasajeros[0].nombre}}</strong></h2>
+            <p ng-if="pasajero.direccion !== null">{{pasajero.direccion}}</p>
+            <p ng-if="pasajero.direccion === null">En la oficina</p>
+            <p ng-if="pasajero.recogido === true" style="color: green !important">En el auto</p>
+            <!--<p ng-if="pasajero.direccion">En la oficina</p>-->
             <p>{{pasajero.telefono}}</p>
-            <p><strong> {{pasajero.estado}}</strong></p>
-            <button class="button button-small button-assertive" ng-click="recogerPasajeros(pasajero)">Recoger Pasajero</button>
+            <button class="button button-small button-assertive" ng-disabled="pasajero.recogido || pasajero.direccion == null" ng-click="recogerPasajeros(pasajero, $index)">Recoger Pasajero</button>
         </div>
     </div>
 </ion-content>
@@ -25,7 +27,7 @@
                  <button class="button button-icon icon ion-person" ng-click="opcionMenu('Pasajeros')"></button>
              </div>
         </div>
-         <div class="col text-center">
+         <!--<div class="col text-center">
              <div class="buttons">
                  <button class="button button-icon icon ion-email" ng-click="opcionMenu('Encomiendas')"></button>
              </div>
@@ -34,6 +36,6 @@
              <div class="buttons">
                  <button class="button button-icon icon ion-social-usd" ng-click="opcionMenu('Giros')"></button>
              </div>
-        </div>
+        </div>-->
      </div>
 </ion-footer-bar>

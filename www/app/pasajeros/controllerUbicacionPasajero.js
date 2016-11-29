@@ -12,7 +12,7 @@
 
         var pasajeros = [];
 
-        var infoPasajeroEncomienda;
+        var infoPasajeroEncomienda = $rootScope.infoPasajeroEncomienda;;
         var nombre;
         var direccion;
 
@@ -25,19 +25,19 @@
 
         $scope.$on('$ionicView.enter', function () {
             var posicion = {};
-            infoPasajeroEncomienda = $rootScope.infoPasajeroEncomienda;
-            if ($rootScope.bandera == "encomienda") {
-                direccion = infoPasajeroEncomienda.direccionD;
-                $scope.opcion = "Encomienda Recogida";
-                $scope.titulo = "Ubicación Encomienda";
-            } else if ($rootScope.bandera == "pasajero") {
+            // if ($rootScope.bandera == "encomienda") {
+            //     direccion = infoPasajeroEncomienda.direccionD;
+            //     $scope.opcion = "Encomienda Recogida";
+            //     $scope.titulo = "Ubicación Encomienda";
+            // } else 
+            if ($rootScope.bandera == "pasajero") {
                 $scope.opcion = "Pasajero Recogido";
                 direccion = infoPasajeroEncomienda.direccion;
                 $scope.titulo = "Ubicación Pasajero";
-            } else if ($rootScope.bandera == "giro") {
-                $scope.opcion = "Giro Recogido";
-                direccion = infoPasajeroEncomienda.direccionD;
-                $scope.titulo = "Ubicación Giro";
+            // } else if ($rootScope.bandera == "giro") {
+            //     $scope.opcion = "Giro Recogido";
+            //     direccion = infoPasajeroEncomienda.direccionD;
+            //     $scope.titulo = "Ubicación Giro";
             }
 
             console.log(infoPasajeroEncomienda);
@@ -57,52 +57,42 @@
 
         $scope.finalizarBusqueda = function () {
             $ionicLoading.show();
-            if ($rootScope.bandera == "encomienda") {
-                var data = {
-                    id: infoPasajeroEncomienda.id,
-                    tipo: "paquete"
-                };
-                NotificacionService.FinalizarBusqueda(data).then(
-                    function (respuesta) {
-                        console.log(respuesta);
-                        $ionicLoading.hide();
-                        alert("La encomienda se encuentra en el vehiculo");
-                    }, function (error) {
-                        console.log(error);
-                        $ionicLoading.hide();
-                    }
-                );
-            } else if ($rootScope.bandera == "pasajero") {
-                var data = {
-                    id: infoPasajeroEncomienda.id,
-                    tipo: "pasajero"
-                };
-                NotificacionService.FinalizarBusqueda(data).then(
-                    function (respuesta) {
-                        console.log(respuesta);
-                        $ionicLoading.hide();
-                        alert("El pasajero se encuentra en el vehiculo");
-                        $location.path("/pasajeros");
-                    }, function (error) {
-                        console.log(error);
-                    }
-                );
-
-            } else if ($rootScope.bandera == "giro") {
-                var data = {
-                    id: infoPasajeroEncomienda.id,
-                    tipo: "giro"
-                };
-                NotificacionService.FinalizarBusqueda(data).then(
-                    function (respuesta) {
-                        console.log(respuesta);
-                        $ionicLoading.hide();
-                        alert("El giro se encuentra en el vehiculo");
-                    }, function (error) {
-                        console.log(error);
-                    }
-                );
-            }
+            // if ($rootScope.bandera == "encomienda") {
+            //     var data = {
+            //         id: infoPasajeroEncomienda.id,
+            //         tipo: "paquete"
+            //     };
+            //     NotificacionService.FinalizarBusqueda(data).then(
+            //         function (respuesta) {
+            //             console.log(respuesta);
+            //             $ionicLoading.hide();
+            //             alert("La encomienda se encuentra en el vehiculo");
+            //         }, function (error) {
+            //             console.log(error);
+            //             $ionicLoading.hide();
+            //         }
+            //     );
+            // } else 
+            if ($rootScope.bandera == "pasajero") {
+                $rootScope.listaPasajeros[$rootScope.infoPasajeroEncomienda.indice].recogido = true;
+                $ionicLoading.hide();
+                $location.path("/pasajeros");
+            } 
+            // else if ($rootScope.bandera == "giro") {
+            //     var data = {
+            //         id: infoPasajeroEncomienda.id,
+            //         tipo: "giro"
+            //     };
+            //     NotificacionService.FinalizarBusqueda(data).then(
+            //         function (respuesta) {
+            //             console.log(respuesta);
+            //             $ionicLoading.hide();
+            //             alert("El giro se encuentra en el vehiculo");
+            //         }, function (error) {
+            //             console.log(error);
+            //         }
+            //     );
+            // }
         }
 
         $scope.volver = function () {
@@ -111,7 +101,7 @@
 
         function initMap(pos) {
             $ionicLoading.hide();
-            map = new google.maps.Map(document.getElementById('map'), {
+            const map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: pos.lat, lng: pos.lng},
                 scrollwheel: false,
                 zoom: 11
@@ -150,7 +140,7 @@
                     var marker = new google.maps.Marker({
                         position: {lat: parseFloat(posicion.lat), lng: parseFloat(posicion.lng)},
                         map: map,
-                        title: infoPasajeroEncomienda.nombres + "<br>" + "Dirección: " + direccion,
+                        title: infoPasajeroEncomienda.pasajeros[0].nombre + "<br>" + "Dirección: " + direccion,
                         icon: markerPasajero,
                         address: infoPasajeroEncomienda.direccion
                     });

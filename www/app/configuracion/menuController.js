@@ -5,7 +5,7 @@
         .module('configuracion')
         .controller('MenuCtrl', MenuCtrl);
 
-    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, ConductorService,  $ionicLoading, $ionicPlatform, $cordovaGeolocation, UbicacionesRepository, GeolocalizacionService) {
+    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, ConductorService,  $ionicLoading, $ionicPlatform, $cordovaGeolocation, UbicacionesRepository, GeolocalizacionService, localNotificaciton) {
         var vm = this;
 
         $scope.orientacionVertical = true;
@@ -16,6 +16,9 @@
 
         $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
             viewData.enableBack = true;
+        });
+
+        $ionicPlatform.ready(function () {
             $ionicLoading.show();
             GeolocalizacionService.checkLocation().then(function (res) {
                 if(res){
@@ -23,10 +26,9 @@
                     $ionicLoading.hide();
                 }
             })
-        });
-
-        $ionicPlatform.ready(function () {
-            cordova.plugins.backgroundMode.setDefaults({
+            localNotificaciton.checkPermission();
+            
+            cordova.plugins.backgroundMode.setDefaults({ 
                 title: 'Viaja Seguro',
                 text: 'Enviando su ubicación.'
             });
@@ -43,11 +45,15 @@
                             var long = position.coords.longitude
 
                             var posicion = {
-                                conductor_id: sessionStorage.getItem('idConductor'),
+                                id: sessionStorage.getItem('idConductor'),
                                 lat: lat,
                                 lng: long,
+                                empresa: sessionStorage.getItem('idGremio'),
+                                estado: $rootScope.estado,
+                                estacion: sessionStorage.getItem('estacion'),
+                                codigo_vial: sessionStorage.getItem('codigo_vial')
                             };
-                            if (posicion.conductor_id) {
+                            if (posicion.id) {
                                 UbicacionesRepository.emit(posicion);
                             }
 
@@ -68,11 +74,15 @@
                             var long = position.coords.longitude
 
                             var posicion = {
-                                conductor_id: sessionStorage.getItem('idConductor'),
+                                id: sessionStorage.getItem('idConductor'),
                                 lat: lat,
                                 lng: long,
+                                empresa: sessionStorage.getItem('idGremio'),
+                                estado: $rootScope.estado,
+                                estacion: sessionStorage.getItem('estacion'),
+                                codigo_vial: sessionStorage.getItem('codigo_vial')
                             };
-                            if (posicion.conductor_id) {
+                            if (posicion.id) {
                                 UbicacionesRepository.emit(posicion);
                             }
 
@@ -115,13 +125,17 @@
             ConductorService.getById(user.conductor.id).then(
                 function (respuesta) {
                     vm.conductor = respuesta.data.data;
-                    sessionStorage.setItem('idUsuario', JSON.stringify(vm.conductor.user));
-                    sessionStorage.setItem('idGremio', JSON.stringify(vm.conductor.empresa));
+                    sessionStorage.setItem('idUsuario', vm.conductor.user);
+                    sessionStorage.setItem('idGremio', vm.conductor.empresa);
+                    sessionStorage.setItem('idConductor', vm.conductor.id);
+                    sessionStorage.setItem('estado', vm.conductor.estado);
+                    sessionStorage.setItem('estacion', vm.conductor.estacion);
+                    sessionStorage.setItem('codigo_vial', vm.conductor.codigo_vial);
+                    $rootScope.estado = vm.conductor.estado;
                     $rootScope.id = $scope.conductor.id;
-                    sessionStorage.setItem('idConductor', JSON.stringify(vm.conductor.id));
                     $ionicLoading.hide();
                     ConductorService.updateRegId(sessionStorage.getItem('idUsuario'), localStorage.getItem('regid'));
-                    // socketCh.connect();
+                    UbicacionesRepository.connect();
                 }
                 , function (error) {
                     $ionicLoading.hide();
@@ -129,8 +143,8 @@
             );
         });
 
-        UbicacionesRepository.connect();
         $scope.logout = function () {
+            cordova.plugins.backgroundMode.disable();
             LoginService.logout();
         }
 
