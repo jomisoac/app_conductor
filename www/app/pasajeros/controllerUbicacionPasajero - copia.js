@@ -8,7 +8,7 @@
         .module('pasajeros')
         .controller('UbicacionPasajeroCtrl', UbicacionPasajeroCtrl);
 
-    function UbicacionPasajeroCtrl($scope, $location, $rootScope, $ionicLoading, $cordovaGeolocation, $ionicPopup) {
+    function UbicacionPasajeroCtrl($scope, $window, $location, $rootScope, $ionicLoading, NotificacionService) {
 
         var pasajeros = [];
 
@@ -24,90 +24,108 @@
         $scope.titulo;
 
         $scope.$on('$ionicView.enter', function () {
-            var posicion = {}; 
+            var posicion = {};
+            // if ($rootScope.bandera == "encomienda") {
+            //     direccion = infoPasajeroEncomienda.direccionD;
+            //     $scope.opcion = "Encomienda Recogida";
+            //     $scope.titulo = "Ubicación Encomienda";
+            // } else 
             if ($rootScope.bandera == "pasajero") {
                 $scope.opcion = "Pasajero Recogido";
                 direccion = infoPasajeroEncomienda.direccion;
                 $scope.titulo = "Ubicación Pasajero";
             }
+            // } else if ($rootScope.bandera == "giro") {
+            //     $scope.opcion = "Giro Recogido";
+            //     direccion = infoPasajeroEncomienda.direccionD;
+            //     $scope.titulo = "Ubicación Giro";
+            // }
+
             console.log(infoPasajeroEncomienda);
-            
-
-
             if (navigator.geolocation) {
-                $ionicLoading.show({
-                    template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Cargando el mapa...'
-                }); 
-                var posOptions = {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 0
-                };
-
-                $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-                    var lat  = position.coords.latitude;
-                    var long = position.coords.longitude;
-                    var myLatlng = new google.maps.LatLng(lat, long);
-                    $scope.posicion = {
-                        lat : lat,
-                        lng : long,
-                        myLatlng : myLatlng
-                    }
-                    var mapOptions = {
-                        center: myLatlng,
-                        zoom: 16,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        scrollwheel: false,
-                    };             
-                    initMap(mapOptions);
-                    $ionicLoading.hide();            
-                }, function(err) {
-                    $ionicLoading.hide();
-                    console.log(err);
+                $ionicLoading.show();
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    var posicion = {
+                        lat: lat,
+                        lng: lng
+                    };
+                    initMap(posicion);
                 });
             }
         });
 
         $scope.finalizarBusqueda = function () {
-            $ionicLoading.show(); 
+            $ionicLoading.show({
+                template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Cargando el mapa...'
+            });
+            // if ($rootScope.bandera == "encomienda") {
+            //     var data = {
+            //         id: infoPasajeroEncomienda.id,
+            //         tipo: "paquete"
+            //     };
+            //     NotificacionService.FinalizarBusqueda(data).then(
+            //         function (respuesta) {
+            //             console.log(respuesta);
+            //             $ionicLoading.hide();
+            //             alert("La encomienda se encuentra en el vehiculo");
+            //         }, function (error) {
+            //             console.log(error);
+            //             $ionicLoading.hide();
+            //         }
+            //     );
+            // } else 
             if ($rootScope.bandera == "pasajero") {
                 $rootScope.listaPasajeros[$rootScope.infoPasajeroEncomienda.indice].recogido = true;
                 $ionicLoading.hide();
                 $location.path("/pasajeros");
             } 
+            // else if ($rootScope.bandera == "giro") {
+            //     var data = {
+            //         id: infoPasajeroEncomienda.id,
+            //         tipo: "giro"
+            //     };
+            //     NotificacionService.FinalizarBusqueda(data).then(
+            //         function (respuesta) {
+            //             console.log(respuesta);
+            //             $ionicLoading.hide();
+            //             alert("El giro se encuentra en el vehiculo");
+            //         }, function (error) {
+            //             console.log(error);
+            //         }
+            //     );
+            // }
         }
 
         $scope.volver = function () {
             $location.path("app/home");
         }
 
-        function initMap(mapOptions) {
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-            $scope.map = map;
+        function initMap(pos) {
+            $ionicLoading.hide();
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: pos.lat, lng: pos.lng},
+                scrollwheel: false,
+                zoom: 11
+            });
 
             var geocoder = new google.maps.Geocoder();
 
             var markerMiPosicion = new google.maps.Marker({
-                position: {lat: $scope.posicion.lat, lng: $scope.posicion.lng},
-                map: $scope.map,
+                position: {lat: pos.lat, lng: pos.lng},
+                map: map,
                 title: 'Mi Posición',
                 icon: markerConductor
             });
 
             setInterval(function () {
-                var posOptions = {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 0
-                };
-                $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-                    var lat  = position.coords.latitude;
-                    var long = position.coords.longitude;
-                    var myLatlng = new google.maps.LatLng(lat, long);
-                    markerMiPosicion.setPosition(myLatlng);             
-                }, function(err) {
-                    $ionicLoading.hide();
-                    console.log(err);
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    var latlng = new google.maps.LatLng(lat, lng);
+                    markerMiPosicion.setPosition(latlng);
                 });
             }, 10000);
 
@@ -117,14 +135,14 @@
                 infowindow.setContent(markerMiPosicion.title);
                 infowindow.open(map, markerMiPosicion);
             });
-            geocodeLatLng(geocoder, $scope.map, markerMiPosicion.getPosition().lat(), markerMiPosicion.getPosition().lng());
+            geocodeLatLng(geocoder, map, markerMiPosicion.getPosition().lat(), markerMiPosicion.getPosition().lng());
 
             geocoder.geocode({'address': direccion}, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     var posicion = ParseLocation(results[0].geometry.location);
                     var marker = new google.maps.Marker({
                         position: {lat: parseFloat(posicion.lat), lng: parseFloat(posicion.lng)},
-                        map: $scope.map,
+                        map: map,
                         title: infoPasajeroEncomienda.pasajeros[0].nombre + "<br>" + "Dirección: " + direccion,
                         icon: markerPasajero,
                         address: infoPasajeroEncomienda.direccion
@@ -137,10 +155,7 @@
                     });
                 }
                 else {
-                    $ionicPopup.alert({
-                        title: 'Lo sentimos!',
-                        template: 'No se pudo obtener la ubicacion de este pasajero, verifica con tu central.'
-                    });
+                    alert('error: ' + status);
                     $ionicLoading.hide();
                 }
 
@@ -186,11 +201,9 @@
                     provideRouteAlternatives: true
                 };
 
-                directionsDisplay.setMap($scope.map);
+                directionsDisplay.setMap(map);
 
                 directionsService.route(request, function (response, status) {
-                    console.log('response', response)
-                    console.log('status', response)
                     if (status == google.maps.DirectionsStatus.OK) {
                         directionsDisplay.setDirections(response);
                     } else {
