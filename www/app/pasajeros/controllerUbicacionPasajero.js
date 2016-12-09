@@ -19,7 +19,7 @@
         var markerConductor = "img/marker_car.png";
         var markerPasajero = "img/marker_pasajero.png";
         var direccionConductor;
-
+        var myLatlng;
         $scope.opcion = "Prueba";
         $scope.titulo;
 
@@ -31,6 +31,7 @@
                 $scope.titulo = "Ubicación Pasajero";
             }
             console.log(infoPasajeroEncomienda);
+            console.log($rootScope.MiGeolocation)
             
 
 
@@ -38,33 +39,44 @@
                 $ionicLoading.show({
                     template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Cargando el mapa...'
                 }); 
-                var posOptions = {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 0
-                };
+                // var posOptions = {
+                //     enableHighAccuracy: true,
+                //     timeout: 20000,
+                //     maximumAge: 0
+                // };
 
-                $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-                    var lat  = position.coords.latitude;
-                    var long = position.coords.longitude;
-                    var myLatlng = new google.maps.LatLng(lat, long);
-                    $scope.posicion = {
-                        lat : lat,
-                        lng : long,
-                        myLatlng : myLatlng
-                    }
-                    var mapOptions = {
-                        center: myLatlng,
-                        zoom: 16,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        scrollwheel: false,
-                    };             
-                    initMap(mapOptions);
-                    $ionicLoading.hide();            
-                }, function(err) {
-                    $ionicLoading.hide();
-                    console.log(err);
-                });
+                var myLatlng = new google.maps.LatLng($rootScope.MiGeolocation.lat, $rootScope.MiGeolocation.long);
+
+                var mapOptions = {
+                    center: myLatlng,
+                    zoom: 16,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    scrollwheel: false,
+                };
+                initMap(mapOptions);
+                $ionicLoading.hide();
+
+                // $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+                    // var lat  = position.coords.latitude;
+                    // var long = position.coords.longitude;
+                    
+                    // $scope.posicion = {
+                    //     lat : lat,
+                    //     lng : long,
+                    //     myLatlng : myLatlng
+                    // }
+                    // var mapOptions = {
+                    //     center: myLatlng,
+                    //     zoom: 16,
+                    //     mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    //     scrollwheel: false,
+                    // };             
+                    // initMap(mapOptions);
+                    // $ionicLoading.hide();            
+                // }, function(err) {
+                    // $ionicLoading.hide();
+                    // console.log(err);
+                // });
             }
         });
 
@@ -88,27 +100,29 @@
             var geocoder = new google.maps.Geocoder();
 
             var markerMiPosicion = new google.maps.Marker({
-                position: {lat: $scope.posicion.lat, lng: $scope.posicion.lng},
+                position: {lat: $rootScope.MiGeolocation.lat, lng: $rootScope.MiGeolocation.long},
                 map: $scope.map,
                 title: 'Mi Posición',
                 icon: markerConductor
             });
 
             setInterval(function () {
-                var posOptions = {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 0
-                };
-                $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-                    var lat  = position.coords.latitude;
-                    var long = position.coords.longitude;
-                    var myLatlng = new google.maps.LatLng(lat, long);
-                    markerMiPosicion.setPosition(myLatlng);             
-                }, function(err) {
-                    $ionicLoading.hide();
-                    console.log(err);
-                });
+                var myLatlng = new google.maps.LatLng($rootScope.MiGeolocation.lat, $rootScope.MiGeolocation.long);
+                markerMiPosicion.setPosition(myLatlng);
+                // var posOptions = {
+                    // enableHighAccuracy: true,
+                    // timeout: 20000,
+                    // maximumAge: 0
+                // };
+                // $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+                    // var lat  = position.coords.latitude;
+                    // var long = position.coords.longitude;
+                    // var myLatlng = new google.maps.LatLng(lat, long);
+                    // markerMiPosicion.setPosition(myLatlng);             
+                // }, function(err) {
+                    // $ionicLoading.hide();
+                    // console.log(err);
+                // });
             }, 10000);
 
             var infowindow = new google.maps.InfoWindow();
@@ -183,16 +197,18 @@
                     destination: destino,
                     travelMode: google.maps.DirectionsTravelMode['DRIVING'],
                     unitSystem: google.maps.DirectionsUnitSystem['METRIC'],
-                    provideRouteAlternatives: true
+                    provideRouteAlternatives: false
                 };
 
                 directionsDisplay.setMap($scope.map);
 
                 directionsService.route(request, function (response, status) {
                     console.log('response', response)
-                    console.log('status', response)
+                    response.routes[0].copyrights = ''
+                    $scope.datos = response[0].legs[0];
                     if (status == google.maps.DirectionsStatus.OK) {
-                        directionsDisplay.setDirections(response);
+                        var ruta=directionsDisplay.setDirections(response);
+                        console.log(ruta)
                     } else {
                         alert("No existen rutas entre ambos puntos");
                     }

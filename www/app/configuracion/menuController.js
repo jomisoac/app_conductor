@@ -10,7 +10,7 @@
 
         $scope.orientacionVertical = true;
         $scope.orientacionHorizontal;
-
+        $rootScope.MiGeolocation= {};
 
         var no_direction = false;
 
@@ -53,10 +53,14 @@
                                 estacion: sessionStorage.getItem('estacion'),
                                 codigo_vial: sessionStorage.getItem('codigo_vial')
                             };
+                            $rootScope.MiGeolocation ={
+                                lat : lat,
+                                long : long
+                            }
                             if (posicion.id) {
                                 UbicacionesRepository.emit(posicion);
                             }
-
+                            console.log($rootScope.MiGeolocation)
                         }, function (err) {
                             console.log(err);
                         });
@@ -82,6 +86,11 @@
                                 estacion: sessionStorage.getItem('estacion'),
                                 codigo_vial: sessionStorage.getItem('codigo_vial')
                             };
+                            $rootScope.MiGeolocation ={
+                                lat : lat,
+                                long : long
+                            }
+                            console.log($rootScope.MiGeolocation)
                             if (posicion.id) {
                                 UbicacionesRepository.emit(posicion);
                             }

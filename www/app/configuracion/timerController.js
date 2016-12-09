@@ -15,11 +15,19 @@
                     var lat = position.coords.latitude;
                     var lng = position.coords.longitude;
                     var posicion = {
-                        conductor_id: $rootScope.idConductor,
-                        latitud: lat,
-                        longitud: lng
+                        id: sessionStorage.getItem('idConductor'),
+                        lat: lat,
+                        lng: long,
+                        empresa: sessionStorage.getItem('idGremio'),
+                        estado: $rootScope.estado,
+                        estacion: sessionStorage.getItem('estacion'),
+                        codigo_vial: sessionStorage.getItem('codigo_vial')
                     };
-
+                    $rootScope.MiGeolocation = {
+                        lat : lat,
+                        long : lng
+                    }
+                    console.log($rootScope.MiGeolocation)
                     UbicacionesRepository.emit('posConductor', posicion);                    // GeolocalizacionService.guardar(posicion).then(
                     //     function (respuesta) {
                     //         $timeout(ActualzarPosicion, 300000);
