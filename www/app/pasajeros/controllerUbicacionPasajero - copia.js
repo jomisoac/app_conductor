@@ -120,13 +120,15 @@
             });
 
             setInterval(function () {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-
-                    var latlng = new google.maps.LatLng(lat, lng);
-                    markerMiPosicion.setPosition(latlng);
-                });
+                var latlng = new google.maps.LatLng($rootScope.MiGeolocation.lat, $rootScope.MiGeolocation.long);
+                markerMiPosicion.setPosition(latlng);
+                // navigator.geolocation.getCurrentPosition(function (position) {
+                //     var lat = position.coords.latitude;
+                //     var lng = position.coords.longitude;
+                //
+                //     var latlng = new google.maps.LatLng(lat, lng);
+                //     markerMiPosicion.setPosition(latlng);
+                // });
             }, 10000);
 
             var infowindow = new google.maps.InfoWindow();
