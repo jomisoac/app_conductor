@@ -30,8 +30,13 @@
         }
 
         this.registrar = function (conductor) {
-            var url = api + '/usuarios/conductores';
+            var url = api + '/conductores';
             return $http.post(url, conductor);
+        }
+
+        this.actualizar = function (datos) {
+            var url = api + '/conductores/'+sessionStorage.getItem('idConductor');
+            return $http.put(url, datos);
         }
 
         this.updateEstado = function (conductor) {

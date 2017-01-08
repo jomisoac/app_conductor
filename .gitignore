@@ -4,7 +4,3 @@
 node_modules/
 platforms/
 plugins/
-.idea/
-nbproject/
-.vscode/
-www/lib

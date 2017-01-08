@@ -28,7 +28,7 @@
             })
             localNotificaciton.checkPermission();
             
-            cordova.plugins.backgroundMode.setDefaults({ 
+            cordova.plugins.backgroundMode.setDefaults({
                 title: 'Viaja Seguro',
                 text: 'Enviando su ubicación.'
             });
@@ -62,7 +62,7 @@
                             }
                             console.log($rootScope.MiGeolocation)
                         }, function (err) {
-                            console.log(err);
+                            // console.log(err);
                         });
                 }, 3000);
             }
@@ -96,7 +96,7 @@
                             }
 
                         }, function (err) {
-                            console.log(err);
+                            // console.log(err);
                         });
                 }, 3000);
             }
@@ -137,6 +137,7 @@
                     sessionStorage.setItem('idUsuario', vm.conductor.user);
                     sessionStorage.setItem('idGremio', vm.conductor.empresa);
                     sessionStorage.setItem('idConductor', vm.conductor.id);
+                    sessionStorage.setItem('idVehiculo', vm.conductor.vehiculo);
                     sessionStorage.setItem('estado', vm.conductor.estado);
                     sessionStorage.setItem('estacion', vm.conductor.estacion);
                     sessionStorage.setItem('codigo_vial', vm.conductor.codigo_vial);

@@ -5,7 +5,7 @@
         .module('configuracion')
         .controller('ContrasenaCtrl', ContrasenaCtrl);
 
-    function ContrasenaCtrl($scope, $location, $ionicPopup, $window, $ionicLoading, ConductorService, GeolocalizacionService) {
+    function ContrasenaCtrl($scope, $location, $ionicPopup, $ionicLoading, ConductorService, GeolocalizacionService) {
 
         $scope.$on('$ionicView.enter', function () {
             $scope.contrasena = {};

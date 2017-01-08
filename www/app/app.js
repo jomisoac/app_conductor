@@ -14,6 +14,7 @@
 
             'auth',
             'conductor',
+            'perfil',
             'configuracion',
             'giros',
             'paquetes',

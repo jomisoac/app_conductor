@@ -1,0 +1,44 @@
+<ion-header-bar class="bar-positive">
+    <button class="button button-icon icon ion-arrow-left-c" ng-click="vm.volver()"></button>
+    <h1 class="title">Mis datos</h1>
+</ion-header-bar>
+<ion-content>
+    <form name="formPerfil" novalidate>
+        <div id = "container" class="list list-inset">
+            <label><p style="margin-bottom:0px;margin-left:10px;font-size:115%;font-weight: bold;">Nombres</p></label>
+            <label id = "rounded" class="item item-input">
+                <i class="icon ion-person placeholder-icon" style="font-size: 25px;color:#a20002;"></i>
+                &nbsp;
+                <input type="text" name="placa"  ng-model="vm.conductor.nombres" required>
+            </label>
+            <label><p style="margin-top:7px;margin-bottom:0px;margin-left:10px;font-size:115%;font-weight: bold;">Apellidos</p></label>
+            <label id = "rounded" class="item item-input">
+                <i class="icon ion-person placeholder-icon" style="font-size: 25px;color:#a20002;"></i>
+                &nbsp;
+                <input type="text" name="modelo" ng-model="vm.conductor.apellidos" required>
+            </label>
+            <label><p style="margin-top:7px;margin-bottom:0px;margin-left:10px;font-size:115%;font-weight: bold;">Dirección</p></label>
+            <label id = "rounded" class="item item-input">
+                <i class="icon ion-ios-people placeholder-icon" style="font-size: 25px;color:#a20002;"></i>
+                &nbsp;
+                <input type="text" name="cupo" ng-model="vm.conductor.direccion" required>
+            </label>
+            <label><p style="margin-top:7px;margin-bottom:0px;margin-left:10px;font-size:115%;font-weight: bold;">Teléfono</p></label>
+            <label id = "rounded" class="item item-input">
+                <i class="icon ion-android-phone-landscape placeholder-icon" style="font-size: 25px;color:#a20002;"></i>
+                &nbsp;
+                <input type="text" name="color" ng-model="vm.conductor.telefono" required>
+            </label>
+            <label><p style="margin-top:7px;margin-bottom:0px;margin-left:10px;font-size:115%;font-weight: bold;">Email</p></label>
+            <label id = "rounded" class="item item-input">
+                <i class="icon ion-email placeholder-icon" style="font-size: 25px;color:#a20002;"></i>
+                &nbsp;
+                <input type="text" name="cupo" ng-model="vm.conductor.email" >
+            </label>
+            <button
+                    class="button button-block button-positive"
+                    ng-click="vm.RegistrarActualizar()" ng-disabled="formPerfil.$invalid">Registrar/Actualizar
+            </button>
+        </div>
+    </form>
+</ion-content>

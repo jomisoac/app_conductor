@@ -41,5 +41,10 @@
                     }
                 }
             })
+            .state('mis-datos', {
+                url: '/datos',
+                templateUrl: 'app/perfil/perfil.html',
+                controller: 'PerfilCtrl as vm'
+            })
     }
 })();

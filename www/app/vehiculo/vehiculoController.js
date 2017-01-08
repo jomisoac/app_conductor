@@ -17,7 +17,6 @@
 
             VehiculoService.getById(sessionStorage.getItem('idConductor')).then(
                 function (respuesta) {
-                    console.log(respuesta)
                     if (respuesta.data.data[0].vehiculo) {
                         informacionVehiculo = true;
                         $scope.vehiculo = respuesta.data.data[0].vehiculo;
@@ -25,10 +24,10 @@
                             $scope.vehiculo.fecha_soat = new Date(respuesta.data.data[0].vehiculo.fecha_soat);
                         if (respuesta.data.data[0].vehiculo.fecha_tecnomecanica)
                             $scope.vehiculo.fecha_tecnomecanica = new Date(respuesta.data.data[0].vehiculo.fecha_tecnomecanica);
-                        $ionicLoading.hide();
                     } else {
                         informacionVehiculo = false;
                     }
+                    $ionicLoading.hide();
                 }, function (error) {
                     $ionicLoading.hide();
                     mostarAlert("Error", "Error al consultar la información, intente más tarde");
