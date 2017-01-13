@@ -8,7 +8,10 @@
         .run(appRun);
 
     function appRun($ionicPlatform, $cordovaPush, $rootScope,
-                    $location, jwtHelper, $http, $cordovaGeolocation, api) {
+                    $location, jwtHelper, $http, $cordovaGeolocation, api, $cordovaSplashscreen) {
+        setTimeout(function() {
+            $cordovaSplashscreen.hide()
+        }, 3000);
         $ionicPlatform.ready(function () {
             // Enable to debug issues.
             // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
@@ -59,7 +62,7 @@
                             }
                         );
                     } else {
-                        console.log("No ha expirado");
+                        // console.log("No ha expirado");
                     }
                 }
             }, 10000);

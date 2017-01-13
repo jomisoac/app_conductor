@@ -6,7 +6,7 @@
         .service('LoginService', authService);
 
     /* @ngInject */
-    function authService($http, api, jwtHelper, $state, $window, $q, $ionicHistory, $ionicLoading) {
+    function authService($http, api, jwtHelper, $state, $window, $q, $ionicHistory, $ionicLoading, $timeout) {
         var local = {
             setCredenciales: setCredenciales,
             getCredenciales: getCredenciales,
@@ -79,9 +79,12 @@
             $ionicLoading.show();
             updateRegId().then(function (res) {
                 sessionStorage.clear();
-                $ionicHistory.clearHistory();
                 $window.localStorage.removeItem('credenciales');
-                $ionicLoading.hide();
+                $timeout(function () {
+                    $ionicHistory.clearCache();
+                    $ionicHistory.clearHistory();
+                    $ionicLoading.hide();
+                }, 200)
                 $state.go('login');
             });
         };
