@@ -20,6 +20,7 @@
   <preference name="SplashScreen" value="screen"/>
   <preference name="cordova-background-geolocation-license" value="e4d67445d2f109fcd56e2fc24237bb9644df5f45671c84d089f6045121e3d5be"/>
   <preference name="cordova-background-geolocation-orderId" value="2678506689"/>
+  <plugin name="cordova-plugin-mauron85-background-geolocation" spec="^2.2.0"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
@@ -44,8 +45,4 @@
     <splash src="resources\android\splash\drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
-  <allow-navigation href="http://192.168.100.3:8101"/>
-  <allow-navigation href="http://192.168.100.3:8100"/>
-  <allow-navigation href="http://192.168.100.5:8101"/>
-  <allow-navigation href="http://192.168.100.5:8100"/>
 </widget>
