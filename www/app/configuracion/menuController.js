@@ -5,12 +5,12 @@
         .module('configuracion')
         .controller('MenuCtrl', MenuCtrl);
 
-    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, ConductorService,  $ionicLoading, $ionicPlatform, $cordovaGeolocation, UbicacionesRepository, GeolocalizacionService, localNotificaciton, $ionicHistory) {
+    function MenuCtrl(LoginService, $scope, $ionicPopup, $rootScope, ConductorService, $ionicLoading, $ionicPlatform, $cordovaGeolocation, UbicacionesRepository, GeolocalizacionService, localNotificaciton, $ionicHistory) {
         var vm = this;
 
         $scope.orientacionVertical = true;
         $scope.orientacionHorizontal;
-        $rootScope.MiGeolocation= {};
+        $rootScope.MiGeolocation = {};
 
         var no_direction = false;
 
@@ -22,76 +22,99 @@
         $ionicPlatform.ready(function () {
             $ionicLoading.show();
             GeolocalizacionService.checkLocation().then(function (res) {
-                if(res){
+                if (res) {
                     no_direction = true;
                     $ionicLoading.hide();
                 }
             })
             localNotificaciton.checkPermission();
 
-            var bgGeo = window.BackgroundGeolocation;
-
-            var callbackFn = function(location, taskId) {
-                console.log('[js] BackgroundGeolocation callback:  ' + location.latitude + ',' + location.longitude);
-
+            var callbackFn = function (location) {
+                var posicion = {
+                    id: sessionStorage.getItem('idConductor'),
+                    lat: location.latitude,
+                    lng: location.longitude,
+                    empresa: sessionStorage.getItem('idGremio'),
+                    estado: $rootScope.estado,
+                    estacion: sessionStorage.getItem('estacion'),
+                    codigo_vial: sessionStorage.getItem('codigo_vial')
+                };
+                $rootScope.MiGeolocation = {
+                    lat: location.latitude,
+                    long: location.longitude
+                }
+                if (posicion.id) {
+                    UbicacionesRepository.emit(posicion);
+                }
+                // console.log($rootScope.MiGeolocation)
                 // backgroundGeolocation.finish();
             };
 
-            var failureFn = function(error) {
+            var failureFn = function (error) {
                 console.log(error)
                 console.log('BackgroundGeolocation error');
             };
 
-            bgGeo.configure({
-                locationAuthorizationAlert: {
-                    titleWhenNotEnabled: "El servicio de localizacion no esta habilitado",
-                    titleWhenOff: "Localizacion apagada",
-                    instructions: "Debes tener los servicios de localizacion encendidos/",
-                    cancelButton: "Cancelar",
-                    settingsButton: "Ajustes"
-                },
-                // Geolocation config
-                desiredAccuracy: 0,
-                stationaryRadius: 50,
-                distanceFilter: 50,
-
-                // Activity recognition config
-                activityRecognitionInterval: 10000,
-                stopTimeout: 5,  // Stop-detection timeout minutes (wait x minutes to turn off tracking)
-
-                // Application config
-                debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
-                logLevel: 5,    // Verbose logging.  0: NONE
-                stopOnTerminate: false,              // <-- Don't stop tracking when user closes app.
-                startOnBoot: true,                   // <-- [Android] Auto start background-service in headless mode when device is powered-up.
-                notificationTitle : 'ViajaSeguro',
-                notificationText : 'Enviando su ubicación',
-                notificationIcon: 'mipmap-hdpi/icon.png'
-            }, function(state) {
-                // Plugin is configured and ready to use.
-                if (!state.enabled) {
-                    bgGeo.start();  // <-- start-tracking
-                }
+            backgroundGeolocation.configure(callbackFn, failureFn, {
+                desiredAccuracy: 10,
+                stationaryRadius: 20,
+                distanceFilter: 30,
+                // Android only section
+                locationProvider: backgroundGeolocation.provider.ANDROID_ACTIVITY_PROVIDER,
+                interval: 6000,
+                fastestInterval: 3000,
+                activitiesInterval: 10000,
+                notificationTitle: 'ViajaSeguro conductores',
+                notificationText: 'Enviando su ubicacion',
+                pauseLocationUpdates: true
             });
 
-            // backgroundGeolocation.configure(callbackFn, failureFn, {
-            //     desiredAccuracy: 10,
-            //     stationaryRadius: 20,
-            //     distanceFilter: 30,
-            //     // Android only section
-            //     locationProvider: backgroundGeolocation.provider.ANDROID_ACTIVITY_PROVIDER,
-            //     interval: 60000,
-            //     fastestInterval: 5000,
-            //     activitiesInterval: 10000,
-            //     startForeground: true,
-            //     stopOnStillActivity: true,
-            //     saveBatteryOnBackground: true,
-            //     activityType: 'AutomotiveNavigation',
-            //     notificationTitle: 'Enviando su ubicacion',
-            //     notificationText: 'Habilitada'
-            // });
-            //
-            // backgroundGeolocation.start();
+            backgroundGeolocation.watchLocationMode(
+                function (enabled) {
+                    if (enabled) {
+                        backgroundGeolocation.start(function (response) {
+                        });
+                        // location service are now enabled
+                        // call backgroundGeolocation.start
+                        // only if user already has expressed intent to start service
+                    } else {
+                        // location service are now disabled or we don't have permission
+                        // time to change UI to reflect that
+                    }
+                },
+                function (error) {
+                    console.log('Error watching location mode. Error:' + error);
+                }
+            );
+
+            backgroundGeolocation.isLocationEnabled(function (enabled) {
+                if (enabled) {
+                    backgroundGeolocation.start(
+                        function (response) {
+                            // service started successfully
+                            // you should adjust your app UI for example change switch element to indicate
+                            // that service is running
+                        },
+                        function (error) {
+                            // Tracking has not started because of error
+                            // you should adjust your app UI for example change switch element to indicate
+                            // that service is not running
+                            if (error.code === 2) {
+                                if (window.confirm('No ha habilitacion las opciones de ubicacion, desea abrir los ajustes?')) {
+                                    backgroundGeolocation.showAppSettings();
+                                }
+                            } else {
+                                window.alert('Error de inicio: ' + error.message);
+                            }
+                        }
+                    );
+                } else {
+                    // Location services are disabled
+                    if (window.confirm('Location is disabled. Would you like to open location settings?')) {
+                        backgroundGeolocation.showLocationSettings();
+                    }
+                }
+            });
 
             // Enable background mode
             // cordova.plugins.backgroundMode.enable();

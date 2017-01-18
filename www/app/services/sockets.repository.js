@@ -9,9 +9,10 @@
         .factory('UbicacionesRepository', SocketcSailsService);
 
     /* @ngInject */
-    function SocketcSailsService($sails) {
+    function SocketcSailsService($sails, localNotificaciton, $rootScope) {
         var subscribed_enviar_ubicacion = false;
-
+        var title = '';
+        var body = '';
         return {
             'connect': connect,
             'emit': emit
@@ -23,6 +24,7 @@
                 $sails.request({
                     method: 'GET',
                     url: '/join_ws_conductor',
+                    data: {conductor_id : sessionStorage.getItem('idConductor')},
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                     }
@@ -45,15 +47,35 @@
 
         function escuchar(){
             $sails.on('madeDespacho', function(response){
+                title = 'Estas listo!';
+                body = 'Tu cupo esta completo y has sido despachado, acercate a la oficina por tu planilla.';
+                localNotificaciton.showNotificationLocal(title, body);
                 console.log('echo el despacho' ,response)
             });
 
             $sails.on('turnoUpdate', function(response){
+                title = 'Actualización de turno';
+                body = 'Tu turno ha sido cambiado al ' + response.pos + ', hacia '+ response.ruta;
+                localNotificaciton.showNotificationLocal(title, body);
                 console.log('Cambiado el turno' ,response)
             });
 
+            $sails.on('newPasajero', function(response){
+                title = 'Nuevo pasajero';
+                body = 'Se te ha agregado un nuevo pasajero, verificalo en la lista.';
+                localNotificaciton.showNotificationLocal(title, body);
+                console.log('Nuevo pasajero' ,response)
+            });
+
+            $sails.on('updateEstado', function(response){
+                console.log(response)
+                $rootScope.estado = response
+            });
             
             $sails.on('removeTurno', function(response){
+                title = 'Algo paso!';
+                body = 'Has sido removido de los turnos, acercate a la oficina y verifica lo sucedido.';
+                localNotificaciton.showNotificationLocal(title, body);
                 console.log('Quitado del turno' ,response)
             });
         }
