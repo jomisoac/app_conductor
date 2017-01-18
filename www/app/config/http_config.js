@@ -7,7 +7,7 @@
     angular
         .module('app')
         .config(config)
-        .constant('api', 'http://192.168.100.5:1337');
+        .constant('api', 'http://192.168.1.4:1337');
 
 
     /* @ngInject */

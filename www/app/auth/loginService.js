@@ -69,7 +69,7 @@
                     'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
                 },
                 data: {
-                    reg_id: sessionStorage.getItem('regid')
+                    reg_id: regid | sessionStorage.getItem(JSON.stringify('regid'))
                 }
             };
             return $http(pet);

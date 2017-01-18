@@ -63,7 +63,7 @@
             $sails.on('newPasajero', function(response){
                 title = 'Nuevo pasajero';
                 body = 'Se te ha agregado un nuevo pasajero, verificalo en la lista.';
-                localNotificaciton.showNotificationLocal(title, body);
+                // localNotificaciton.showNotificationLocal(title, body);
                 console.log('Nuevo pasajero' ,response)
             });
 

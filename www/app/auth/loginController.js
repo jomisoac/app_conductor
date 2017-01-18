@@ -18,6 +18,7 @@
             function success(user) {
                 if(user.rol == "CONDUCTOR"){
                     $ionicLoading.hide();
+                    LoginService.updateRegId();
                     $state.go('app.home')
                 }
             }

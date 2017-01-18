@@ -7,8 +7,8 @@
         .module('app')
         .run(appRun);
 
-    function appRun($ionicPlatform, $cordovaPush, $rootScope,
-                    $location, jwtHelper, $http, $cordovaGeolocation, api, $cordovaSplashscreen) {
+    function appRun($ionicPlatform, $rootScope,
+                    $location, jwtHelper, $http, $ionicPopup, api, $cordovaSplashscreen) {
         setTimeout(function() {
             $cordovaSplashscreen.hide()
         }, 3000);
@@ -65,38 +65,49 @@
                         // console.log("No ha expirado");
                     }
                 }
-            }, 10000);
+            }, 100000);
 
-            // var config = null;
+            var push = PushNotification.init({ "android": {"senderID": "984044898845"},
+                "ios": {}, "windows": {} } );
 
-            // if (ionic.Platform.isAndroid()) {
-            //     config = {
-            //         'badge': 'true',
-            //         'sound': 'true',
-            //         'alert': 'true',
-            //         'icon': 'img/logo.png',
-            //         'senderID': '984044898845'
-            //     };
-            // } else if (ionic.Platform.isIOS()) {
-            //     config = {
-            //         'badge': 'true',
-            //         'sound': 'true',
-            //         'alert': 'true',
-            //         'icon': 'img/logo.png',
-            //         'senderID': '984044898845'
-            //     };
-            // }
-            // window.onNotification = function(r){
-            //     console.log('onNotification', r)
-            // }
+            push.on('registration', function(data) {
+                localStorage.setItem('regid', data.registrationId);
+                sessionStorage.setItem('regid', data.registrationId);
+                $rootScope.reg_id = localStorage.getItem('regid');
+            });
 
-            // $cordovaPush.register(config).then(function (result) {
-            //     if (ionic.Platform.isIOS()) {
-            //     }
+            push.on('notification', function(data) {
+                console.log(data);
+                if(data.additionalData.foreground){
+                    if(data.additionalData.type == 'newPasajero')
+                        mostarAlert(data.title, data.message, 'pasajeros')
+                    if(data.additionalData.type == 'updateTurno')
+                        mostarAlert(data.title, 'Se ha actualizado tu turno al '+data.additionalData.pos+', hacia '+data.additionalData.ruta)
+                    if(data.additionalData.type == 'removeTurno')
+                        mostarAlert(data.title, data.message)
+                }
+                // data.message,
+                // data.title,
+                // data.count,
+                // data.sound,
+                // data.image,
+                // data.additionalData
+            });
 
-            // }, function (err) {
-            //     //alert("Register error " + err)
-            // });
+            push.on('error', function(e) {
+                // e.message
+            });
+
+            function mostarAlert(titulo, contenido, path) {
+                var alertPopup = $ionicPopup.alert({
+                    title: titulo,
+                    template: contenido
+                });
+                alertPopup.then(function (res) {
+                    if(path)
+                        $location.path("/"+path);
+                });
+            }
 
             // $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
             //     switch (notification.event) {

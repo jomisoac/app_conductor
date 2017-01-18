@@ -5,7 +5,7 @@
         .module('configuracion')
         .controller('ContrasenaCtrl', ContrasenaCtrl);
 
-    function ContrasenaCtrl($scope, $location, $ionicPopup, $ionicLoading, ConductorService, GeolocalizacionService) {
+    function ContrasenaCtrl($scope, $location, $ionicPopup, $ionicLoading, ConductorService, LoginService) {
 
         $scope.$on('$ionicView.enter', function () {
             $scope.contrasena = {};
@@ -38,13 +38,7 @@
         }
 
         function cerrarSesion() {
-            GeolocalizacionService.deletePosicion(sessionStorage.getItem('idConductor')).then(
-                function (respuesta) {
-                    $location.path("/login");
-                }, function (error) {
-                    mostarAlert("Cerrar Sesión", "Error al intentar cerrar sesión intente nuevamente");
-                }
-            );
+            LoginService.logout()
         }
 
         function mostarAlert(titulo, contenido) {

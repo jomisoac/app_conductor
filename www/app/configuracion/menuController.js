@@ -64,28 +64,28 @@
                 interval: 6000,
                 fastestInterval: 3000,
                 activitiesInterval: 10000,
-                notificationTitle: 'ViajaSeguro conductores',
+                notificationTitle: 'ViajaSeguro conductor',
                 notificationText: 'Enviando su ubicacion',
                 pauseLocationUpdates: true
             });
 
-            backgroundGeolocation.watchLocationMode(
-                function (enabled) {
-                    if (enabled) {
-                        backgroundGeolocation.start(function (response) {
-                        });
-                        // location service are now enabled
-                        // call backgroundGeolocation.start
-                        // only if user already has expressed intent to start service
-                    } else {
-                        // location service are now disabled or we don't have permission
-                        // time to change UI to reflect that
-                    }
-                },
-                function (error) {
-                    console.log('Error watching location mode. Error:' + error);
-                }
-            );
+            // backgroundGeolocation.watchLocationMode(
+            //     function (enabled) {
+            //         if (enabled) {
+            //             backgroundGeolocation.start(function (response) {
+            //             });
+            //             // location service are now enabled
+            //             // call backgroundGeolocation.start
+            //             // only if user already has expressed intent to start service
+            //         } else {
+            //             // location service are now disabled or we don't have permission
+            //             // time to change UI to reflect that
+            //         }
+            //     },
+            //     function (error) {
+            //         console.log('Error watching location mode. Error:' + error);
+            //     }
+            // );
 
             backgroundGeolocation.isLocationEnabled(function (enabled) {
                 if (enabled) {
@@ -100,9 +100,9 @@
                             // you should adjust your app UI for example change switch element to indicate
                             // that service is not running
                             if (error.code === 2) {
-                                if (window.confirm('No ha habilitacion las opciones de ubicacion, desea abrir los ajustes?')) {
-                                    backgroundGeolocation.showAppSettings();
-                                }
+                                // if (window.confirm('No ha habilitacion las opciones de ubicacion, desea abrir los ajustes?')) {
+                                //     backgroundGeolocation.showAppSettings();
+                                // }
                             } else {
                                 window.alert('Error de inicio: ' + error.message);
                             }
@@ -110,86 +110,11 @@
                     );
                 } else {
                     // Location services are disabled
-                    if (window.confirm('Location is disabled. Would you like to open location settings?')) {
-                        backgroundGeolocation.showLocationSettings();
-                    }
+                    // if (window.confirm('Location is disabled. Would you like to open location settings?')) {
+                    //     backgroundGeolocation.showLocationSettings();
+                    // }
                 }
             });
-
-            // Enable background mode
-            // cordova.plugins.backgroundMode.enable();
-
-            // cordova.plugins.backgroundMode.setDefaults({
-            //     title: 'Viaja Seguro',
-            //     text: 'Enviando su ubicación.'
-            // });
-
-            // if (!cordova.plugins.backgroundMode.isActive()) {
-            //     setInterval(function () {
-            //         var posOptions = {timeout: 10000, enableHighAccuracy: true};
-            //         $cordovaGeolocation
-            //             .getCurrentPosition(posOptions)
-            //             .then(function (position) {
-            //                 var lat = position.coords.latitude
-            //                 var long = position.coords.longitude
-            //
-            //                 var posicion = {
-            //                     id: sessionStorage.getItem('idConductor'),
-            //                     lat: lat,
-            //                     lng: long,
-            //                     empresa: sessionStorage.getItem('idGremio'),
-            //                     estado: $rootScope.estado,
-            //                     estacion: sessionStorage.getItem('estacion'),
-            //                     codigo_vial: sessionStorage.getItem('codigo_vial')
-            //                 };
-            //                 $rootScope.MiGeolocation ={
-            //                     lat : lat,
-            //                     long : long
-            //                 }
-            //                 if (posicion.id) {
-            //                     UbicacionesRepository.emit(posicion);
-            //                 }
-            //                 console.log($rootScope.MiGeolocation)
-            //             }, function (err) {
-            //                 // console.log(err);
-            //             });
-            //     }, 3000);
-            // }
-            // Called when background mode has been activated
-            // cordova.plugins.backgroundMode.onactivate = function () {
-            //     // Set an interval of 3 seconds (3000 milliseconds)
-            //     setInterval(function () {
-            //         var posOptions = {timeout: 10000, enableHighAccuracy: true};
-            //         $cordovaGeolocation
-            //             .getCurrentPosition(posOptions)
-            //             .then(function (position) {
-            //                 var lat = position.coords.latitude
-            //                 var long = position.coords.longitude
-            //
-            //                 var posicion = {
-            //                     id: sessionStorage.getItem('idConductor'),
-            //                     lat: lat,
-            //                     lng: long,
-            //                     empresa: sessionStorage.getItem('idGremio'),
-            //                     estado: $rootScope.estado,
-            //                     estacion: sessionStorage.getItem('estacion'),
-            //                     codigo_vial: sessionStorage.getItem('codigo_vial')
-            //                 };
-            //                 $rootScope.MiGeolocation ={
-            //                     lat : lat,
-            //                     long : long
-            //                 }
-            //                 console.log($rootScope.MiGeolocation)
-            //                 if (posicion.id) {
-            //                     UbicacionesRepository.emit(posicion);
-            //                 }
-            //
-            //             }, function (err) {
-            //                 // console.log(err);
-            //             });
-            //     }, 3000);
-            // }
-
 
             window.addEventListener("orientationchange", function () {
                 if (window.orientation == 0) {
@@ -244,6 +169,7 @@
 
         $scope.logout = function () {
             // cordova.plugins.backgroundMode.disable();
+            backgroundGeolocation.stop();
             LoginService.logout();
         }
 
