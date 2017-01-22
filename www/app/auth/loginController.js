@@ -5,10 +5,13 @@
         .module('auth')
         .controller('LoginCtrl', LoginCtrl);
 
-    function LoginCtrl(LoginService, $ionicLoading, $state, $ionicPopup) {
+    function LoginCtrl(LoginService, $ionicLoading, $state, $ionicPopup, $window) {
         var vm = this;
         vm.usuario = {};
         vm.matenerSesion = true;
+
+        if($window.localStorage['credenciales'])
+            autologin();
 
         vm.iniciarSesion = iniciarSesion;
 

@@ -28,7 +28,10 @@
                 }
             })
             localNotificaciton.checkPermission();
-
+            cordova.plugins.backgroundMode.enable();
+            cordova.plugins.backgroundMode.configure({
+                silent: true
+            })
             var callbackFn = function (location) {
                 var posicion = {
                     id: sessionStorage.getItem('idConductor'),
@@ -168,7 +171,7 @@
         });
 
         $scope.logout = function () {
-            // cordova.plugins.backgroundMode.disable();
+            cordova.plugins.backgroundMode.disable();
             backgroundGeolocation.stop();
             LoginService.logout();
         }
