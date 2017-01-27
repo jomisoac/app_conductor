@@ -38,7 +38,7 @@
                     lat: location.latitude,
                     lng: location.longitude,
                     empresa: sessionStorage.getItem('idGremio'),
-                    estado: $rootScope.estado,
+                    estado: sessionStorage.getItem('estado'),
                     estacion: sessionStorage.getItem('estacion'),
                     codigo_vial: sessionStorage.getItem('codigo_vial')
                 };

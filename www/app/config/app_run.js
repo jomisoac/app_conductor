@@ -86,6 +86,9 @@
                     if(data.additionalData.type == 'removeTurno')
                         mostarAlert(data.title, data.message)
                 }
+                if(data.additionalData.type == 'newPasajero'){
+
+                }
                 // data.message,
                 // data.title,
                 // data.count,

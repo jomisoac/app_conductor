@@ -61,8 +61,11 @@
             });
 
             $sails.on('newPasajero', function(response){
-                title = 'Nuevo pasajero';
-                body = 'Se te ha agregado un nuevo pasajero, verificalo en la lista.';
+                var pasajeros = JSON.parse(sessionStorage.getItem('pasajeros')) || [];
+                pasajeros.push(response)
+                sessionStorage.setItem("pasajeros", JSON.stringify(pasajeros));
+                $rootScope.listaPasajeros = pasajeros;
+                $rootScope.mostrarAdvertencia = false;
                 // localNotificaciton.showNotificationLocal(title, body);
                 console.log('Nuevo pasajero' ,response)
             });

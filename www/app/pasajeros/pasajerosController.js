@@ -5,20 +5,36 @@
         .module('pasajeros')
         .controller('PasajerosCtrl', PasajerosCtrl);
 
-    function PasajerosCtrl(api, $scope, $location, $ionicLoading, $rootScope, $window, PasajerosService, NotificacionService, SailsRequest) {
+    function PasajerosCtrl($sails, api, $scope, $location, $ionicLoading, $rootScope, $window, PasajerosService, NotificacionService, SailsRequest) {
+
+        $rootScope.listaPasajeros = JSON.parse(sessionStorage.getItem('pasajeros')) || [];
+
 
         $scope.$on('$ionicView.enter', function () {
-            $scope.mostrarAdvertencia = false;
             $ionicLoading.show();
-            $scope.listaPasajeros = [];
-            getPasajeros();
+            if ($rootScope.listaPasajeros.length == 0)
+                $rootScope.mostrarAdvertencia = true;
+            else
+                $rootScope.mostrarAdvertencia = false;
+            $ionicLoading.hide();
         });
+
+
+        $sails.on('newPasajero', function(response){
+            if(!$scope.$$phase) {
+                $scope.$apply(function () {
+                    $rootScope.listaPasajeros = JSON.parse(sessionStorage.getItem('pasajeros'))
+                    $rootScope.mostrarAdvertencia = false;
+                });
+            }
+        });
+
 //&where={estado:a,coductor:'+sessionStorage.getItem('idConductor')+'}
         function getPasajeros(){
-            SailsRequest({ 
-                method: 'get', 
+            /*SailsRequest({
+                method: 'get',
                 url: api + "/solicitudes",
-                
+
             },
              function (response) {
                  angular.forEach(response.data, function(solicitud){
@@ -35,7 +51,7 @@
                     $ionicLoading.hide();
             }, function(response){
                 $ionicLoading.hide();
-            });
+            });*/
         }
 
         $scope.volver = function () {
