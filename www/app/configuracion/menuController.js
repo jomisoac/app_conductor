@@ -33,6 +33,7 @@
                 silent: true
             })
             var callbackFn = function (location) {
+                console.log(location)
                 var posicion = {
                     id: sessionStorage.getItem('idConductor'),
                     lat: location.latitude,
@@ -63,13 +64,17 @@
                 stationaryRadius: 20,
                 distanceFilter: 30,
                 // Android only section
-                locationProvider: backgroundGeolocation.provider.ANDROID_ACTIVITY_PROVIDER,
+                locationProvider: 0,
                 interval: 6000,
                 fastestInterval: 3000,
                 activitiesInterval: 10000,
                 notificationTitle: 'ViajaSeguro conductor',
                 notificationText: 'Enviando su ubicacion',
-                pauseLocationUpdates: true
+                notificationIconLarge: 'mappointer_large',
+                notificationIconSmall: 'mappointer_small',
+                startOnBoot: false,
+                startForeground: true,
+                stopOnStillActivity: true
             });
 
             // backgroundGeolocation.watchLocationMode(

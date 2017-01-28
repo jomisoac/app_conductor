@@ -57,6 +57,7 @@
                 title = 'Actualización de turno';
                 body = 'Tu turno ha sido cambiado al ' + response.pos + ', hacia '+ response.ruta;
                 localNotificaciton.showNotificationLocal(title, body);
+                sessionStorage.setItem("ruta", response.ruta)
                 console.log('Cambiado el turno' ,response)
             });
 

@@ -57,4 +57,5 @@
   <plugin name="cordova-plugin-background-mode" spec="https://github.com/katzer/cordova-plugin-background-mode.git"/>
   <allow-navigation href="http://192.168.1.4:8100"/>
   <allow-navigation href="http://192.168.100.2:8100"/>
+  <allow-navigation href="http://192.168.100.3:8100"/>
 </widget>
